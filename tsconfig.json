@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+      "allowJs": true,
+      "allowSyntheticDefaultImports": true,
+      "esModuleInterop": true,
+      "jsx": "preserve",
+      "lib": ["dom", "ES5"],
+      "module": "commonjs",
+      "moduleResolution": "node",
+      "noImplicitAny": true,
+      "noImplicitThis": false,
+      "preserveConstEnums": true,
+      "removeComments": true,
+      "sourceMap": true,
+      "strict": true,
+      "target": "es5"
+  },
+  "include": ["./**/*.ts"],
+  "exclude": ["node_modules"]
+}

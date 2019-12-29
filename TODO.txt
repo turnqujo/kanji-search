@@ -1,0 +1,3 @@
+X Init project, push to github
+X TypeScript
+- Jest
