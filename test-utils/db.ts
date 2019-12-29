@@ -1,3 +1,4 @@
+// TODO: This contains a lot of duplicated code
 export function initDB(newKanji: Array<any> = []): Promise<void> {
   return new Promise((resolve) => {
     let db
@@ -18,5 +19,12 @@ export function initDB(newKanji: Array<any> = []): Promise<void> {
       db.close()
       resolve()
     }
+  })
+}
+
+export function tearDownDB(): Promise<void> {
+  return new Promise(resolve => {
+    indexedDB.deleteDatabase('kanjiStore')
+    resolve()
   })
 }

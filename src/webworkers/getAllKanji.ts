@@ -6,8 +6,8 @@ onmessage = (_) => {
       .transaction('kanjiStore')
       .objectStore('kanjiStore')
       .getAll()
-      .onsuccess = (res) => {
-        postMessage(res.target.result, '')
+      .onsuccess = (res: any) => {
+        postMessage(res?.target?.result, '')
         db.close()
       }
   }

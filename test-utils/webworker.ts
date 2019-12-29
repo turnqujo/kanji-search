@@ -1,4 +1,5 @@
 import fs from 'fs'
+import { transpile } from 'typescript'
 
 export function loadWorker(src: string): Promise<Worker> {
   return new Promise((resolve, reject) =>
@@ -8,7 +9,11 @@ export function loadWorker(src: string): Promise<Worker> {
         return
       }
 
-      resolve(new Worker(URL.createObjectURL(new Blob([data.toString()]))))
+      resolve(
+        new Worker(
+          URL.createObjectURL(new Blob([transpile(data.toString())]))
+        )
+      )
     })
   )
 }

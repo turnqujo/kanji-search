@@ -1,15 +1,17 @@
 import { loadWorker } from "../../test-utils/webworker"
-import { initDB } from "../../test-utils/db"
+import { initDB, tearDownDB } from "../../test-utils/db"
+
+const workerFilePath = 'src/webworkers/getAllKanji.ts'
 
 describe('The Get All Kanji Worker.', () => {
   afterEach(async (done) => {
-    indexedDB.deleteDatabase('kanjiStore')
+    await tearDownDB()
     done()
   })
 
   it('Should return an empty array if no Kanji have been loaded.', async (done) => {
     await initDB()
-    const worker = await loadWorker('src/webworkers/getAllKanji.js')
+    const worker = await loadWorker(workerFilePath)
     const response = await new Promise((resolve) => {
       worker.onmessage = (e) => resolve(e)
       worker.postMessage('')
@@ -36,7 +38,7 @@ describe('The Get All Kanji Worker.', () => {
     ]
     await initDB(kanji)
 
-    const worker = await loadWorker('src/webworkers/getAllKanji.js')
+    const worker = await loadWorker(workerFilePath)
     const response = await new Promise((resolve) => {
       worker.onmessage = (e) => resolve(e)
       worker.postMessage(null)
