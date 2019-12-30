@@ -1,5 +1,5 @@
-import { loadWorker } from "../../test-utils/webworker"
 import { initDB, tearDownDB } from "../../test-utils/db"
+import { loadWorker } from "../../test-utils/webworker"
 
 const workerFilePath = 'src/webworkers/getAllKanji.ts'
 

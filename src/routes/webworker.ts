@@ -13,7 +13,7 @@ webworkerRoutes.get('/all-kanji', (_, res) =>
   fs.readFile('src/webworkers/getAllKanji.ts', (err, data) =>
     !!err
       ? res.status(500).send('Something went wrong.')
-      : res.send(convertToJavaScript(data))
+      : res.type('.js').send(convertToJavaScript(data))
   )
 )
 
