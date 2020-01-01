@@ -4,8 +4,10 @@ import webworkerRoutes from './webworker'
 
 const app = express()
 app.use(helmet())
+
 app.use('/webworker', webworkerRoutes)
-app.get('/', (req, res) => {
+
+app.get('/', (_, res) => {
   res.send(`
     <h1>Hello!</h1>
     <script>

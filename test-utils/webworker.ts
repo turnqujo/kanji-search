@@ -1,19 +1,18 @@
-import fs from 'fs'
-import { transpile } from 'typescript'
+// import { Worker } from 'worker_threads'
 
-export function loadWorker(src: string): Promise<Worker> {
-  return new Promise((resolve, reject) =>
-    fs.readFile(src, (err, data) => {
-      if (err) {
-        reject(err)
-        return
-      }
+// export function loadWorker(workerFileName: string): Worker {
+//   return new Worker(`${__dirname}/webworkerLoader.js`, {
+//     workerData: {
+//       path: `../src/webworkers/${workerFileName}`
+//     }
+//   })
+// }
 
-      resolve(
-        new Worker(
-          URL.createObjectURL(new Blob([transpile(data.toString())]))
-        )
-      )
-    })
-  )
+import Worker from 'tiny-worker'
+
+export function loadWorker(workerFileName: string): Worker {
+  // Worker.loadingWorker = `../src/webworkers/${workerFileName}`
+  // (global as any).loadingWorker = `../src/webworkers/${workerFileName}`
+  // return new Worker(`${__dirname}/webworkerLoader.js`, [], { esm: true })
+  return new Worker(`src/webworkers/${workerFileName}`)
 }

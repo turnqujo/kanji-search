@@ -1,4 +1,5 @@
 module.exports = {
+  "automock": false,
   "roots": [
     "<rootDir>/src"
   ],
@@ -9,7 +10,6 @@ module.exports = {
     "^.+\\.ts$": "ts-jest"
   },
   "setupFiles": [
-    "jsdom-worker",
     "fake-indexeddb/auto"
   ]
 }

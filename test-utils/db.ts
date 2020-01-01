@@ -1,5 +1,7 @@
+import { Kanji } from "../src/models/kanji"
+
 // TODO: This contains a lot of duplicated code
-export function initDB(newKanji: Array<any> = []): Promise<void> {
+export function initDB(newKanji: Kanji[] = []): Promise<void> {
   return new Promise((resolve) => {
     let db
     const dbRequest = indexedDB.open('kanjiStore')

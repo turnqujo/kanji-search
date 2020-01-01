@@ -5,7 +5,7 @@
   "main": "src/index.ts",
   "scripts": {
     "start": "ts-node src/index.ts",
-    "test": "jest"
+    "test": "tsc; jest"
   },
   "author": "",
   "license": "ISC",
@@ -21,8 +21,7 @@
     "@types/jest": "^24.0.25",
     "fake-indexeddb": "^3.0.0",
     "jest": "^24.9.0",
-    "jest-fetch-mock": "^3.0.1",
-    "jsdom-worker": "^0.1.0",
+    "tiny-worker": "^2.3.0",
     "ts-jest": "^24.2.0"
   }
 }
