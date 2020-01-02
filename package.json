@@ -4,8 +4,8 @@
   "description": "",
   "main": "src/index.ts",
   "scripts": {
-    "start": "ts-node src/index.ts",
-    "test": "tsc; jest"
+    "start": "tsc -p src/webworkers && ts-node src/index.ts",
+    "test": "tsc -p src/webworkers && jest"
   },
   "author": "",
   "license": "ISC",
@@ -19,7 +19,6 @@
   },
   "devDependencies": {
     "@types/jest": "^24.0.25",
-    "fake-indexeddb": "^3.0.0",
     "jest": "^24.9.0",
     "tiny-worker": "^2.3.0",
     "ts-jest": "^24.2.0"

@@ -3,6 +3,7 @@
   "include": ["./*.ts"],
   "exclude": ["./*.spec.ts"],
   "compilerOptions": {
-    "outDir": "."
+    "module": "ESNext",
+    "sourceMap": false
   }
 }

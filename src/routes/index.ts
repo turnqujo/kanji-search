@@ -11,7 +11,7 @@ app.get('/', (_, res) => {
   res.send(`
     <h1>Hello!</h1>
     <script>
-      window.someWorker = new Worker('/webworker/all-kanji')
+      window.someWorker = new Worker('/webworker/get-kanji-by-meaning')
     </script>
   `)
 })

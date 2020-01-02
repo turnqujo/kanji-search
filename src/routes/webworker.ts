@@ -1,28 +1,18 @@
 import { Router } from 'express'
 import fs from 'fs'
-import { transpile } from 'typescript'
 
 const webworkerRoutes = Router()
 
-function convertToJavaScript(typeScriptCode: Buffer): Buffer {
-  const transpiled = transpile(typeScriptCode.toString())
-  return Buffer.alloc(transpiled.length, transpiled)
-}
+webworkerRoutes.get('/get-kanji-by-meaning', (_, res) =>
+  fs.readFile(`build/webworkers/getKanjiByMeaning.js`, (err, data) => {
+    if (err) {
+      res.status(500).send('Something went wrong.')
+      console.error(err)
+      return
+    }
 
-webworkerRoutes.get('/kanji-loader', (_, res) =>
-  fs.readFile('src/webworkers/loadKanji.ts', (err, data) =>
-    !!err
-      ? res.status(500).send('Something went wrong.')
-      : res.type('.js').send(convertToJavaScript(data))
-  )
-)
-
-webworkerRoutes.get('/all-kanji', (_, res) =>
-  fs.readFile('src/webworkers/getAllKanji.ts', (err, data) =>
-    !!err
-      ? res.status(500).send('Something went wrong.')
-      : res.type('.js').send(convertToJavaScript(data))
-  )
+    res.type('.js').send(data)
+  })
 )
 
 export default webworkerRoutes
