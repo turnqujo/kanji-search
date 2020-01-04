@@ -8,5 +8,9 @@ module.exports = {
   ],
   "transform": {
     "^.+\\.ts$": "ts-jest"
-  }
+  },
+  "setupFiles": [
+    "isomorphic-fetch",
+    "fake-indexeddb/auto"
+  ]
 }

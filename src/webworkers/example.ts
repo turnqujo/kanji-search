@@ -1,6 +1,10 @@
-import { Kanji } from '../models/kanji'
-
 onmessage = (e: MessageEvent) => {
-  const k: Kanji | null = null;
-  postMessage(e.data * 2, '*')
+  fetch("https://www.duckduckgo.com")
+  .then(res => {
+    const dbcon = indexedDB.open('example')
+
+    dbcon.onupgradeneeded = _ => {
+      postMessage(res.status, '*')
+    }
+  })
 }
