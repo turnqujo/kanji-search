@@ -6,9 +6,11 @@ type Serializable = string | object | number | boolean
 
 class JestWorker {
   private _onmessage: any
+
   get onmessage(): any {
     return this._onmessage
   }
+
   set onmessage(cb: any) {
     this._onmessage = cb
   }
@@ -31,6 +33,7 @@ class JestWorker {
         sourceMap: false
       })
     )
+
     this.childOnMessage = onmessage
   }
 
