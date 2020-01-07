@@ -1,20 +1,36 @@
+onerror = (error: string | Event) => {
+  console.error(error)
+}
+
 onmessage = _ => {
-  const openRequest = indexedDB.open('kanjiStore')
+  let openRequest: IDBOpenDBRequest
+  try {
+    openRequest = indexedDB.open('kanjiStore')
+  } catch (e) {
+    if (onerror) {
+      onerror((e as Error).message)
+    }
+    return
+  }
 
   openRequest.onsuccess = () => {
-    const transaction = openRequest.result.transaction('kanji', 'readonly')
-    const request = transaction.objectStore('kanji').getAll()
+    let transaction: IDBTransaction
+    try {
+      transaction = openRequest.result.transaction('kanji', 'readonly')
+    } catch (e) {
+      if (onerror) {
+        onerror((e as Error).message)
+      }
 
+      openRequest.result.close()
+      return
+    }
+
+    const request = transaction.objectStore('kanji').getAll()
     request.onsuccess = () => {
       openRequest.result.close()
       postMessage(request.result, '*')
     }
-  }
-
-  openRequest.onupgradeneeded = () => {
-    // TODO: Remove? I don't think this can happen if a version is not given when opening
-    openRequest.result.close()
-    postMessage(false, '*')
   }
 
   openRequest.onblocked = () => {

@@ -1,25 +1,12 @@
 import { Kanji } from "../src/models/kanji"
 
-let version = 1;
+// NOTE: initDB expects the kanjiStore DB to not exist
 export function initDB(): Promise<boolean> {
-  const openRequest = indexedDB.open('kanjiStore', version)
-  version++;
-
   return new Promise(resolve => {
+    const openRequest = indexedDB.open('kanjiStore')
+
     openRequest.onupgradeneeded = () => {
-
-      // TODO: Teardown function which would make this unnecessary
-      let storedKanji
-      try {
-        storedKanji = openRequest.result.createObjectStore('kanji', { keyPath: 'char' })
-      } catch (e) {
-        // Something happened while trying to create the kanji store; likely already exists
-
-        openRequest.result.close()
-        resolve(true)
-        return
-      }
-
+      const storedKanji = openRequest.result.createObjectStore('kanji', { keyPath: 'char' })
       storedKanji.createIndex('stroke', 'stroke', { unique: false })
       storedKanji.createIndex('meanings', 'meanings', { unique: false, multiEntry: true })
       storedKanji.createIndex('readings', 'readings', { unique: false })
@@ -28,11 +15,10 @@ export function initDB(): Promise<boolean> {
     }
 
     openRequest.onblocked = () => {
-      resolve(false)
       openRequest.result.close()
     }
 
-    openRequest.onerror = () => {
+    openRequest.onerror = (e) => {
       // TODO: Some sort of logging; just ignore for now
     }
 
@@ -58,4 +44,11 @@ export function fillDB(newData: Kanji[]): Promise<boolean> {
   })
 }
 
-// TODO: Teardown function which can be called after each test
+export function teardownDB(): Promise<boolean> {
+  return new Promise(resolve => {
+    const result = indexedDB.deleteDatabase('kanjiStore')
+    result.onsuccess = () => {
+      resolve(true)
+    }
+  })
+}

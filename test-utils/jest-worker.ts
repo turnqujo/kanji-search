@@ -4,29 +4,24 @@ import projectRoot from '../root'
 
 type Serializable = string | object | number | boolean
 
+// TODO: Implement AbstractWorker, better listener handling
 class JestWorker {
   private _onmessage: any
+  get onmessage(): any   { return this._onmessage }
+  set onmessage(cb: any) { this._onmessage = cb }
 
-  get onmessage(): any {
-    return this._onmessage
+  private _onerror: any
+  get onerror(): any   { return this._onerror }
+  set onerror(cb: any) { this._onerror = cb }
+
+  private workerContext: any = {
+    onmessage: null
   }
-
-  set onmessage(cb: any) {
-    this._onmessage = cb
-  }
-
-  private childOnMessage: any = null
 
   constructor(src: string) {
     const webWorkerScript = fs.readFileSync(`${projectRoot}/${src}`, 'utf8')
 
-    let onmessage
-    let postMessage = (data: any) => {
-      if (this.onmessage) {
-        this.onmessage({ data })
-      }
-    }
-
+    let onmessage: any // Set by webworker code
     eval(
       ts.transpile(webWorkerScript, {
         module: ts.ModuleKind.ESNext,
@@ -34,16 +29,27 @@ class JestWorker {
       })
     )
 
-    this.childOnMessage = onmessage
+    // NOTE: This will override any custom `onerror` handler defined in the webworker code
+    let onerror = (error: string | Event) => {
+      if (this.onerror) {
+        this.onerror(error)
+      }
+    }
+
+    let postMessage = (data: any) => {
+      if (this.onmessage) {
+        this.onmessage({ data })
+      }
+    }
+
+    this.workerContext.onmessage = onmessage
   }
 
   public postMessage(message: Serializable) {
-    if (this.childOnMessage) {
-      this.childOnMessage(JSON.stringify({ data: message }))
+    if (this.workerContext.onmessage) {
+      this.workerContext.onmessage(JSON.stringify({ data: message }))
     }
   }
-
-  public terminate() {}
 }
 
 export default JestWorker
