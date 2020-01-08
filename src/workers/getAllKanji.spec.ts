@@ -1,7 +1,7 @@
 import JestWorker from '../../test-utils/jest-worker'
 import { initDB, fillDB, teardownDB } from '../../test-utils/db'
 
-const workerSrc ='src/webworkers/getAllKanji.ts'
+const workerSrc ='src/workers/getAllKanji.ts'
 
 describe('The Get All Kanji Webworker', () => {
   afterEach(async done => {

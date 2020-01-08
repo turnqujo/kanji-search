@@ -4,6 +4,9 @@
   "exclude": ["./*.spec.ts"],
   "compilerOptions": {
     "module": "ESNext",
-    "sourceMap": false
+    "sourceMap": false,
+    "lib": [
+      "WebWorker"
+    ]
   }
 }

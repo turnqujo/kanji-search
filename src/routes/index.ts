@@ -4,18 +4,33 @@ import webworkerRoutes from './webworker'
 
 const app = express()
 app.use(helmet())
-
-app.use('/webworker', webworkerRoutes)
+app.use('/worker', webworkerRoutes)
 
 app.get('/', (_, res) => {
   res.send(`
-    <h1>Hello!</h1>
-    <script>
-      window.someWorker = new Worker('/webworker/get-all-kanji')
-      window.someWorker.onerror = e => console.error(e)
-      window.someWorker.onmessage = (e) => console.log(e)
-      window.someWorker.postMessage('')
-    </script>
+    <!DOCTYPE html>
+    <html>
+      <head>
+      <script>
+        if ('serviceWorker' in navigator) {
+          navigator.serviceWorker.register('/worker/service-worker')
+          .then(reg => {
+            console.log('Success!')
+            window.someWorker = new Worker('/worker/get-all-kanji')
+            window.someWorker.onerror = e => console.error(e)
+            window.someWorker.onmessage = (e) => console.log(e.data)
+            window.someWorker.postMessage('')
+          })
+          .catch(err => {
+            console.error(err)
+          })
+        }
+      </script>
+      </head>
+      <body>
+        <h1>Hello!</h1>
+      </body>
+    </html>
   `)
 })
 

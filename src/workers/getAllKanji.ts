@@ -8,8 +8,9 @@ onmessage = _ => {
     openRequest = indexedDB.open('kanjiStore')
   } catch (e) {
     if (onerror) {
-      onerror((e as Error).message)
+      (onerror as any)(e.message)
     }
+
     return
   }
 
@@ -19,7 +20,7 @@ onmessage = _ => {
       transaction = openRequest.result.transaction('kanji', 'readonly')
     } catch (e) {
       if (onerror) {
-        onerror((e as Error).message)
+        (onerror as any)(e.message)
       }
 
       openRequest.result.close()
@@ -29,18 +30,24 @@ onmessage = _ => {
     const request = transaction.objectStore('kanji').getAll()
     request.onsuccess = () => {
       openRequest.result.close()
-      postMessage(request.result, '*')
+
+      postMessage(request.result)
     }
   }
 
-  openRequest.onblocked = () => {
+  openRequest.onblocked = (e: Event) => {
     openRequest.result.close()
-    postMessage(false, '*')
+
+    if (onerror) {
+      (onerror as any)(e)
+    }
   }
 
-  openRequest.onerror = () => {
-    // TODO: Stop execution here? Will the worker continue after an error?
+  openRequest.onerror = (e: Event) => {
     openRequest.result.close()
-    postMessage(false, '*')
+
+    if (onerror) {
+      (onerror as any)(e)
+    }
   }
 }

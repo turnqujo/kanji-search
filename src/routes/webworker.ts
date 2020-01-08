@@ -3,8 +3,20 @@ import fs from 'fs'
 
 const webworkerRoutes = Router()
 
+webworkerRoutes.get('/service-worker', (_, res) =>
+  fs.readFile(`build/workers/serviceWorker.js`, (err, data) => {
+    if (err) {
+      res.status(500).send('Something went wrong.')
+      console.error(err)
+      return
+    }
+
+    res.type('.js').send(data)
+  })
+)
+
 webworkerRoutes.get('/get-kanji-by-meaning', (_, res) =>
-  fs.readFile(`build/webworkers/getKanjiByMeaning.js`, (err, data) => {
+  fs.readFile(`build/workers/getKanjiByMeaning.js`, (err, data) => {
     if (err) {
       res.status(500).send('Something went wrong.')
       console.error(err)
@@ -16,7 +28,7 @@ webworkerRoutes.get('/get-kanji-by-meaning', (_, res) =>
 )
 
 webworkerRoutes.get('/get-all-kanji', (_, res) =>
-  fs.readFile(`build/webworkers/getAllKanji.js`, (err, data) => {
+  fs.readFile(`build/workers/getAllKanji.js`, (err, data) => {
     if (err) {
       res.status(500).send('Something went wrong.')
       console.error(err)

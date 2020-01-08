@@ -10,7 +10,6 @@ onmessage = (e: MessageEvent) => {
       postMessage(
         (res.target as any).result.filter(
           (kanji: Kanji) => !!kanji.meanings.find((meaning: string) => meaning.indexOf(e.data) >= 0)
-        ),
-        '*'
+        )
       ))
 }

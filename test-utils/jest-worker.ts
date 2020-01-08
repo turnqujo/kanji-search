@@ -25,7 +25,8 @@ class JestWorker {
     eval(
       ts.transpile(webWorkerScript, {
         module: ts.ModuleKind.ESNext,
-        sourceMap: false
+        sourceMap: false,
+        lib: ['webworker']
       })
     )
 

@@ -4,7 +4,7 @@
   "description": "",
   "main": "src/index.ts",
   "scripts": {
-    "start": "tsc -p src/webworkers && ts-node src/index.ts",
+    "start": "tsc -p src/workers && ts-node src/index.ts",
     "test": "jest"
   },
   "author": "",
