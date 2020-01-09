@@ -1,53 +1,28 @@
+import { openDB } from './dbUtil'
+
 onerror = (error: string | Event) => {
   console.error(error)
 }
 
-onmessage = _ => {
-  let openRequest: IDBOpenDBRequest
+onmessage = async _ => {
+  const db = await openDB('kanjiStore')
+
+  let transaction: IDBTransaction
   try {
-    openRequest = indexedDB.open('kanjiStore')
+    transaction = db.transaction('kanji', 'readonly')
   } catch (e) {
     if (onerror) {
       (onerror as any)(e.message)
     }
 
+    db.close()
     return
   }
 
-  openRequest.onsuccess = () => {
-    let transaction: IDBTransaction
-    try {
-      transaction = openRequest.result.transaction('kanji', 'readonly')
-    } catch (e) {
-      if (onerror) {
-        (onerror as any)(e.message)
-      }
+  const request = transaction.objectStore('kanji').getAll()
+  request.onsuccess = () => {
+    db.close()
 
-      openRequest.result.close()
-      return
-    }
-
-    const request = transaction.objectStore('kanji').getAll()
-    request.onsuccess = () => {
-      openRequest.result.close()
-
-      postMessage(request.result)
-    }
-  }
-
-  openRequest.onblocked = (e: Event) => {
-    openRequest.result.close()
-
-    if (onerror) {
-      (onerror as any)(e)
-    }
-  }
-
-  openRequest.onerror = (e: Event) => {
-    openRequest.result.close()
-
-    if (onerror) {
-      (onerror as any)(e)
-    }
+    postMessage(request.result)
   }
 }

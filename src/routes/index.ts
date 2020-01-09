@@ -16,7 +16,7 @@ app.get('/', (_, res) => {
           navigator.serviceWorker.register('/worker/service-worker')
           .then(reg => {
             console.log('Success!')
-            window.someWorker = new Worker('/worker/get-all-kanji')
+            window.someWorker = new Worker('/worker/get-all-kanji', { type: 'module' })
             window.someWorker.onerror = e => console.error(e)
             window.someWorker.onmessage = (e) => console.log(e.data)
             window.someWorker.postMessage('')
@@ -33,5 +33,6 @@ app.get('/', (_, res) => {
     </html>
   `)
 })
+
 
 export default app

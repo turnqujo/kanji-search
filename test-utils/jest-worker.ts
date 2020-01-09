@@ -24,9 +24,8 @@ class JestWorker {
     let onmessage: any // Set by webworker code
     eval(
       ts.transpile(webWorkerScript, {
-        module: ts.ModuleKind.ESNext,
         sourceMap: false,
-        lib: ['webworker']
+        lib: ['webworker'],
       })
     )
 

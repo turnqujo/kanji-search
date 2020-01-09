@@ -5,8 +5,6 @@
   "compilerOptions": {
     "module": "ESNext",
     "sourceMap": false,
-    "lib": [
-      "WebWorker"
-    ]
+    "lib": ["WebWorker"]
   }
 }
