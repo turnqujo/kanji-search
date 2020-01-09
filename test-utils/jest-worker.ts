@@ -5,6 +5,8 @@ import projectRoot from '../root'
 type Serializable = string | object | number | boolean
 
 // TODO: Implement AbstractWorker, better listener handling
+// TODO: Write tests for this class
+// TODO: Typings
 class JestWorker {
   private _onmessage: any
   get onmessage(): any   { return this._onmessage }
@@ -19,7 +21,33 @@ class JestWorker {
   }
 
   constructor(src: string) {
-    const webWorkerScript = fs.readFileSync(`${projectRoot}/${src}`, 'utf8')
+    let webWorkerScript = fs.readFileSync(`${projectRoot}/${src}`, 'utf8')
+    if (webWorkerScript.indexOf('importScripts') >= 0) {
+      /**
+       * TODO: This regex should be updated to handle these situations:
+       * - importScripts with parameters broken onto newlines
+       * - ignoring importScripts in multi-line comment blocks, e.g.:
+       * /*
+       *  Note how the importScripts text is at the first column
+       * importScripts('')
+       * * /
+       *
+       */
+      const extractedScripts = /(?<=^importScripts\().*(?=\))/gm.exec(webWorkerScript)
+      webWorkerScript = webWorkerScript.replace(/(?=^importScripts\().*(?=\n)/gm, '')
+
+      if (extractedScripts) {
+        const rawScriptHandles = extractedScripts[0].replace(/['"`]+/g, '').split(', ')
+
+        for (let rawScriptHandle of rawScriptHandles) {
+          const adjustedHandle = rawScriptHandle.replace('.js', '.ts')
+
+          // TODO: handle scripts in other directorieS?
+          const importedScript = fs.readFileSync(`${projectRoot}/src/workers/${adjustedHandle}`, 'utf8')
+          webWorkerScript = `${importedScript}\n${webWorkerScript}`
+        }
+      }
+    }
 
     let onmessage: any // Set by webworker code
     eval(

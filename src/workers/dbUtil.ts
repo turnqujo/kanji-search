@@ -1,4 +1,4 @@
-export function openDB(name: string, version?: number): Promise<IDBDatabase> {
+function openDB(name: string, version?: number): Promise<IDBDatabase> {
   return new Promise((resolve, reject) => {
     let openRequest: IDBOpenDBRequest
     try {
@@ -18,6 +18,16 @@ export function openDB(name: string, version?: number): Promise<IDBDatabase> {
     openRequest.onblocked = (e: Event) => {
       // TODO: Is this really a rejection?
       reject(e)
+    }
+  })
+}
+
+function getTransaction(db: IDBDatabase, storeNames: string | string[], mode?: IDBTransactionMode): Promise<IDBTransaction> {
+  return new Promise((resolve, reject) => {
+    try {
+      resolve(db.transaction(storeNames, mode))
+    } catch (e) {
+      reject(e.message)
     }
   })
 }

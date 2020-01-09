@@ -15,6 +15,19 @@ webworkerRoutes.get('/service-worker', (_, res) =>
   })
 )
 
+webworkerRoutes.get('/dbUtil.js', (_, res) =>
+  fs.readFile(`build/workers/dbUtil.js`, (err, data) => {
+    if (err) {
+      res.status(500).send('Something went wrong.')
+      console.error(err)
+      return
+    }
+
+    res.type('.js').send(data)
+  })
+)
+
+
 webworkerRoutes.get('/get-kanji-by-meaning', (_, res) =>
   fs.readFile(`build/workers/getKanjiByMeaning.js`, (err, data) => {
     if (err) {

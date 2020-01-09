@@ -1,4 +1,4 @@
-import { openDB } from './dbUtil'
+importScripts('dbUtil.js')
 
 onerror = (error: string | Event) => {
   console.error(error)
@@ -7,22 +7,18 @@ onerror = (error: string | Event) => {
 onmessage = async _ => {
   const db = await openDB('kanjiStore')
 
-  let transaction: IDBTransaction
-  try {
-    transaction = db.transaction('kanji', 'readonly')
-  } catch (e) {
-    if (onerror) {
-      (onerror as any)(e.message)
-    }
-
-    db.close()
-    return
-  }
-
-  const request = transaction.objectStore('kanji').getAll()
-  request.onsuccess = () => {
-    db.close()
-
-    postMessage(request.result)
-  }
+  getTransaction(db, 'kanji', 'readonly')
+    .then(transaction => {
+      const request = transaction.objectStore('kanji').getAll()
+      request.onsuccess = () => {
+        db.close()
+        postMessage(request.result)
+      }
+    })
+    .catch(error => {
+      if (onerror) {
+        (onerror as any)(error)
+      }
+      db.close()
+    })
 }
