@@ -10,6 +10,7 @@ onmessage = async _ => {
   getTransaction(db, 'kanji', 'readonly')
     .then(transaction => {
       const request = transaction.objectStore('kanji').getAll()
+
       request.onsuccess = () => {
         db.close()
         postMessage(request.result)
@@ -19,6 +20,7 @@ onmessage = async _ => {
       if (onerror) {
         (onerror as any)(error)
       }
+
       db.close()
     })
 }

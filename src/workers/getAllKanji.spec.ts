@@ -1,7 +1,7 @@
 import JestWorker from '../../test-utils/jest-worker'
 import { initDB, fillDB, teardownDB } from '../../test-utils/db'
 
-const workerSrc ='src/workers/getAllKanji.ts'
+const workerSrc = 'src/workers/getAllKanji.ts'
 
 describe('The Get All Kanji Webworker', () => {
   afterEach(async done => {
@@ -10,11 +10,11 @@ describe('The Get All Kanji Webworker', () => {
   })
 
   it('Should pass along an error if the DB has not been initialized.', async done => {
-    const worker = new JestWorker(workerSrc)
     const response = new Promise((resolve, reject) => {
-        worker.onerror = (error: string | Event) => reject(error)
-        worker.onmessage = (res: any) => resolve(res.data)
-        worker.postMessage('')
+      const worker = new JestWorker(workerSrc)
+      worker.onerror = (error: string | Event) => reject(error)
+      worker.onmessage = (res: any) => resolve(res.data)
+      worker.postMessage('')
     })
 
     await expect(response).rejects.toBe('No objectStore named kanji in this database')
@@ -22,11 +22,10 @@ describe('The Get All Kanji Webworker', () => {
   })
 
   it('Should return an empty array if no Kanji are loaded.', async done => {
-    const worker = new JestWorker(workerSrc)
     await initDB()
 
-
     const response = await new Promise(resolve => {
+      const worker = new JestWorker(workerSrc)
       worker.onmessage = (res: any) => resolve(res.data)
       worker.postMessage('')
     })
@@ -52,11 +51,11 @@ describe('The Get All Kanji Webworker', () => {
       }
     ]
 
-    const worker = new JestWorker(workerSrc)
     await initDB()
     await fillDB(storedKanji)
 
     const response = await new Promise(resolve => {
+      const worker = new JestWorker(workerSrc)
       worker.onmessage = (res: any) => resolve(res.data)
       worker.postMessage('')
     })

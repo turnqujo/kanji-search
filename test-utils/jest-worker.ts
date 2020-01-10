@@ -7,6 +7,7 @@ type Serializable = string | object | number | boolean
 // TODO: Implement AbstractWorker, better listener handling
 // TODO: Write tests for this class
 // TODO: Typings
+// TODO: Potential performance enhancements; see: https://stackoverflow.com/a/30370720
 class JestWorker {
   private _onmessage: any
   get onmessage(): any   { return this._onmessage }
@@ -34,6 +35,8 @@ class JestWorker {
        *
        */
       const extractedScripts = /(?<=^importScripts\().*(?=\))/gm.exec(webWorkerScript)
+
+      // TODO: try replacing `importScripts` with `require` or `import`
       webWorkerScript = webWorkerScript.replace(/(?=^importScripts\().*(?=\n)/gm, '')
 
       if (extractedScripts) {
@@ -75,7 +78,7 @@ class JestWorker {
 
   public postMessage(message: Serializable) {
     if (this.workerContext.onmessage) {
-      this.workerContext.onmessage(JSON.stringify({ data: message }))
+      this.workerContext.onmessage({ data: message })
     }
   }
 }

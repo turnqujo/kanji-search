@@ -36,8 +36,9 @@ export function fillDB(newData: Kanji[]): Promise<boolean> {
     openRequest.onsuccess = () => {
       const db = openRequest.result
       const transaction = db.transaction('kanji', 'readwrite')
-      transaction.objectStore('kanji').clear()
+
       newData.forEach(newKanji => transaction.objectStore('kanji').add(newKanji))
+
       db.close()
       resolve(true)
     }
