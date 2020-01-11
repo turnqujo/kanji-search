@@ -1,8 +1,7 @@
-import { teardownDB, initDB, fillDB } from '../../test-utils/db'
 import JestWorker from '../../test-utils/jest-worker'
 import { Kanji } from '../models/kanji'
 
-const workerSrc = 'src/workers/getKanjiByMeaning.ts'
+const workerSrc = 'src/workers/filterKanjiByMeaning.ts'
 
 const kanjiA: Kanji = {
   char: 'a',
@@ -25,31 +24,12 @@ const kanjiC: Kanji = {
   readings: ['lololol']
 }
 
-describe('The Get Kanji by Meaning Webworker', () => {
-  afterEach(async done => {
-    await teardownDB()
-    done()
-  })
-
-  it('Should pass along an error if the DB has not been initialized.', async done => {
-    const response = new Promise((resolve, reject) => {
-      const worker = new JestWorker(workerSrc)
-      worker.onerror = (error: string | Event) => reject(error)
-      worker.onmessage = (res: any) => resolve(res.data)
-      worker.postMessage('')
-    })
-
-    await expect(response).rejects.toBe('No objectStore named kanji in this database')
-    done()
-  })
-
-  it('Should return an empty array when there are no stored kanji.', async done => {
-    await initDB()
-
+describe('The Filter Kanji by Meaning Webworker', () => {
+  it('Should return an empty array when given an empty array of kanji.', async done => {
     const response = await new Promise(resolve => {
       const worker = new JestWorker(workerSrc)
       worker.onmessage = (res: any) => resolve(res.data)
-      worker.postMessage('Some Search Term')
+      worker.postMessage({ kanjiSet: [], searchTerm: 'Some Search Term'})
     })
 
     expect(response).toEqual([])
@@ -57,14 +37,11 @@ describe('The Get Kanji by Meaning Webworker', () => {
   })
 
   it('Should return an empty array when the given search term was not found.', async done => {
-    await initDB()
-    await fillDB([kanjiA, kanjiB])
-
     const response = await new Promise((resolve, reject) => {
       const worker = new JestWorker(workerSrc)
       worker.onerror = (error: string | Event) => reject(error)
       worker.onmessage = (res: any) => resolve(res.data)
-      worker.postMessage('SHOULD NOT MATCH')
+      worker.postMessage({ kanjiSet: [kanjiA, kanjiB, kanjiC], searchTerm: 'Some Search Term'})
     })
 
     expect(response).toEqual([])
@@ -72,30 +49,23 @@ describe('The Get Kanji by Meaning Webworker', () => {
   })
 
   it('Should return any kanji which pass a substring search.', async done => {
-    await initDB()
-    await fillDB([kanjiA, kanjiB, kanjiC])
-
     const response = await new Promise((resolve, reject) => {
       const worker = new JestWorker(workerSrc)
       worker.onerror = (error: string | Event) => reject(error)
       worker.onmessage = (res: any) => resolve(res.data)
-      worker.postMessage('aa')
+      worker.postMessage({ kanjiSet: [kanjiA, kanjiB, kanjiC], searchTerm: 'aa'})
     })
 
     expect(response).toEqual([kanjiA, kanjiC])
-
     done()
   })
 
   it('Should be case insensitive.', async done => {
-    await initDB()
-    await fillDB([kanjiA, kanjiB, kanjiC])
-
     const response = await new Promise((resolve, reject) => {
       const worker = new JestWorker(workerSrc)
       worker.onerror = (error: string | Event) => reject(error)
       worker.onmessage = (res: any) => resolve(res.data)
-      worker.postMessage('öL')
+      worker.postMessage({ kanjiSet: [kanjiA, kanjiB, kanjiC], searchTerm: 'öL'})
     })
 
     expect(response).toEqual([kanjiC])

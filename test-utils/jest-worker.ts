@@ -44,9 +44,10 @@ class JestWorker {
 
         for (let rawScriptHandle of rawScriptHandles) {
           const adjustedHandle = rawScriptHandle.replace('.js', '.ts')
+          const newScriptPath = `${projectRoot}/src/workers/${adjustedHandle}`
 
-          // TODO: handle scripts in other directorieS?
-          const importedScript = fs.readFileSync(`${projectRoot}/src/workers/${adjustedHandle}`, 'utf8')
+          // TODO: handle scripts in other directories?
+          const importedScript = fs.readFileSync(newScriptPath, 'utf8')
           webWorkerScript = `${importedScript}\n${webWorkerScript}`
         }
       }

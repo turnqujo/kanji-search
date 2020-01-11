@@ -9,12 +9,13 @@
       "moduleResolution": "node",
       "noImplicitAny": true,
       "noImplicitThis": false,
+      "outDir": "build",
       "preserveConstEnums": true,
       "removeComments": true,
+      "resolveJsonModule": true,
       "sourceMap": true,
       "strict": true,
-      "target": "es5",
-      "outDir": "build"
+      "target": "es5"
   },
   "include": ["./**/*.ts"],
   "exclude": ["node_modules"]

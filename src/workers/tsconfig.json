@@ -1,9 +1,8 @@
 {
   "extends": "../../tsconfig.json",
-  "include": ["./*.ts"],
+  "include": ["./*.ts", "./utility-scripts/*.ts"],
   "exclude": ["./*.spec.ts"],
   "compilerOptions": {
-    "module": "ESNext",
     "sourceMap": false,
     "lib": ["WebWorker"]
   }

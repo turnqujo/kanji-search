@@ -1,4 +1,4 @@
-importScripts('dbUtil.js')
+importScripts('utility-scripts/dbUtil.js')
 
 onerror = (error: string | Event) => {
   console.error(error)
