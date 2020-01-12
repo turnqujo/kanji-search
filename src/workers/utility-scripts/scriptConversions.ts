@@ -4,6 +4,7 @@ function isNucleus(romajiChar: string) {
   return ['a', 'i', 'u', 'e', 'o'].indexOf(romajiChar) >= 0
 }
 
+// TODO: Why is VSCode not recognizing this function as used, but openDB is fine?
 function convertRomajiToConversionItem(romaji: string, conversionTable: ConversionItem[]): ConversionItem[] {
   const chars = romaji.toLocaleLowerCase().split('') as (string|null)[]
 
@@ -40,8 +41,6 @@ function convertRomajiToConversionItem(romaji: string, conversionTable: Conversi
     result.push(found)
     chars[i + 1] = null
   }
-
-  console.log(result)
 
   return result
 }
