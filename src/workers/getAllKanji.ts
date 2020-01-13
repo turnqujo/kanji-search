@@ -4,10 +4,9 @@ onerror = (error: string | Event) => {
   console.error(error)
 }
 
-onmessage = async _ => {
-  const db = await openDB('kanjiStore')
-
-  getTransaction(db, 'kanji', 'readonly')
+onmessage = _ =>
+  openDB('kanjiStore').then(db => {
+    getTransaction(db, 'kanji', 'readonly')
     .then(transaction => {
       const request = transaction.objectStore('kanji').getAll()
 
@@ -23,4 +22,4 @@ onmessage = async _ => {
 
       db.close()
     })
-}
+  })

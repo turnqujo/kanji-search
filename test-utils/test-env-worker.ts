@@ -8,7 +8,7 @@ type Serializable = string | object | number | boolean
 // TODO: Write tests for this class
 // TODO: Typings
 // TODO: Potential performance enhancements; see: https://stackoverflow.com/a/30370720
-class JestWorker {
+class TestEnvWorker {
   private _onmessage: any
   get onmessage(): any   { return this._onmessage }
   set onmessage(cb: any) { this._onmessage = cb }
@@ -22,6 +22,15 @@ class JestWorker {
   }
 
   constructor(src: string) {
+
+    /**
+     * TODO: This process could be simpler if the paths defined in webworker import statements
+     *       are adjusted to be relative to this file's position instead of the original worker's
+     *       location. It's all a massive hack either way, though.
+     *
+     * NOTE: webworkers and their included scripts cannot be modules yet anyway (not clear when),
+     *       so the fix above might not actually be viable anyway.
+     */
     let webWorkerScript = fs.readFileSync(`${projectRoot}/${src}`, 'utf8')
     if (webWorkerScript.indexOf('importScripts') >= 0) {
       /**
@@ -32,11 +41,9 @@ class JestWorker {
        *  Note how the importScripts text is at the first column
        * importScripts('')
        * * /
-       *
        */
       const extractedScripts = /(?<=^importScripts\().*(?=\))/gm.exec(webWorkerScript)
 
-      // TODO: try replacing `importScripts` with `require` or `import`
       webWorkerScript = webWorkerScript.replace(/(?=^importScripts\().*(?=\n)/gm, '')
 
       if (extractedScripts) {
@@ -48,18 +55,22 @@ class JestWorker {
 
           // TODO: handle scripts in other directories?
           const importedScript = fs.readFileSync(newScriptPath, 'utf8')
-          webWorkerScript = `${importedScript}\n${webWorkerScript}`
+          webWorkerScript = `${importedScript}\n\n${webWorkerScript}`
         }
       }
     }
 
+    // NOTE: Strip out imports; we don't need them since we already shoved them in manually
+    webWorkerScript = webWorkerScript.replace(/(?=^import \{).*(?<=")/gm, '')
+
+    const compiled = ts.transpile(webWorkerScript, {
+      module: ts.ModuleKind.CommonJS,
+      sourceMap: false,
+      lib: ['webworker'],
+    })
+
     let onmessage: any // Set by webworker code
-    eval(
-      ts.transpile(webWorkerScript, {
-        sourceMap: false,
-        lib: ['webworker'],
-      })
-    )
+    eval(compiled)
 
     // NOTE: This will override any custom `onerror` handler defined in the webworker code
     let onerror = (error: string | Event) => {
@@ -84,4 +95,4 @@ class JestWorker {
   }
 }
 
-export default JestWorker
+export default TestEnvWorker

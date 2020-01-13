@@ -1,5 +1,4 @@
-import JestWorker from '../../test-utils/jest-worker'
-import { Kanji } from '../models/kanji'
+import TestEnvWorker from '../../test-utils/test-env-worker'
 
 // @ts-ignore TODO: Why is this showing an error? JSON is being imported properly.
 import conversionTable from '../data/conversion-table.json'
@@ -25,7 +24,7 @@ const workerSrc = 'src/workers/getKanjiByRomaji.ts'
 describe('The Get Kanji By Romaji webworker', () => {
   it('Should return an empty array if given an empty kanji set.', async done => {
     const response = await new Promise(resolve => {
-      const worker = new JestWorker(workerSrc)
+      const worker = new TestEnvWorker(workerSrc)
       worker.onmessage = (res: any) => resolve(res.data)
       worker.postMessage({ romaji: 'ka', kanjiSet: [], conversionTable })
     })
@@ -36,7 +35,7 @@ describe('The Get Kanji By Romaji webworker', () => {
 
   it('Should be case insensitive.', async done => {
     const response = await new Promise(resolve => {
-      const worker = new JestWorker(workerSrc)
+      const worker = new TestEnvWorker(workerSrc)
       worker.onmessage = (res: any) => resolve(res.data)
       worker.postMessage({ romaji: 'NAhA', kanjiSet, conversionTable })
     })
@@ -47,7 +46,7 @@ describe('The Get Kanji By Romaji webworker', () => {
 
   it('Should support searching by matching only the starts of kanji readings.', async done => {
     const response = await new Promise(resolve => {
-      const worker = new JestWorker(workerSrc)
+      const worker = new TestEnvWorker(workerSrc)
       worker.onmessage = (res: any) => resolve(res.data)
       worker.postMessage({ romaji: 'na', kanjiSet, conversionTable, matchOption: 'start' })
     })
@@ -58,7 +57,7 @@ describe('The Get Kanji By Romaji webworker', () => {
 
   it('Should support searching by exact matching the kanji readings', async done => {
     const response = await new Promise(resolve => {
-      const worker = new JestWorker(workerSrc)
+      const worker = new TestEnvWorker(workerSrc)
       worker.onmessage = (res: any) => resolve(res.data)
       worker.postMessage({ romaji: 'naha', kanjiSet, conversionTable })
     })

@@ -1,4 +1,4 @@
-import JestWorker from '../../test-utils/jest-worker'
+import TestEnvWorker from '../../test-utils/test-env-worker'
 import { initDB, fillDB, teardownDB } from '../../test-utils/db'
 
 const workerSrc = 'src/workers/getAllKanji.ts'
@@ -11,7 +11,7 @@ describe('The Get All Kanji Webworker', () => {
 
   it('Should pass along an error if the DB has not been initialized.', async done => {
     const response = new Promise((resolve, reject) => {
-      const worker = new JestWorker(workerSrc)
+      const worker = new TestEnvWorker(workerSrc)
       worker.onerror = (error: string | Event) => reject(error)
       worker.onmessage = (res: any) => resolve(res.data)
       worker.postMessage('')
@@ -25,7 +25,7 @@ describe('The Get All Kanji Webworker', () => {
     await initDB()
 
     const response = await new Promise(resolve => {
-      const worker = new JestWorker(workerSrc)
+      const worker = new TestEnvWorker(workerSrc)
       worker.onmessage = (res: any) => resolve(res.data)
       worker.postMessage('')
     })
@@ -55,7 +55,7 @@ describe('The Get All Kanji Webworker', () => {
     await fillDB(storedKanji)
 
     const response = await new Promise(resolve => {
-      const worker = new JestWorker(workerSrc)
+      const worker = new TestEnvWorker(workerSrc)
       worker.onmessage = (res: any) => resolve(res.data)
       worker.postMessage('')
     })

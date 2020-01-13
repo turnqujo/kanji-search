@@ -1,9 +1,11 @@
 {
   "extends": "../../tsconfig.json",
   "include": ["./*.ts", "./utility-scripts/*.ts"],
-  "exclude": ["./*.spec.ts"],
+  "exclude": ["./**/*.spec.ts"],
   "compilerOptions": {
+    "module": "None",
+    "target": "ES3",
     "sourceMap": false,
-    "lib": ["WebWorker"]
+    "lib": ["webworker"]
   }
 }

@@ -1,7 +1,3 @@
-import { ConversionItem } from '../models/conversionItem'
-import { Kanji } from '../models/kanji'
-import { MatchOptions } from '../models/matchOptions'
-
 importScripts('utility-scripts/scriptConversions.js')
 
 onerror = (error: string | Event) => {
@@ -12,9 +8,9 @@ onmessage = (e: MessageEvent) => {
   // TODO: Should matchOption default to anywhere?
   const { romaji, kanjiSet, conversionTable, matchOption = 'exact' } = e.data as {
     romaji: string
-    kanjiSet: Kanji[]
-    conversionTable: ConversionItem[]
-    matchOption: MatchOptions
+    kanjiSet: any[]
+    conversionTable: any[]
+    matchOption: any
   }
 
   if (!romaji || kanjiSet.length === 0) {
@@ -22,14 +18,14 @@ onmessage = (e: MessageEvent) => {
   }
 
   // @ts-ignore TODO: Why is this function not being found?
-  const convertedRomaji: ConversionItem[] = convertRomajiToConversionItem(romaji, conversionTable)
+  const convertedRomaji: any[] = convertRomajiToConversionItem(romaji, conversionTable)
   const asHiragana = convertedRomaji.map(item => item.hiragana).join('')
   const asKatakana = convertedRomaji.map(item => item.katakana).join('')
 
   postMessage(
     kanjiSet.filter(
       kanji =>
-        !!kanji.readings.find(reading => {
+        !!kanji.readings.find((reading: string) => {
           switch (matchOption) {
             case 'exact':
               return reading === asHiragana || reading === asKatakana
