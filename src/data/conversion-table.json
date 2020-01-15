@@ -91,5 +91,11 @@
   {"keyCodes": [],"katakana":"リョ","hiragana":"りょ","romaji":"ryo"},
   {"keyCodes": [],"katakana":"ギャ","hiragana":"ぎゃ","romaji":"gya"},
   {"keyCodes": [],"katakana":"ギュ","hiragana":"ぎゅ","romaji":"gyu"},
-  {"keyCodes": [],"katakana":"ギョ","hiragana":"ぎょ","romaji":"gyo"}
+  {"keyCodes": [],"katakana":"ギョ","hiragana":"ぎょ","romaji":"gyo"},
+  {"keyCodes": [],"katakana":"ビャ","hiragana":"びゃ","romaji":"bya"},
+  {"keyCodes": [],"katakana":"ビュ","hiragana":"びゅ","romaji":"byu"},
+  {"keyCodes": [],"katakana":"ビョ","hiragana":"びょ","romaji":"byo"},
+  {"keyCodes": [],"katakana":"ピャ","hiragana":"ぴゃ","romaji":"pya"},
+  {"keyCodes": [],"katakana":"ピュ","hiragana":"ぴゅ","romaji":"pyu"},
+  {"keyCodes": [],"katakana":"ピョ","hiragana":"ぴょ","romaji":"pyo"}
 ]

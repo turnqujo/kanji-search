@@ -84,29 +84,7 @@ describe('The Get Kanji By Romaji webworker', () => {
     done()
   })
 
-  it('Should support searching by single-character romaji.', async done => {
-    const response = await new Promise((resolve, reject) => {
-      worker.onmessage = (res: any) => resolve(res.data)
-      worker.onerror = (e: string | Event) => reject(e)
-      worker.postMessage({ romaji: 'o', kanjiSet, conversionTable, matchOption: 'start' })
-    })
-
-    expect(response).toEqual([onnaKanji])
-    done()
-  })
-
-  it('Should support searching by three-character romaji.', async done => {
-    const response = await new Promise((resolve, reject) => {
-      worker.onmessage = (res: any) => resolve(res.data)
-      worker.onerror = (e: string | Event) => reject(e)
-      worker.postMessage({ romaji: 'shi', kanjiSet, conversionTable, matchOption: 'start' })
-    })
-
-    expect(response).toEqual([shiKanji])
-    done()
-  })
-
-  it('Should support searching for "n" with and without a nucleus.', () => {
+  it('Should support searching for "n" with and without a preceding nucleus.', () => {
     const withNucleus = new Promise((resolve, reject) => {
       worker.onmessage = (res: any) => resolve(res.data)
       worker.onerror = (e: string | Event) => reject(e)
@@ -122,7 +100,7 @@ describe('The Get Kanji By Romaji webworker', () => {
     return Promise.all([withNucleus, withoutNucleus])
   })
 
-  it('Should handle converting each romaji individually and in sequence.', () => {
+  it('Should handle converting each romaji individually, in sequence.', () => {
     return Promise.all(
       (conversionTable as ConversionItem[]).map(({ romaji, hiragana, katakana }, index: number) => {
         const fakeKanji: Kanji = {
@@ -149,7 +127,7 @@ describe('The Get Kanji By Romaji webworker', () => {
     )
   })
 
-  it('Should handle a ridiculous situation.', async done => {
+  it('Should handle every supported romaji smashed together.', async done => {
     const insaneKanji: Kanji = {
       char: 'lol',
       stroke: Infinity,
@@ -169,6 +147,24 @@ describe('The Get Kanji By Romaji webworker', () => {
     })
 
     expect(response).toEqual([insaneKanji])
+    done()
+  })
+
+  it('Should handle multiple ん\'s in a row.', async done => {
+    const nnnKanji: Kanji = {
+      char: 'lol',
+      stroke: 10,
+      readings: ['んんん', 'ンンン'],
+      meanings: ['NNN']
+    }
+
+    const response = await new Promise((resolve, reject) => {
+      worker.onmessage = (res: any) => resolve(res.data)
+      worker.onerror = (e: string | Event) => reject(e)
+      worker.postMessage({ romaji: 'nNn', kanjiSet: [nnnKanji], conversionTable, matchOption: 'exact' })
+    })
+
+    expect(response).toEqual([nnnKanji])
     done()
   })
 })
