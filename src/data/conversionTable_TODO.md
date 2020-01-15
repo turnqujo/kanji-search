@@ -1,28 +1,4 @@
 # TODO:
-- kya きゃ キャ
-- kyu きゅ キュ
-- kyo きょ キョ
-- sha しゃ シャ
-- shu しゅ シュ
-- sho しょ ショ
-- cha ちゃ チャ
-- chu ちゅ チュ
-- cho ちょ チョ
-- nya にゃ ニャ
-- nyu にゅ ニュ
-- nyo にょ ニョ
-- hya ひゃ ヒャ
-- hyu ひゅ ヒュ
-- hyo ひょ ヒョ
-- mya みゃ ミャ
-- myu みゅ ミュ
-- myo みょ ミョ
-- rya りゃ リャ
-- ryu りゅ リュ
-- ryo りょ リョ
-- gya ぎゃ ギャ
-- gyu ぎゅ ギュ
-- gyo ぎょ ギョ
 - ja じゃ ジャ
 - ju じゅ ジュ
 - jo じょ ジョ
@@ -35,3 +11,13 @@
 - pya ぴゃ ピャ
 - pyu ぴゅ ピュ
 - pyo ぴょ ピョ
+
+# CONFLICTS:
+
+(These were removed)
+{"keyCodes":[219,65],"katakana":"ヂ","hiragana":"ぢ","romaji":"ji"},
+{"keyCodes":[219,90],"katakana":"ヅ","hiragana":"づ","romaji":"zu"},
+
+(Still added)
+{"keyCodes":[219,68],"katakana":"ジ","hiragana":"じ","romaji":"ji"},
+{"keyCodes":[219,82],"katakana":"ズ","hiragana":"ず","romaji":"zu"},

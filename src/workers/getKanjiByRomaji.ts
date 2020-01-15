@@ -5,20 +5,28 @@ onerror = (error: string | Event) => {
 }
 
 onmessage = (e: MessageEvent) => {
-  // TODO: Should matchOption default to anywhere?
   const { romaji, kanjiSet, conversionTable, matchOption = 'exact' } = e.data as {
     romaji: string
     kanjiSet: any[]
     conversionTable: any[]
-    matchOption: any
+    matchOption: 'exact' | 'start' | 'anywhere'
   }
 
   if (!romaji || kanjiSet.length === 0) {
     postMessage([])
   }
 
-  // @ts-ignore TODO: Why is this function not being found?
-  const convertedRomaji: any[] = convertRomajiToConversionItem(romaji, conversionTable)
+  let convertedRomaji: any[]
+  try {
+    convertedRomaji= convertRomajiToConversionItem(romaji, conversionTable)
+  } catch (e) {
+    if (onerror) {
+      (onerror as any)(e)
+    }
+
+    return
+  }
+
   const asHiragana = convertedRomaji.map(item => item.hiragana).join('')
   const asKatakana = convertedRomaji.map(item => item.katakana).join('')
 
@@ -31,6 +39,8 @@ onmessage = (e: MessageEvent) => {
               return reading === asHiragana || reading === asKatakana
             case 'start':
               return reading.startsWith(asHiragana) || reading.startsWith(asKatakana)
+            case 'anywhere':
+              return reading.indexOf(asHiragana) >= 0 || reading.indexOf(asKatakana) >= 0
             default:
               if (onerror) {
                 (onerror as any)('Error: Unknown match option')
