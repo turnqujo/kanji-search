@@ -34,10 +34,8 @@ const shiKanji = {
 }
 
 const kanjiSet = [nahaKanji, nahanoKanji, onnaKanji, shiKanji]
-Object.freeze(kanjiSet)
 
-const workerSrc = 'src/workers/getKanjiByRomaji.ts'
-const worker = new TestEnvWorker(workerSrc)
+const worker = new TestEnvWorker('src/workers/convertRomaji.ts')
 
 describe('The Get Kanji By Romaji webworker', () => {
   it('Should return an empty array if given an empty kanji set.', async done => {

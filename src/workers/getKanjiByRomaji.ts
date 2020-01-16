@@ -18,7 +18,7 @@ onmessage = (e: MessageEvent) => {
 
   let convertedRomaji: any[]
   try {
-    convertedRomaji= convertRomajiToConversionItem(romaji, conversionTable)
+    convertedRomaji = convertRomajiToConversionItem(romaji, conversionTable)
   } catch (e) {
     if (onerror) {
       (onerror as any)(e)

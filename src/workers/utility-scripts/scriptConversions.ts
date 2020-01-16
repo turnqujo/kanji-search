@@ -63,7 +63,7 @@ function findNextConversion(romaji: string, conversionTable: ConversionItem[]): 
   }
 
   if (romaji.length < 3) {
-    throw new Error(`Failed to find double-character conversion for: ${romaji}`)
+    throw new Error(`Failed to find a single or double character conversion for: ${romaji}`)
   }
 
   const tripleConversion = conversionTable.find(
