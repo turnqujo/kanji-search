@@ -35,7 +35,7 @@ const shiKanji = {
 
 const kanjiSet = [nahaKanji, nahanoKanji, onnaKanji, shiKanji]
 
-const worker = new TestEnvWorker('src/workers/convertRomaji.ts')
+const worker = new TestEnvWorker('src/workers/getKanjiByRomaji.ts')
 
 describe('The Get Kanji By Romaji webworker', () => {
   it('Should return an empty array if given an empty kanji set.', async done => {
