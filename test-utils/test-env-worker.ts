@@ -42,9 +42,9 @@ class TestEnvWorker {
        * importScripts('')
        * * /
        */
-      const extractedScripts = /(?<=^importScripts\().*(?=\))/gm.exec(webWorkerScript)
+      const extractedScripts = /(?<=importScripts\().*(?=\))/gm.exec(webWorkerScript)
 
-      webWorkerScript = webWorkerScript.replace(/(?=^importScripts\().*(?=\n)/gm, '')
+      webWorkerScript = webWorkerScript.replace(/(?=^importScripts\().*(?=\r\n|\r|\n)/gm, '')
 
       if (extractedScripts) {
         const rawScriptHandles = extractedScripts[0].replace(/['"`]+/g, '').split(', ')
