@@ -4,28 +4,32 @@ const nahaKanji = {
   char: '亜',
   stroke: 4,
   meanings: ['Hiragana "naha"'],
-  readings: ['なは']
+  readings: ['なは'],
+  frequency: 4
 }
 
 const nahanoKanji = {
   char: '帰',
   stroke: 1,
   meanings: ['Katakana "nahano"'],
-  readings: ['ナハノ']
+  readings: ['ナハノ'],
+  frequency: 2
 }
 
 const onnaKanji = {
   char: '年',
   stroke: 2,
   meanings: ['Hiragana "onna"'],
-  readings: ['おんな']
+  readings: ['おんな'],
+  frequency: 3
 }
 
 const shiKanji = {
   char: '謎',
   stroke: 3,
   meanings: ['Hiragana "shiitake"'],
-  readings: ['しいたけ']
+  readings: ['しいたけ'],
+  frequency: 1
 }
 
 const kanjiSet = [nahaKanji, nahanoKanji, onnaKanji, shiKanji]
@@ -130,6 +134,73 @@ describe('The Sort Kanji Webworker', () => {
     done()
   })
 
+  it('Should support sorting by usage frequency, descending.', async done => {
+    const response = await new Promise((resolve, reject) => {
+      worker.onmessage = (res: any) => resolve(res.data)
+      worker.onerror = (e: string | Event) => reject(e)
+      worker.postMessage({
+        kanjiSet,
+        sortBy: 'frequency',
+        sortDirection: 'desc'
+      })
+    })
 
-  it.todo('Should support sorting by usage frequency.')
+    const expectedOrder = [nahaKanji, onnaKanji, nahanoKanji, shiKanji]
+    expect(response).toEqual(expectedOrder)
+    done()
+  })
+
+  it('Should support sorting by usage frequency, ascending.', async done => {
+    const response = await new Promise((resolve, reject) => {
+      worker.onmessage = (res: any) => resolve(res.data)
+      worker.onerror = (e: string | Event) => reject(e)
+      worker.postMessage({
+        kanjiSet,
+        sortBy: 'frequency',
+        sortDirection: 'asc'
+      })
+    })
+
+    const expectedOrder = [shiKanji, nahanoKanji, onnaKanji, nahaKanji]
+    expect(response).toEqual(expectedOrder)
+    done()
+  })
+
+  it('Should treat kanji without frequency rankings as having an infinite rank.', async done => {
+    const unrankedKanji = {
+      char: '帰',
+      stroke: 1,
+      meanings: ['Katakana "nahano"'],
+      readings: ['ナハノ'],
+      frequency: null // Infinity is not valid JSON
+    }
+
+    const ascResponse = await new Promise((resolve, reject) => {
+      worker.onmessage = (res: any) => resolve(res.data)
+      worker.onerror = (e: string | Event) => reject(e)
+      worker.postMessage({
+        kanjiSet: [...kanjiSet, unrankedKanji],
+        sortBy: 'frequency',
+        sortDirection: 'asc'
+      })
+    })
+
+    const descResponse = await new Promise((resolve, reject) => {
+      worker.onmessage = (res: any) => resolve(res.data)
+      worker.onerror = (e: string | Event) => reject(e)
+      worker.postMessage({
+        kanjiSet: [...kanjiSet, unrankedKanji],
+        sortBy: 'frequency',
+        sortDirection: 'desc'
+      })
+    })
+
+    const expectedAscOrder = [shiKanji, nahanoKanji, onnaKanji, nahaKanji, unrankedKanji]
+    expect(ascResponse).toEqual(expectedAscOrder)
+    
+    const expectedDescOrder = [unrankedKanji, nahaKanji, onnaKanji, nahanoKanji, shiKanji]
+    expect(descResponse).toEqual(expectedDescOrder)
+
+    done()
+  })
 })

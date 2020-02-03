@@ -5,7 +5,7 @@ onerror = (error: string | Event) => {
 onmessage = (e: MessageEvent) => {
   const { kanjiSet, sortBy, sortDirection = 'desc' } = e.data as {
     kanjiSet: any[]
-    sortBy: 'strokeCount' | 'usageFrequency' | 'unicode'
+    sortBy: 'strokeCount' | 'frequency' | 'unicode'
     sortDirection: 'asc' | 'desc'
   }
 
@@ -19,20 +19,37 @@ onmessage = (e: MessageEvent) => {
   switch (sortBy) {
     case 'strokeCount':
       postMessage(
-        kanjiSet.sort(
-          (x, y) => {
-            const leftStroke = Array.isArray(x.stroke) ? Math.min(...x.stroke) : x.stroke
-            const rightStroke = Array.isArray(y.stroke) ? Math.min(...y.stroke) : y.stroke
-            return leftStroke > rightStroke ? leftSortVal : rightSortVal
-          }
-        )
+        kanjiSet.slice().sort((x, y) => {
+          const leftStroke = Array.isArray(x.stroke)
+            ? Math.min(...x.stroke)
+            : x.stroke
+          const rightStroke = Array.isArray(y.stroke)
+            ? Math.min(...y.stroke)
+            : y.stroke
+          return leftStroke > rightStroke ? leftSortVal : rightSortVal
+        })
       )
       break
-    case 'usageFrequency':
+    case 'frequency':
+      postMessage(
+        kanjiSet
+          .slice()
+          .sort((x, y) =>
+            y.frequency === null
+              ? x.frequency > Infinity
+                ? leftSortVal
+                : rightSortVal
+              : x.frequency > y.frequency
+                ? leftSortVal
+                : rightSortVal
+          )
+      )
       break
     case 'unicode':
       postMessage(
-        kanjiSet.sort((x, y) => x.char < y.char ? leftSortVal : rightSortVal)
+        kanjiSet
+          .slice()
+          .sort((x, y) => (x.char < y.char ? leftSortVal : rightSortVal))
       )
       break
     default:
