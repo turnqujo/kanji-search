@@ -11,6 +11,7 @@ app.get('/', (_, res) => {
     <!DOCTYPE html>
     <html>
       <head>
+      <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
       <script>
         if ('serviceWorker' in navigator) {
           navigator.serviceWorker.register('/worker/service-worker')

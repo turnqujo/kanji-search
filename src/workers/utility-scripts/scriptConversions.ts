@@ -69,6 +69,7 @@ function findNextConversion(romaji: string, conversionTable: ConversionItem[]): 
   const tripleConversion = conversionTable.find(
     item => item.romaji === romaji[0] + romaji[1] + romaji[2]
   )
+
   if (!tripleConversion) {
     throw new Error(`Failed to find a conversion of any length for: ${romaji}`)
   }

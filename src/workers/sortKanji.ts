@@ -34,15 +34,13 @@ onmessage = (e: MessageEvent) => {
       postMessage(
         kanjiSet
           .slice()
-          .sort((x, y) =>
-            y.frequency === null
-              ? x.frequency > Infinity
-                ? leftSortVal
-                : rightSortVal
-              : x.frequency > y.frequency
-                ? leftSortVal
-                : rightSortVal
-          )
+          .sort((x, y) => {
+            if (y.frequency === null) {
+              return x.frequency > Infinity ? leftSortVal : rightSortVal
+            } else {
+              return x.frequency > y.frequency ? leftSortVal : rightSortVal
+            }
+          })
       )
       break
     case 'unicode':
