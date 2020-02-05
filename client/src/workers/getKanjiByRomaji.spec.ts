@@ -1,9 +1,9 @@
 import TestEnvWorker from '../../test-utils/test-env-worker'
-import { ConversionItem } from '../models/conversionItem'
-import { Kanji } from '../models/kanji'
+import { ConversionItem } from '../../../models/conversionItem'
+import { Kanji } from '../../../models/kanji'
 
 // @ts-ignore TODO: Why is this showing an error? JSON is being imported properly.
-import conversionTable from '../data/conversion-table.json'
+import conversionTable from '../../../data/conversion-table.json'
 
 const nahaKanji = {
   char: 'A',

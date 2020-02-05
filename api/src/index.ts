@@ -1,6 +1,6 @@
 import express from 'express'
 import helmet from 'helmet'
-import webworkerRoutes from './webworker'
+import webworkerRoutes from './routes/webworker'
 
 const app = express()
 app.use(helmet())
