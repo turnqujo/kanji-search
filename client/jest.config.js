@@ -11,6 +11,7 @@ module.exports = {
   },
   "setupFiles": [
     "isomorphic-fetch",
-    "fake-indexeddb/auto"
+    "fake-indexeddb/auto",
+    "./set-up.jest.ts"
   ]
 }
