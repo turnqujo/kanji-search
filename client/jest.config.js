@@ -12,6 +12,5 @@ module.exports = {
   "setupFiles": [
     "isomorphic-fetch",
     "fake-indexeddb/auto"
-  ],
-  "testEnvironment": "jest-environment-jsdom-sixteen"
+  ]
 }
