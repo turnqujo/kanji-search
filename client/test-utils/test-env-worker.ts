@@ -2,6 +2,11 @@ import fs from 'fs'
 import ts from 'typescript'
 import projectRoot from '../../root'
 
+/**
+ * TODO: Could this be better done as a custom Jest Environment?
+ * See here: https://jestjs.io/docs/en/configuration#testenvironment-string
+ */
+
 type Serializable = string | object | number | boolean
 
 // TODO: Implement AbstractWorker, better listener handling

@@ -6,6 +6,9 @@ class KnExample extends Component {
       tag: 'kn-example',
       template: `<h1>Hello, Custom Components!</h1>`
     })
+
+    this.setAttribute('id', 'example-ele')
+    console.log(this.attributes)
   }
 }
 

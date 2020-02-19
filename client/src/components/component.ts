@@ -9,7 +9,7 @@ interface Props {
   template?: string
 }
 
-class Component extends HTMLElement {
+abstract class Component extends HTMLElement {
   protected shadow: ShadowRoot | null = null
 
   constructor({ tag, externalStylePaths, internalStyle, template }: Props) {

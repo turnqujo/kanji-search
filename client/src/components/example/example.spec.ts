@@ -1,18 +1,18 @@
 import KnExample from "./example"
-// https://github.com/WebReflection/document-register-element
+import polyfillCustomElements from 'custom-elements-module'
 
 describe('The Example component', () => {
-  it('Should exist', () => {
+  beforeAll(() => {
+    polyfillCustomElements(window)
+    console.log(KnExample)
     customElements.define('kn-example', KnExample)
-    const something = new KnExample()
-    console.log(something)
-    const wrapper = document.createElement('div')
-    wrapper.innerHTML = `<kn-example></kn-example>`
-    console.log(wrapper.innerHTML)
+  })
 
-    const foundEle = wrapper.querySelector('kn-example > h1') as HTMLElement
-    console.log(foundEle?.innerText)
-    
-    expect(foundEle).toBeTruthy()
+  it('Should exist', () => {
+    const ele = document.createElement('kn-example')
+    console.log(ele)
+    document.body.appendChild(ele)
+    const test: HTMLElement | null = document.querySelector('kn-example')
+    expect(test?.id).toBeTruthy()
   })
 })
