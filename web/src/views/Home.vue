@@ -5,6 +5,15 @@
   </div>
 </template>
 
+<style>
+  :root {
+    --kn-danger: #E3788A;
+    --kn-warning: #FCAC83;
+    --kn-info: #E8E8E8;
+    --kn-success: #34CCD1;
+  }
+</style>
+
 <script>
 // @ is an alias to /src
 import HelloWorld from "@/components/HelloWorld.vue";

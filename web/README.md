@@ -1,4 +1,4 @@
-# static
+# web
 
 ## Project setup
 ```
