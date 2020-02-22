@@ -1,5 +1,4 @@
 {
-  "extends": "../../tsconfig.json",
   "include": ["./*.ts", "./utility-scripts/*.ts"],
   "exclude": ["./**/*.spec.ts"],
   "compilerOptions": {

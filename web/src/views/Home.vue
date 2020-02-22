@@ -6,22 +6,22 @@
 </template>
 
 <style>
-  :root {
-    --kn-danger: #E3788A;
-    --kn-warning: #FCAC83;
-    --kn-info: #E8E8E8;
-    --kn-success: #34CCD1;
-  }
+:root {
+  --kn-danger: #e3788a;
+  --kn-warning: #fcac83;
+  --kn-info: #e8e8e8;
+  --kn-success: #34ccd1;
+}
 </style>
 
 <script>
 // @ is an alias to /src
-import HelloWorld from "@/components/HelloWorld.vue";
+import HelloWorld from '@/components/HelloWorld.vue'
 
 export default {
-  name: "Home",
+  name: 'Home',
   components: {
     HelloWorld
   }
-};
+}
 </script>

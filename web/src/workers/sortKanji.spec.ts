@@ -37,7 +37,7 @@ const kanjiSet = [nahaKanji, nahanoKanji, onnaKanji, shiKanji]
 const worker = new TestEnvWorker('src/workers/sortKanji.ts')
 
 describe('The Sort Kanji Webworker', () => {
-  it('Should return an empty array if given an empty set of kanji.', async done => {
+  it('Should return an empty array if given an empty set of kanji.', async (done) => {
     const response = await new Promise((resolve, reject) => {
       worker.onmessage = (res: any) => resolve(res.data)
       worker.onerror = (e: string | Event) => reject(e)
@@ -48,7 +48,7 @@ describe('The Sort Kanji Webworker', () => {
     done()
   })
 
-  it('Should support sorting by stroke count, descending.', async done => {
+  it('Should support sorting by stroke count, descending.', async (done) => {
     const descendingResponse = await new Promise((resolve, reject) => {
       worker.onmessage = (res: any) => resolve(res.data)
       worker.onerror = (e: string | Event) => reject(e)
@@ -63,7 +63,7 @@ describe('The Sort Kanji Webworker', () => {
     done()
   })
 
-  it('Should support sorting by stroke count, ascending.', async done => {
+  it('Should support sorting by stroke count, ascending.', async (done) => {
     const ascendingResponse = await new Promise((resolve, reject) => {
       worker.onmessage = (res: any) => resolve(res.data)
       worker.onerror = (e: string | Event) => reject(e)
@@ -78,7 +78,7 @@ describe('The Sort Kanji Webworker', () => {
     done()
   })
 
-  it('Should support sorting by stroke count, even when a kanji has multiple counts.', async done => {
+  it('Should support sorting by stroke count, even when a kanji has multiple counts.', async (done) => {
     const multiStrokeKanji = {
       char: '操',
       stroke: [0, 15],
@@ -90,21 +90,23 @@ describe('The Sort Kanji Webworker', () => {
       worker.onmessage = (res: any) => resolve(res.data)
       worker.onerror = (e: string | Event) => reject(e)
       worker.postMessage({
-        kanjiSet: [
-          multiStrokeKanji,
-          ...kanjiSet
-        ],
+        kanjiSet: [multiStrokeKanji, ...kanjiSet],
         sortBy: 'strokeCount',
         sortDirection: 'asc'
       })
     })
 
-    expect(ascendingResponse).toEqual([multiStrokeKanji, nahanoKanji, onnaKanji, shiKanji, nahaKanji])
+    expect(ascendingResponse).toEqual([
+      multiStrokeKanji,
+      nahanoKanji,
+      onnaKanji,
+      shiKanji,
+      nahaKanji
+    ])
     done()
   })
 
-
-  it('Should support sorting by unicode order, descending.', async done => {
+  it('Should support sorting by unicode order, descending.', async (done) => {
     const response = await new Promise((resolve, reject) => {
       worker.onmessage = (res: any) => resolve(res.data)
       worker.onerror = (e: string | Event) => reject(e)
@@ -119,7 +121,7 @@ describe('The Sort Kanji Webworker', () => {
     done()
   })
 
-  it('Should support sorting by unicode order, ascending.', async done => {
+  it('Should support sorting by unicode order, ascending.', async (done) => {
     const response = await new Promise((resolve, reject) => {
       worker.onmessage = (res: any) => resolve(res.data)
       worker.onerror = (e: string | Event) => reject(e)
@@ -134,7 +136,7 @@ describe('The Sort Kanji Webworker', () => {
     done()
   })
 
-  it('Should support sorting by usage frequency, descending.', async done => {
+  it('Should support sorting by usage frequency, descending.', async (done) => {
     const response = await new Promise((resolve, reject) => {
       worker.onmessage = (res: any) => resolve(res.data)
       worker.onerror = (e: string | Event) => reject(e)
@@ -150,7 +152,7 @@ describe('The Sort Kanji Webworker', () => {
     done()
   })
 
-  it('Should support sorting by usage frequency, ascending.', async done => {
+  it('Should support sorting by usage frequency, ascending.', async (done) => {
     const response = await new Promise((resolve, reject) => {
       worker.onmessage = (res: any) => resolve(res.data)
       worker.onerror = (e: string | Event) => reject(e)
@@ -166,7 +168,7 @@ describe('The Sort Kanji Webworker', () => {
     done()
   })
 
-  it('Should treat kanji without frequency rankings as having an infinite rank.', async done => {
+  it('Should treat kanji without frequency rankings as having an infinite rank.', async (done) => {
     const unrankedKanji = {
       char: '帰',
       stroke: 1,
@@ -197,7 +199,7 @@ describe('The Sort Kanji Webworker', () => {
 
     const expectedAscOrder = [shiKanji, nahanoKanji, onnaKanji, nahaKanji, unrankedKanji]
     expect(ascResponse).toEqual(expectedAscOrder)
-    
+
     const expectedDescOrder = [unrankedKanji, nahaKanji, onnaKanji, nahanoKanji, shiKanji]
     expect(descResponse).toEqual(expectedDescOrder)
 

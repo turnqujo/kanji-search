@@ -20,39 +20,29 @@ onmessage = (e: MessageEvent) => {
     case 'strokeCount':
       postMessage(
         kanjiSet.slice().sort((x, y) => {
-          const leftStroke = Array.isArray(x.stroke)
-            ? Math.min(...x.stroke)
-            : x.stroke
-          const rightStroke = Array.isArray(y.stroke)
-            ? Math.min(...y.stroke)
-            : y.stroke
+          const leftStroke = Array.isArray(x.stroke) ? Math.min(...x.stroke) : x.stroke
+          const rightStroke = Array.isArray(y.stroke) ? Math.min(...y.stroke) : y.stroke
           return leftStroke > rightStroke ? leftSortVal : rightSortVal
         })
       )
       break
     case 'frequency':
       postMessage(
-        kanjiSet
-          .slice()
-          .sort((x, y) => {
-            if (y.frequency === null) {
-              return x.frequency > Infinity ? leftSortVal : rightSortVal
-            } else {
-              return x.frequency > y.frequency ? leftSortVal : rightSortVal
-            }
-          })
+        kanjiSet.slice().sort((x, y) => {
+          if (y.frequency === null) {
+            return x.frequency > Infinity ? leftSortVal : rightSortVal
+          } else {
+            return x.frequency > y.frequency ? leftSortVal : rightSortVal
+          }
+        })
       )
       break
     case 'unicode':
-      postMessage(
-        kanjiSet
-          .slice()
-          .sort((x, y) => (x.char < y.char ? leftSortVal : rightSortVal))
-      )
+      postMessage(kanjiSet.slice().sort((x, y) => (x.char < y.char ? leftSortVal : rightSortVal)))
       break
     default:
       if (onerror) {
-        (onerror as any)('Unknown sort by option.')
+        ;(onerror as any)('Unknown sort by option.')
       }
       break
   }

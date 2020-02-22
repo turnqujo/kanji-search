@@ -21,18 +21,18 @@ onmessage = (e: MessageEvent) => {
     convertedRomaji = convertRomajiToConversionItem(romaji, conversionTable)
   } catch (e) {
     if (onerror) {
-      (onerror as any)(e)
+      ;(onerror as any)(e)
     }
 
     return
   }
 
-  const asHiragana = convertedRomaji.map(item => item.hiragana).join('')
-  const asKatakana = convertedRomaji.map(item => item.katakana).join('')
+  const asHiragana = convertedRomaji.map((item) => item.hiragana).join('')
+  const asKatakana = convertedRomaji.map((item) => item.katakana).join('')
 
   postMessage(
     kanjiSet.filter(
-      kanji =>
+      (kanji) =>
         !!kanji.readings.find((reading: string) => {
           switch (matchOption) {
             case 'exact':
@@ -43,7 +43,7 @@ onmessage = (e: MessageEvent) => {
               return reading.indexOf(asHiragana) >= 0 || reading.indexOf(asKatakana) >= 0
             default:
               if (onerror) {
-                (onerror as any)('Error: Unknown match option')
+                ;(onerror as any)('Error: Unknown match option')
               }
           }
         })

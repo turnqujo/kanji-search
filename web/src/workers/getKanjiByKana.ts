@@ -16,7 +16,7 @@ onmessage = (e: MessageEvent) => {
 
   postMessage(
     kanjiSet.filter(
-      kanji =>
+      (kanji) =>
         !!kanji.readings.find((reading: string) => {
           switch (matchOption) {
             case 'exact':
@@ -27,7 +27,7 @@ onmessage = (e: MessageEvent) => {
               return reading.indexOf(kana) >= 0
             default:
               if (onerror) {
-                (onerror as any)('Error: Unknown match option')
+                ;(onerror as any)('Error: Unknown match option')
               }
           }
         })

@@ -38,44 +38,64 @@ const kanjiSet = [nahaKanji, nahanoKanji, onnaKanji, shiKanji]
 const worker = new TestEnvWorker('src/workers/getKanjiByRomaji.ts')
 
 describe('The Get Kanji By Romaji webworker', () => {
-  it('Should return an empty array if given an empty kanji set.', async done => {
+  it('Should return an empty array if given an empty kanji set.', async (done) => {
     const response = await new Promise((resolve, reject) => {
       worker.onmessage = (res: any) => resolve(res.data)
       worker.onerror = (e: string | Event) => reject(e)
-      worker.postMessage({ romaji: 'ka', kanjiSet: [], conversionTable, matchOption: 'anywhere' })
+      worker.postMessage({
+        romaji: 'ka',
+        kanjiSet: [],
+        conversionTable,
+        matchOption: 'anywhere'
+      })
     })
 
     expect(response).toEqual([])
     done()
   })
 
-  it('Should be case insensitive.', async done => {
+  it('Should be case insensitive.', async (done) => {
     const response = await new Promise((resolve, reject) => {
       worker.onmessage = (res: any) => resolve(res.data)
       worker.onerror = (e: string | Event) => reject(e)
-      worker.postMessage({ romaji: 'NAhA', kanjiSet, conversionTable, matchOption: 'exact' })
+      worker.postMessage({
+        romaji: 'NAhA',
+        kanjiSet,
+        conversionTable,
+        matchOption: 'exact'
+      })
     })
 
     expect(response).toEqual([nahaKanji])
     done()
   })
 
-  it('Should support searching by matching only the starts of kanji readings.', async done => {
+  it('Should support searching by matching only the starts of kanji readings.', async (done) => {
     const response = await new Promise((resolve, reject) => {
       worker.onmessage = (res: any) => resolve(res.data)
       worker.onerror = (e: string | Event) => reject(e)
-      worker.postMessage({ romaji: 'na', kanjiSet, conversionTable, matchOption: 'start' })
+      worker.postMessage({
+        romaji: 'na',
+        kanjiSet,
+        conversionTable,
+        matchOption: 'start'
+      })
     })
 
     expect(response).toEqual([nahaKanji, nahanoKanji])
     done()
   })
 
-  it('Should support searching by exact matching the kanji readings', async done => {
+  it('Should support searching by exact matching the kanji readings', async (done) => {
     const response = await new Promise((resolve, reject) => {
       worker.onmessage = (res: any) => resolve(res.data)
       worker.onerror = (e: string | Event) => reject(e)
-      worker.postMessage({ romaji: 'naha', kanjiSet, conversionTable, matchOption: 'exact' })
+      worker.postMessage({
+        romaji: 'naha',
+        kanjiSet,
+        conversionTable,
+        matchOption: 'exact'
+      })
     })
 
     expect(response).toEqual([nahaKanji])
@@ -86,14 +106,24 @@ describe('The Get Kanji By Romaji webworker', () => {
     const withNucleus = new Promise((resolve, reject) => {
       worker.onmessage = (res: any) => resolve(res.data)
       worker.onerror = (e: string | Event) => reject(e)
-      worker.postMessage({ romaji: 'on', kanjiSet, conversionTable, matchOption: 'start' })
-    }).then(result => expect(result).toEqual([onnaKanji]))
+      worker.postMessage({
+        romaji: 'on',
+        kanjiSet,
+        conversionTable,
+        matchOption: 'start'
+      })
+    }).then((result) => expect(result).toEqual([onnaKanji]))
 
     const withoutNucleus = new Promise((resolve, reject) => {
       worker.onmessage = (res: any) => resolve(res.data)
       worker.onerror = (e: string | Event) => reject(e)
-      worker.postMessage({ romaji: 'n', kanjiSet, conversionTable, matchOption: 'anywhere' })
-    }).then(result => expect(result).toEqual([onnaKanji]))
+      worker.postMessage({
+        romaji: 'n',
+        kanjiSet,
+        conversionTable,
+        matchOption: 'anywhere'
+      })
+    }).then((result) => expect(result).toEqual([onnaKanji]))
 
     return Promise.all([withNucleus, withoutNucleus])
   })
@@ -120,12 +150,12 @@ describe('The Get Kanji By Romaji webworker', () => {
             matchOption: 'exact',
             conversionTable
           })
-        }).then(response => expect(response).toEqual([fakeKanji]))
+        }).then((response) => expect(response).toEqual([fakeKanji]))
       })
     )
   })
 
-  it('Should handle every supported romaji smashed together.', async done => {
+  it('Should handle every supported romaji smashed together.', async (done) => {
     const insaneKanji: Kanji = {
       char: 'lol',
       stroke: Infinity,
@@ -141,14 +171,19 @@ describe('The Get Kanji By Romaji webworker', () => {
     const response = await new Promise((resolve, reject) => {
       worker.onmessage = (res: any) => resolve(res.data)
       worker.onerror = (e: string | Event) => reject(e)
-      worker.postMessage({ romaji: allRomaji, kanjiSet: [insaneKanji], conversionTable, matchOption: 'exact' })
+      worker.postMessage({
+        romaji: allRomaji,
+        kanjiSet: [insaneKanji],
+        conversionTable,
+        matchOption: 'exact'
+      })
     })
 
     expect(response).toEqual([insaneKanji])
     done()
   })
 
-  it('Should handle multiple ん\'s in a row.', async done => {
+  it("Should handle multiple ん's in a row.", async (done) => {
     const nnnKanji: Kanji = {
       char: 'lol',
       stroke: 10,
@@ -159,7 +194,12 @@ describe('The Get Kanji By Romaji webworker', () => {
     const response = await new Promise((resolve, reject) => {
       worker.onmessage = (res: any) => resolve(res.data)
       worker.onerror = (e: string | Event) => reject(e)
-      worker.postMessage({ romaji: 'nNn', kanjiSet: [nnnKanji], conversionTable, matchOption: 'exact' })
+      worker.postMessage({
+        romaji: 'nNn',
+        kanjiSet: [nnnKanji],
+        conversionTable,
+        matchOption: 'exact'
+      })
     })
 
     expect(response).toEqual([nnnKanji])

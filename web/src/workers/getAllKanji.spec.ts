@@ -4,12 +4,12 @@ import { initDB, fillDB, teardownDB } from '../../test-utils/db'
 const workerSrc = 'src/workers/getAllKanji.ts'
 
 describe('The Get All Kanji Webworker', () => {
-  afterEach(async done => {
+  afterEach(async (done) => {
     await teardownDB()
     done()
   })
 
-  it('Should pass along an error if the DB has not been initialized.', async done => {
+  it('Should pass along an error if the DB has not been initialized.', async (done) => {
     const response = new Promise((resolve, reject) => {
       const worker = new TestEnvWorker(workerSrc)
       worker.onerror = (error: string | Event) => reject(error)
@@ -21,10 +21,10 @@ describe('The Get All Kanji Webworker', () => {
     done()
   })
 
-  it('Should return an empty array if no Kanji are loaded.', async done => {
+  it('Should return an empty array if no Kanji are loaded.', async (done) => {
     await initDB()
 
-    const response = await new Promise(resolve => {
+    const response = await new Promise((resolve) => {
       const worker = new TestEnvWorker(workerSrc)
       worker.onmessage = (res: any) => resolve(res.data)
       worker.postMessage('')
@@ -34,7 +34,7 @@ describe('The Get All Kanji Webworker', () => {
     done()
   })
 
-  it('Should return any stored Kanji when asked.', async done => {
+  it('Should return any stored Kanji when asked.', async (done) => {
     const storedKanji = [
       {
         char: 'a',
@@ -54,7 +54,7 @@ describe('The Get All Kanji Webworker', () => {
     await initDB()
     await fillDB(storedKanji)
 
-    const response = await new Promise(resolve => {
+    const response = await new Promise((resolve) => {
       const worker = new TestEnvWorker(workerSrc)
       worker.onmessage = (res: any) => resolve(res.data)
       worker.postMessage('')

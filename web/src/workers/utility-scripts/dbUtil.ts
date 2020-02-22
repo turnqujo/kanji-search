@@ -1,3 +1,4 @@
+/* eslint '@typescript-eslint/no-unused-vars': 0 */
 function openDB(name: string, version?: number): Promise<IDBDatabase> {
   return new Promise((resolve, reject) => {
     let openRequest: IDBOpenDBRequest
@@ -22,7 +23,11 @@ function openDB(name: string, version?: number): Promise<IDBDatabase> {
   })
 }
 
-function getTransaction(db: IDBDatabase, storeNames: string | string[], mode?: IDBTransactionMode): Promise<IDBTransaction> {
+function getTransaction(
+  db: IDBDatabase,
+  storeNames: string | string[],
+  mode?: IDBTransactionMode
+): Promise<IDBTransaction> {
   return new Promise((resolve, reject) => {
     try {
       resolve(db.transaction(storeNames, mode))
