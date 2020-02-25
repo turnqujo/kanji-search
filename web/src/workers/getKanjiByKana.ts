@@ -11,9 +11,11 @@ onmessage = (e: MessageEvent) => {
   }
 
   if (!kana || kanjiSet.length === 0) {
+    // @ts-ignore
     postMessage([])
   }
 
+  // @ts-ignore
   postMessage(
     kanjiSet.filter(
       (kanji) =>

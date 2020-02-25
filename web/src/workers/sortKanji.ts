@@ -10,6 +10,7 @@ onmessage = (e: MessageEvent) => {
   }
 
   if (kanjiSet.length === 0 || !sortBy) {
+    // @ts-ignore
     postMessage([])
   }
 
@@ -18,6 +19,7 @@ onmessage = (e: MessageEvent) => {
 
   switch (sortBy) {
     case 'strokeCount':
+      // @ts-ignore
       postMessage(
         kanjiSet.slice().sort((x, y) => {
           const leftStroke = Array.isArray(x.stroke) ? Math.min(...x.stroke) : x.stroke
@@ -27,6 +29,7 @@ onmessage = (e: MessageEvent) => {
       )
       break
     case 'frequency':
+      // @ts-ignore
       postMessage(
         kanjiSet.slice().sort((x, y) => {
           if (y.frequency === null) {
@@ -38,6 +41,7 @@ onmessage = (e: MessageEvent) => {
       )
       break
     case 'unicode':
+      // @ts-ignore
       postMessage(kanjiSet.slice().sort((x, y) => (x.char < y.char ? leftSortVal : rightSortVal)))
       break
     default:
