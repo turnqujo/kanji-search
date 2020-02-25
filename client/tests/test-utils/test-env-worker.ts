@@ -1,4 +1,5 @@
 /* eslint-disable */
+// @ts-ignore
 import fs from 'fs'
 import ts from 'typescript'
 import projectRoot from '../../../root'
@@ -37,7 +38,7 @@ class TestEnvWorker {
      * NOTE: webworkers and their included scripts cannot be modules yet anyway (not clear when),
      *       so the fix above might not actually be viable.
      */
-    let webWorkerScript = fs.readFileSync(`${projectRoot}/web/${src}`, 'utf8')
+    let webWorkerScript = fs.readFileSync(`${projectRoot}/client/${src}`, 'utf8')
     if (webWorkerScript.indexOf('importScripts') >= 0) {
       /**
        * TODO: This regex should be updated to handle these situations:
@@ -57,7 +58,7 @@ class TestEnvWorker {
 
         for (let rawScriptHandle of rawScriptHandles) {
           const adjustedHandle = rawScriptHandle.replace('.js', '.ts')
-          const newScriptPath = `${projectRoot}/web/src/workers/${adjustedHandle}`
+          const newScriptPath = `${projectRoot}/client/src/workers/${adjustedHandle}`
 
           // TODO: handle scripts in other directories?
           const importedScript = fs.readFileSync(newScriptPath, 'utf8')

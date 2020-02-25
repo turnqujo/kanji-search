@@ -10,12 +10,11 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import Component from 'vue-class-component'
 import { Kanji } from '../../../models/kanji'
 
 @Component({})
-export default class KanjiCard extends Vue {
-  
-}
+export default class KanjiCard extends Vue {}
 
 // export default Vue.extend({
 //   name: 'KanjiCard',
