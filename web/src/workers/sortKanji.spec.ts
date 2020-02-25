@@ -1,4 +1,4 @@
-import TestEnvWorker from '../../test-utils/test-env-worker'
+import TestEnvWorker from '../../tests/test-utils/test-env-worker'
 
 const nahaKanji = {
   char: '亜',

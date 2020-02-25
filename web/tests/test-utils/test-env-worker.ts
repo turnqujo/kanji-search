@@ -1,7 +1,7 @@
 /* eslint-disable */
 import fs from 'fs'
 import ts from 'typescript'
-import projectRoot from '../../root'
+import projectRoot from '../../../root'
 
 /**
  * TODO: Could this be better done as a custom Jest Environment?

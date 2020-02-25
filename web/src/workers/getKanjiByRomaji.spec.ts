@@ -1,4 +1,4 @@
-import TestEnvWorker from '../../test-utils/test-env-worker'
+import TestEnvWorker from '../../tests/test-utils/test-env-worker'
 import { ConversionItem } from '../../../models/conversionItem'
 import { Kanji } from '../../../models/kanji'
 

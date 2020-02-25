@@ -1,5 +1,5 @@
 /* eslint-disable */
-import { Kanji } from "../../models/kanji"
+import { Kanji } from "../../../models/kanji"
 
 // NOTE: initDB expects the kanjiStore DB to not exist
 export function initDB(): Promise<boolean> {
