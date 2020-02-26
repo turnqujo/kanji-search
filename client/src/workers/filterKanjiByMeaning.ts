@@ -7,6 +7,7 @@ onmessage = (e: MessageEvent) => {
     kanjiSet: any[]
     searchTerm: string
   }
+
   const found = kanjiSet.filter(
     (kanji) =>
       !!kanji.meanings.find(
