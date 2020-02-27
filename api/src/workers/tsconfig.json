@@ -1,0 +1,12 @@
+{
+  "extends": "../../tsconfig.json",
+  "include": ["./*.ts", "./utility-scripts/*.ts"],
+  "exclude": ["./**/*.spec.ts"],
+  "compilerOptions": {
+    "module": "None",
+    "target": "es5",
+    "sourceMap": false,
+    "lib": ["webworker", "ES5"],
+    "outDir": "../../public"
+  }
+}
