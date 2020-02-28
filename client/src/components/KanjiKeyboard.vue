@@ -21,43 +21,106 @@ Post-MVP:
 </template>
 
 <style lang="scss" scoped>
-.output {
-  display: block;
-  margin: 0;
-}
+  .output {
+    display: block;
+    margin: 0;
+  }
 </style>
 
 <script lang="ts">
-import Vue from 'vue'
-import Component from 'vue-class-component'
+  import Vue from 'vue'
+  import Component from 'vue-class-component'
 
-/**
- * TODO: Webworkers
- * I'm thinking now to just compile the TS Webworkers to JS, and then serve / inject them separately.
- * See here: https://developer.mozilla.org/en-US/docs/Web/HTML/Preloading_content
- */
+  /**
+   * TODO: Webworkers
+   * I'm thinking now to just compile the TS Webworkers to JS, and then serve / inject them separately.
+   * See here: https://developer.mozilla.org/en-US/docs/Web/HTML/Preloading_content
+   */
 
-const kanjiSet = [{"char":"亜","stroke":"7","meanings":["Asia","rank next","come after","-ous"],"readings":["ア"]},{"char":"唖","stroke":"10","meanings":["mute","dumb"],"readings":["ア","アク"]},{"char":"娃","stroke":"9","meanings":["beautiful"],"readings":["ア","アイ","ワ"]},{"char":"阿","stroke":"8","meanings":["Africa","flatter","fawn upon","corner","nook","recess"],"readings":["ア","オ"]},{"char":"哀","stroke":"9","meanings":["pathetic","grief","sorrow","pathos","pity","sympathize"],"readings":["アイ"]},{"char":"愛","stroke":"13","meanings":["love","affection","favourite"],"readings":["アイ"]},{"char":"挨","stroke":"10","meanings":["approach","draw near","push open"],"readings":["アイ"]},{"char":"姶","stroke":"9","meanings":["good-looking","quiet"],"readings":["オウ","アイ"]},{"char":"逢","stroke":["10","9"],"meanings":["meeting","tryst","date","rendezvous"],"readings":["ホウ"]},{"char":"葵","stroke":"12","meanings":["hollyhock"],"readings":["キ"]}];
+  const kanjiSet = [
+    {
+      char: '亜',
+      stroke: '7',
+      meanings: ['Asia', 'rank next', 'come after', '-ous'],
+      readings: ['ア']
+    },
+    {
+      char: '唖',
+      stroke: '10',
+      meanings: ['mute', 'dumb'],
+      readings: ['ア', 'アク']
+    },
+    {
+      char: '娃',
+      stroke: '9',
+      meanings: ['beautiful'],
+      readings: ['ア', 'アイ', 'ワ']
+    },
+    {
+      char: '阿',
+      stroke: '8',
+      meanings: ['Africa', 'flatter', 'fawn upon', 'corner', 'nook', 'recess'],
+      readings: ['ア', 'オ']
+    },
+    {
+      char: '哀',
+      stroke: '9',
+      meanings: ['pathetic', 'grief', 'sorrow', 'pathos', 'pity', 'sympathize'],
+      readings: ['アイ']
+    },
+    {
+      char: '愛',
+      stroke: '13',
+      meanings: ['love', 'affection', 'favourite'],
+      readings: ['アイ']
+    },
+    {
+      char: '挨',
+      stroke: '10',
+      meanings: ['approach', 'draw near', 'push open'],
+      readings: ['アイ']
+    },
+    {
+      char: '姶',
+      stroke: '9',
+      meanings: ['good-looking', 'quiet'],
+      readings: ['オウ', 'アイ']
+    },
+    {
+      char: '逢',
+      stroke: ['10', '9'],
+      meanings: ['meeting', 'tryst', 'date', 'rendezvous'],
+      readings: ['ホウ']
+    },
+    { char: '葵', stroke: '12', meanings: ['hollyhock'], readings: ['キ'] }
+  ]
 
-@Component({})
-export default class KanjiKeyboard extends Vue {
-  output = ''
+  @Component({})
+  export default class KanjiKeyboard extends Vue {
+    output = ''
 
-  async mounted() {
-    document.addEventListener('keypress', this.onKeypress)
+    async mounted() {
+      document.addEventListener('keypress', this.onKeypress)
 
-    const workerResponse = await fetch('http://localhost:8000/sortKanji.js', { method: 'GET', mode: 'cors' })
-    const worker = new Worker(window.URL.createObjectURL(await workerResponse.blob()))
-    worker.onmessage = (e: any) => console.log(e.data.map(y => y.stroke))
-    worker.postMessage({kanjiSet, sortBy: 'strokeCount', sortDirection: 'asc'})
+      const workerResponse = await fetch('http://localhost:8000/sortKanji.js', {
+        method: 'GET',
+        mode: 'cors'
+      })
+      const worker = new Worker(window.URL.createObjectURL(await workerResponse.blob()))
+      worker.onmessage = (e: any) => console.log(e.data.map((y: any) => y.stroke))
+      worker.postMessage({
+        kanjiSet,
+        sortBy: 'strokeCount',
+        sortDirection: 'asc'
+      })
+    }
+
+    destroyed() {
+      document.removeEventListener('keypress', this.onKeypress)
+    }
+
+    private onKeypress(e: KeyboardEvent) {
+      this.output += e.key
+    }
   }
-
-  destroyed() {
-    document.removeEventListener('keypress', this.onKeypress)
-  }
-
-  private onKeypress(e: KeyboardEvent) {
-    this.output += e.key
-  }
-}
 </script>
