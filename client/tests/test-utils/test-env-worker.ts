@@ -2,7 +2,6 @@
 // @ts-ignore
 import fs from 'fs'
 import ts from 'typescript'
-import projectRoot from '../../root'
 
 /**
  * TODO: Could this be better done as a custom Jest Environment?
@@ -38,7 +37,7 @@ class TestEnvWorker {
      * NOTE: webworkers and their included scripts cannot be modules yet anyway (not clear when),
      *       so the fix above might not actually be viable.
      */
-    let webWorkerScript = fs.readFileSync(`${projectRoot}/${src}`, 'utf8')
+    let webWorkerScript = fs.readFileSync(src, 'utf8')
     if (webWorkerScript.indexOf('importScripts') >= 0) {
       /**
        * TODO: This regex should be updated to handle these situations:
@@ -58,7 +57,7 @@ class TestEnvWorker {
 
         for (let rawScriptHandle of rawScriptHandles) {
           const adjustedHandle = rawScriptHandle.replace('.js', '.ts')
-          const newScriptPath = `${projectRoot}/src/workers/${adjustedHandle}`
+          const newScriptPath = `src/workers/${adjustedHandle}`
 
           // TODO: handle scripts in other directories?
           const importedScript = fs.readFileSync(newScriptPath, 'utf8')

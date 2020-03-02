@@ -1,5 +1,5 @@
 import TestEnvWorker from '../../tests/test-utils/test-env-worker'
-import { Kanji } from '../../../models/kanji'
+import { Kanji } from '../../../shared/models/kanji'
 
 const workerSrc = 'src/workers/filterKanjiByMeaning.ts'
 
