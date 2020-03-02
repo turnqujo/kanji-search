@@ -2,24 +2,34 @@ import Vue from 'vue'
 import App from './App.vue'
 import './registerServiceWorker'
 import router from './router'
+import { Kanji } from '../../shared/models/kanji'
+
+// @ts-ignore TODO: This is actually loading fine
+import jinmeiyoo from '../../shared/data/jinmeiyoo.json'
 
 Vue.config.productionTip = false
 
-// TODO: Forcing things like webworker scope and indexedDB population here, don't need to
+// TODO: This is not the best place for this
 async function init() {
   await new Promise((resolve, reject) => {
+    indexedDB.deleteDatabase('kanjiStore')
+
     const openRequest = indexedDB.open('kanjiStore')
 
     openRequest.onupgradeneeded = () => {
       const storedKanji = openRequest.result.createObjectStore('kanji', {
         keyPath: 'char'
       })
+
       storedKanji.createIndex('stroke', 'stroke', { unique: false })
       storedKanji.createIndex('meanings', 'meanings', {
         unique: false,
         multiEntry: true
       })
       storedKanji.createIndex('readings', 'readings', { unique: false })
+
+      jinmeiyoo.forEach((kanji: Kanji) => storedKanji.add(kanji))
+
       openRequest.result.close()
       resolve(true)
     }

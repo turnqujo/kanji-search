@@ -3,18 +3,18 @@ onerror = (error: string | Event) => {
 }
 
 onmessage = (e: MessageEvent) => {
-  const { kanjiSet, sortBy, sortDirection = 'desc' } = e.data as {
+  const { kanjiSet, sortBy, order = 'desc' } = e.data as {
     kanjiSet: any[]
     sortBy: 'strokeCount' | 'frequency' | 'unicode'
-    sortDirection: 'asc' | 'desc'
+    order: 'asc' | 'desc'
   }
 
   if (kanjiSet.length === 0 || !sortBy) {
     postMessage([])
   }
 
-  const leftSortVal = sortDirection === 'desc' ? -1 : 1
-  const rightSortVal = sortDirection === 'desc' ? 1 : -1
+  const leftSortVal = order === 'desc' ? -1 : 1
+  const rightSortVal = order === 'desc' ? 1 : -1
 
   switch (sortBy) {
     case 'strokeCount':
@@ -30,9 +30,9 @@ onmessage = (e: MessageEvent) => {
       postMessage(
         kanjiSet.slice().sort((x, y) => {
           if (y.frequency === null) {
-            return x.frequency > Infinity ? leftSortVal : rightSortVal
+            return Number(x.frequency) > Infinity ? leftSortVal : rightSortVal
           } else {
-            return x.frequency > y.frequency ? leftSortVal : rightSortVal
+            return Number(x.frequency) > Number(y.frequency) ? leftSortVal : rightSortVal
           }
         })
       )

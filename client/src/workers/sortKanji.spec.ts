@@ -41,7 +41,7 @@ describe('The Sort Kanji Webworker', () => {
     const response = await new Promise((resolve, reject) => {
       worker.onmessage = (res: any) => resolve(res.data)
       worker.onerror = (e: string | Event) => reject(e)
-      worker.postMessage({ kanjiSet: [], sortBy: '', sortDirection: '' })
+      worker.postMessage({ kanjiSet: [], sortBy: '', order: '' })
     })
 
     expect(response).toEqual([])
@@ -55,7 +55,7 @@ describe('The Sort Kanji Webworker', () => {
       worker.postMessage({
         kanjiSet,
         sortBy: 'strokeCount',
-        sortDirection: 'desc'
+        order: 'desc'
       })
     })
 
@@ -70,7 +70,7 @@ describe('The Sort Kanji Webworker', () => {
       worker.postMessage({
         kanjiSet,
         sortBy: 'strokeCount',
-        sortDirection: 'asc'
+        order: 'asc'
       })
     })
 
@@ -92,7 +92,7 @@ describe('The Sort Kanji Webworker', () => {
       worker.postMessage({
         kanjiSet: [multiStrokeKanji, ...kanjiSet],
         sortBy: 'strokeCount',
-        sortDirection: 'asc'
+        order: 'asc'
       })
     })
 
@@ -113,7 +113,7 @@ describe('The Sort Kanji Webworker', () => {
       worker.postMessage({
         kanjiSet,
         sortBy: 'unicode',
-        sortDirection: 'desc'
+        order: 'desc'
       })
     })
 
@@ -128,7 +128,7 @@ describe('The Sort Kanji Webworker', () => {
       worker.postMessage({
         kanjiSet,
         sortBy: 'unicode',
-        sortDirection: 'asc'
+        order: 'asc'
       })
     })
 
@@ -143,7 +143,7 @@ describe('The Sort Kanji Webworker', () => {
       worker.postMessage({
         kanjiSet,
         sortBy: 'frequency',
-        sortDirection: 'desc'
+        order: 'desc'
       })
     })
 
@@ -159,7 +159,7 @@ describe('The Sort Kanji Webworker', () => {
       worker.postMessage({
         kanjiSet,
         sortBy: 'frequency',
-        sortDirection: 'asc'
+        order: 'asc'
       })
     })
 
@@ -183,7 +183,7 @@ describe('The Sort Kanji Webworker', () => {
       worker.postMessage({
         kanjiSet: [...kanjiSet, unrankedKanji],
         sortBy: 'frequency',
-        sortDirection: 'asc'
+        order: 'asc'
       })
     })
 
@@ -193,7 +193,7 @@ describe('The Sort Kanji Webworker', () => {
       worker.postMessage({
         kanjiSet: [...kanjiSet, unrankedKanji],
         sortBy: 'frequency',
-        sortDirection: 'desc'
+        order: 'desc'
       })
     })
 
