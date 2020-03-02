@@ -1,4 +1,3 @@
-// @ts-ignore
 importScripts('utility-scripts/scriptConversions.js')
 
 onerror = (error: string | Event) => {
@@ -14,7 +13,6 @@ onmessage = (e: MessageEvent) => {
   }
 
   if (!romaji || kanjiSet.length === 0) {
-    // @ts-ignore
     postMessage([])
   }
 
@@ -31,8 +29,6 @@ onmessage = (e: MessageEvent) => {
 
   const asHiragana = convertedRomaji.map((item) => item.hiragana).join('')
   const asKatakana = convertedRomaji.map((item) => item.katakana).join('')
-
-  // @ts-ignore
   postMessage(
     kanjiSet.filter(
       (kanji) =>

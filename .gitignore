@@ -2,6 +2,7 @@
 public
 
 # Client
+client/public/workers
 
 # Any
 node_modules

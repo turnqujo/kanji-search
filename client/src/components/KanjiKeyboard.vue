@@ -31,12 +31,6 @@ Post-MVP:
   import Vue from 'vue'
   import Component from 'vue-class-component'
 
-  /**
-   * TODO: Webworkers
-   * I'm thinking now to just compile the TS Webworkers to JS, and then serve / inject them separately.
-   * See here: https://developer.mozilla.org/en-US/docs/Web/HTML/Preloading_content
-   */
-
   const kanjiSet = [
     {
       char: '亜',
@@ -102,11 +96,7 @@ Post-MVP:
     async mounted() {
       document.addEventListener('keypress', this.onKeypress)
 
-      const workerResponse = await fetch('http://localhost:8000/sortKanji.js', {
-        method: 'GET',
-        mode: 'cors'
-      })
-      const worker = new Worker(window.URL.createObjectURL(await workerResponse.blob()))
+      const worker = new Worker('workers/sortKanji.js')
       worker.onmessage = (e: any) => console.log(e.data.map((y: any) => y.stroke))
       worker.postMessage({
         kanjiSet,

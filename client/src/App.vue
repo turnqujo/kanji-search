@@ -9,6 +9,8 @@
 </template>
 
 <style lang="scss">
+  @import './vendor/reset.css';
+
   body {
     background-color: #2c3e50;
     color: lightgray;

@@ -1,0 +1,21 @@
+{
+  "include": ["./*.ts", "./utility-scripts/*.ts"],
+  "exclude": ["./**/*.spec.ts"],
+  "compilerOptions": {
+    "allowJs": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "jsx": "preserve",
+    "lib": ["webworker", "ES5"],
+    "module": "None",
+    "moduleResolution": "node",
+    "noImplicitAny": true,
+    "noImplicitThis": false,
+    "outDir": "../../public/workers",
+    "preserveConstEnums": true,
+    "removeComments": true,
+    "sourceMap": false,
+    "strict": true,
+    "target": "es5"
+  }
+}

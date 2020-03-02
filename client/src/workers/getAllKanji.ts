@@ -1,4 +1,3 @@
-// @ts-ignore
 importScripts('utility-scripts/dbUtil.js')
 
 onerror = (error: string | Event) => {
@@ -13,8 +12,6 @@ onmessage = () =>
 
         request.onsuccess = () => {
           db.close()
-
-          // @ts-ignore
           postMessage(request.result)
         }
       })
