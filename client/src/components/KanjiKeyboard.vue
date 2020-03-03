@@ -15,51 +15,61 @@ Post-MVP:
 -->
 
 <template>
-  <p class="output">
-    {{ output }}
-  </p>
+  <div class="kanji-keyboard">
+    <label>
+      Romaji
+      <input v-on:input="test" />
+    </label>
+  </div>
 </template>
 
-<style lang="scss" scoped>
-  .output {
-    display: block;
-    margin: 0;
-  }
-</style>
+<style lang="scss" scoped></style>
 
 <script lang="ts">
   import Vue from 'vue'
   import Component from 'vue-class-component'
   import { Kanji } from '../../../shared/models/kanji'
+  import { getAllKanji } from '../workers/getAllKanji.wrapper'
+
+  // @ts-ignore
+  import conversionTable from '../../../shared/data/conversion-table.json'
 
   @Component({})
   export default class KanjiKeyboard extends Vue {
-    output = ''
+    private sortKanjiWorker: Worker
+    private getKanjiByRomajiWorker: Worker
 
-    async mounted() {
-      document.addEventListener('keypress', this.onKeypress)
+    constructor() {
+      super()
 
-      const getAllKanjiWorker = new Worker('workers/getAllKanji.js')
-      const sortKanjiWorker = new Worker('workers/sortKanji.js')
+      this.getKanjiByRomajiWorker = new Worker('workers/getKanjiByRomaji.js')
+      this.sortKanjiWorker = new Worker('workers/sortKanji.js')
+    }
 
-      sortKanjiWorker.onmessage = (e: any) => console.log(e.data.map((y: Kanji) => y.frequency))
+    public async test(e: InputEvent) {
+      const inputValue = (e.target as HTMLInputElement).value
 
-      getAllKanjiWorker.onmessage = (e: any) =>
-        sortKanjiWorker.postMessage({
-          kanjiSet: e.data,
+      const kanjiSet = await getAllKanji()
+
+      const foundKanji = await new Promise((resolve) => {
+        this.getKanjiByRomajiWorker.onmessage = (e: MessageEvent) => resolve(e.data)
+        this.getKanjiByRomajiWorker.postMessage({
+          romaji: inputValue,
+          conversionTable,
+          kanjiSet
+        })
+      })
+
+      const sortedKanji: Kanji[] = await new Promise((resolve) => {
+        this.sortKanjiWorker.onmessage = (e: MessageEvent) => resolve(e.data)
+        this.sortKanjiWorker.postMessage({
+          kanjiSet: foundKanji,
           sortBy: 'frequency',
           order: 'asc'
         })
+      })
 
-      getAllKanjiWorker.postMessage(null)
-    }
-
-    destroyed() {
-      document.removeEventListener('keypress', this.onKeypress)
-    }
-
-    private onKeypress(e: KeyboardEvent) {
-      this.output += e.key
+      console.log(sortedKanji.map((y: Kanji) => y.char))
     }
   }
 </script>

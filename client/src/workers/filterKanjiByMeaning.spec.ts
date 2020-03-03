@@ -1,27 +1,30 @@
 import TestEnvWorker from '../../tests/test-utils/test-env-worker'
 import { Kanji } from '../../../shared/models/kanji'
 
-const workerSrc = 'src/workers/filterKanjiByMeaning.ts'
+const workerSrc = 'src/workers/filterKanjiByMeaning.worker.ts'
 
 const kanjiA: Kanji = {
   char: 'a',
   stroke: 1,
   meanings: ['aaa'],
-  readings: ['b']
+  readings: ['b'],
+  frequency: 0
 }
 
 const kanjiB: Kanji = {
   char: 'b',
   stroke: 2,
   meanings: ['c'],
-  readings: ['d']
+  readings: ['d'],
+  frequency: 1
 }
 
 const kanjiC: Kanji = {
   char: 'c',
   stroke: 2,
   meanings: ['öL', 'aa'],
-  readings: ['lololol']
+  readings: ['lololol'],
+  frequency: 2
 }
 
 describe('The Filter Kanji by Meaning Webworker', () => {

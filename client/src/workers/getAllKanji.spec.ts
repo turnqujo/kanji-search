@@ -1,7 +1,7 @@
 import TestEnvWorker from '../../tests/test-utils/test-env-worker'
 import { initDB, fillDB, teardownDB } from '../../tests/test-utils/db'
 
-const workerSrc = 'src/workers/getAllKanji.ts'
+const workerSrc = 'src/workers/getAllKanji.worker.ts'
 
 describe('The Get All Kanji Webworker', () => {
   afterEach(async (done) => {

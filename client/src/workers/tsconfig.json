@@ -1,12 +1,13 @@
 {
-  "include": ["./*.ts", "./utility-scripts/*.ts"],
+  "extends": "../../tsconfig.json",
+  "include": ["./*.worker.ts", "./utility-scripts/*.ts"],
   "exclude": ["./**/*.spec.ts"],
   "compilerOptions": {
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "jsx": "preserve",
-    "lib": ["webworker", "ES5"],
+    "lib": ["webworker", "ES6"],
     "module": "None",
     "moduleResolution": "node",
     "noImplicitAny": true,
@@ -16,6 +17,6 @@
     "removeComments": true,
     "sourceMap": false,
     "strict": true,
-    "target": "es5"
+    "target": "ES6"
   }
 }

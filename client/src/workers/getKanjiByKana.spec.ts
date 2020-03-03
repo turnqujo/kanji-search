@@ -5,33 +5,37 @@ const nahaKanji: Kanji = {
   char: 'A',
   stroke: 1,
   meanings: ['Hiragana "naha"'],
-  readings: ['なは']
+  readings: ['なは'],
+  frequency: 1
 }
 
 const nahanoKanji: Kanji = {
   char: 'A',
   stroke: 1,
   meanings: ['Fake word "nahano"'],
-  readings: ['ナハノ', 'なはの']
+  readings: ['ナハノ', 'なはの'],
+  frequency: 2
 }
 
 const onnaKanji: Kanji = {
   char: 'B',
   stroke: 2,
   meanings: ['Hiragana "onna"'],
-  readings: ['おんな']
+  readings: ['おんな'],
+  frequency: 3
 }
 
 const shiitakeKanji: Kanji = {
   char: 'C',
   stroke: 3,
   meanings: ['Hiragana "shiitake"'],
-  readings: ['しいたけ']
+  readings: ['しいたけ'],
+  frequency: 4
 }
 
 const kanjiSet: Kanji[] = [nahaKanji, nahanoKanji, onnaKanji, shiitakeKanji]
 
-const worker = new TestEnvWorker('src/workers/getKanjiByKana.ts')
+const worker = new TestEnvWorker('src/workers/getKanjiByKana.worker.ts')
 
 describe('The Get Kanji by Kana Webworker', () => {
   it('Should return an empty array if given an empty kanji set.', async (done) => {

@@ -5,37 +5,41 @@ import { Kanji } from '../../../shared/models/kanji'
 // @ts-ignore TODO: Why is this showing an error? JSON is being imported properly.
 import conversionTable from '../../../shared/data/conversion-table.json'
 
-const nahaKanji = {
+const nahaKanji: Kanji = {
   char: 'A',
   stroke: 1,
   meanings: ['Hiragana "naha"'],
-  readings: ['なは']
+  readings: ['なは'],
+  frequency: 1
 }
 
-const nahanoKanji = {
+const nahanoKanji: Kanji = {
   char: 'A',
   stroke: 1,
   meanings: ['Katakana "nahano"'],
-  readings: ['ナハノ']
+  readings: ['ナハノ'],
+  frequency: 2
 }
 
-const onnaKanji = {
+const onnaKanji: Kanji = {
   char: 'B',
   stroke: 2,
   meanings: ['Hiragana "onna"'],
-  readings: ['おんな']
+  readings: ['おんな'],
+  frequency: 3
 }
 
-const shiKanji = {
+const shiKanji: Kanji = {
   char: 'C',
   stroke: 3,
   meanings: ['Hiragana "shiitake"'],
-  readings: ['しいたけ']
+  readings: ['しいたけ'],
+  frequency: 4
 }
 
 const kanjiSet = [nahaKanji, nahanoKanji, onnaKanji, shiKanji]
 
-const worker = new TestEnvWorker('src/workers/getKanjiByRomaji.ts')
+const worker = new TestEnvWorker('src/workers/getKanjiByRomaji.worker.ts')
 
 describe('The Get Kanji By Romaji webworker', () => {
   it('Should return an empty array if given an empty kanji set.', async (done) => {
@@ -135,7 +139,8 @@ describe('The Get Kanji By Romaji webworker', () => {
           char: 'hi',
           stroke: 1,
           readings: [katakana, hiragana],
-          meanings: [`Comparison #${index + 1}, looking for: ${romaji}`]
+          meanings: [`Comparison #${index + 1}, looking for: ${romaji}`],
+          frequency: 1
         }
 
         return new Promise((resolve, reject) => {
@@ -163,7 +168,8 @@ describe('The Get Kanji By Romaji webworker', () => {
         conversionTable.map((item: ConversionItem) => item.hiragana).join(''),
         conversionTable.map((item: ConversionItem) => item.katakana).join('')
       ],
-      meanings: ['All supported conversion items smashed together']
+      meanings: ['All supported conversion items smashed together'],
+      frequency: Infinity
     }
 
     const allRomaji = conversionTable.map((item: ConversionItem) => item.romaji).join('')
@@ -188,7 +194,8 @@ describe('The Get Kanji By Romaji webworker', () => {
       char: 'lol',
       stroke: 10,
       readings: ['んんん', 'ンンン'],
-      meanings: ['NNN']
+      meanings: ['NNN'],
+      frequency: 0
     }
 
     const response = await new Promise((resolve, reject) => {

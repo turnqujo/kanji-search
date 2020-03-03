@@ -1,6 +1,7 @@
 import TestEnvWorker from '../../tests/test-utils/test-env-worker'
+import { Kanji } from '../../../shared/models/kanji'
 
-const nahaKanji = {
+const nahaKanji: Kanji = {
   char: '亜',
   stroke: 4,
   meanings: ['Hiragana "naha"'],
@@ -8,7 +9,7 @@ const nahaKanji = {
   frequency: 4
 }
 
-const nahanoKanji = {
+const nahanoKanji: Kanji = {
   char: '帰',
   stroke: 1,
   meanings: ['Katakana "nahano"'],
@@ -16,7 +17,7 @@ const nahanoKanji = {
   frequency: 2
 }
 
-const onnaKanji = {
+const onnaKanji: Kanji = {
   char: '年',
   stroke: 2,
   meanings: ['Hiragana "onna"'],
@@ -24,7 +25,7 @@ const onnaKanji = {
   frequency: 3
 }
 
-const shiKanji = {
+const shiKanji: Kanji = {
   char: '謎',
   stroke: 3,
   meanings: ['Hiragana "shiitake"'],
@@ -34,7 +35,7 @@ const shiKanji = {
 
 const kanjiSet = [nahaKanji, nahanoKanji, onnaKanji, shiKanji]
 
-const worker = new TestEnvWorker('src/workers/sortKanji.ts')
+const worker = new TestEnvWorker('src/workers/sortKanji.worker.ts')
 
 describe('The Sort Kanji Webworker', () => {
   it('Should return an empty array if given an empty set of kanji.', async (done) => {
