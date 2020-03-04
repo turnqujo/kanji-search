@@ -1,12 +1,12 @@
 <template>
   <div>
     <ul>
+      <li>{{ hiragana }}</li>
+      <li>{{ katakana }}</li>
       <li v-for="kanji in kanjiSet" :key="kanji.char" v-on:click="$emit('onKanjiPicked', kanji)">
         {{ kanji.char }}
       </li>
     </ul>
-    <p>{{ hiragana }}</p>
-    <p>{{ katakana }}</p>
   </div>
 </template>
 
@@ -49,7 +49,8 @@
     onRomajiChanged(newRomaji: string) {
       const foundConversion = conversionTable.find((x: any) => x.romaji === newRomaji)
       if (!foundConversion) {
-        console.error(`Could not find conversion for: ${newRomaji}`)
+        this.hiragana = ''
+        this.katakana = ''
         return
       }
 

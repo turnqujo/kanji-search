@@ -4,6 +4,7 @@ import { Kanji } from '../../../shared/models/kanji'
 import conversionTable from '../../../shared/data/conversion-table.json'
 
 const getKanjiByRomajiWorker = new Worker('workers/getKanjiByRomaji.worker.js')
+
 export type MatchOption = 'exact' | 'start' | 'anywhere'
 
 export function getKanjiByRomaji(
@@ -13,6 +14,7 @@ export function getKanjiByRomaji(
 ): Promise<Kanji[]> {
   return new Promise<Kanji[]>((resolve) => {
     getKanjiByRomajiWorker.onmessage = (e: MessageEvent) => resolve(e.data)
+    getKanjiByRomajiWorker.onerror = (e: ErrorEvent) => console.log(e)
     getKanjiByRomajiWorker.postMessage({ romaji, kanjiSet, conversionTable, matchOption })
   })
 }

@@ -26,8 +26,8 @@ onmessage = (e: MessageEvent) => {
             case 'anywhere':
               return reading.indexOf(kana) >= 0
             default:
-              if (onerror) {
-                ;(onerror as any)('Error: Unknown match option')
+              if (self.onerror !== null) {
+                self.onerror(new ErrorEvent('Error: Unknown match option'))
               }
           }
         })

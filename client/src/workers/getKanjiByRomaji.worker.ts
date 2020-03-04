@@ -1,8 +1,6 @@
 importScripts('utility-scripts/scriptConversions.js')
 
-onerror = (error: string | Event) => {
-  console.error(error)
-}
+onerror = (_error: string | ErrorEvent) => {}
 
 onmessage = (e: MessageEvent) => {
   const { romaji, kanjiSet, conversionTable, matchOption = 'exact' } = e.data as {
@@ -20,8 +18,8 @@ onmessage = (e: MessageEvent) => {
   try {
     convertedRomaji = convertRomajiToConversionItem(romaji, conversionTable)
   } catch (e) {
-    if (onerror) {
-      ;(onerror as any)(e)
+    if (self.onerror !== null) {
+      self.onerror(e)
     }
 
     return
@@ -41,8 +39,8 @@ onmessage = (e: MessageEvent) => {
             case 'anywhere':
               return reading.indexOf(asHiragana) >= 0 || reading.indexOf(asKatakana) >= 0
             default:
-              if (onerror) {
-                ;(onerror as any)('Error: Unknown match option')
+              if (self.onerror !== null) {
+                self.onerror(new ErrorEvent('Error: Unknown match option'))
               }
           }
         })
