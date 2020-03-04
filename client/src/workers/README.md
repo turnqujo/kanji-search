@@ -1,3 +1,9 @@
+# What's going on here?
+This directory contains:
+- WebWorkers; written in TypeScript, compiled and delivered separately from the rest of the app. Do not import these files directly.
+- Tests; written in Jest, using a custom-built webworker hoist for runnning them in a Node environment.
+- Wrappers; written in TypeScript, intended to be imported by application code.
+
 # Webworkers
 [Spec](https://html.spec.whatwg.org/multipage/workers.html)
 

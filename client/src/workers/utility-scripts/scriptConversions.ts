@@ -1,9 +1,27 @@
 /* eslint '@typescript-eslint/no-unused-vars': 0 */
+/* eslint '@typescript-eslint/no-use-before-define': 0 */
 interface ConversionItem {
   keyCodes: string[]
   katakana: string
   hiragana: string
   romaji: string
+}
+
+function convertRomajiToConversionItem(
+  romaji: string,
+  conversionTable: ConversionItem[]
+): ConversionItem[] {
+  // TODO: This should use the onmessageerror handler
+  if (!romaji || romaji.length === 0) {
+    throw new Error('Invalid input, malformed romaji.')
+  }
+
+  // TODO: This should use the onmessageerror handler
+  if (!Array.isArray(conversionTable) || conversionTable.length === 0) {
+    throw new Error('Invalid input, malformed conversionTable.')
+  }
+
+  return findNextConversion(romaji.toLocaleLowerCase(), conversionTable)
 }
 
 function isNucleus(romajiChar: string) {
@@ -64,21 +82,4 @@ function findNextConversion(romaji: string, conversionTable: ConversionItem[]): 
   return romaji.length - 3 > 0
     ? [tripleConversion, ...findNextConversion(romaji.substr(3), conversionTable)]
     : [tripleConversion]
-}
-
-function convertRomajiToConversionItem(
-  romaji: string,
-  conversionTable: ConversionItem[]
-): ConversionItem[] {
-  // TODO: This should use the onmessageerror handler
-  if (!romaji || romaji.length === 0) {
-    throw new Error('Invalid input, malformed romaji.')
-  }
-
-  // TODO: This should use the onmessageerror handler
-  if (!Array.isArray(conversionTable) || conversionTable.length === 0) {
-    throw new Error('Invalid input, malformed conversionTable.')
-  }
-
-  return findNextConversion(romaji.toLocaleLowerCase(), conversionTable)
 }
