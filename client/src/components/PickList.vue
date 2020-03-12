@@ -1,10 +1,10 @@
 <template>
   <div>
     <ul>
-      <li>{{ hiragana }}</li>
-      <li>{{ katakana }}</li>
-      <li v-for="kanji in kanjiSet" :key="kanji.char" v-on:click="$emit('onKanjiPicked', kanji)">
-        {{ kanji.char }}
+      <!-- <li>{{ hiragana }}</li>
+      <li>{{ katakana }}</li> -->
+      <li v-for="kanji in kanjiSet" :key="kanji.char">
+        <kanji-card v-once :kanji="kanji"></kanji-card>
       </li>
     </ul>
   </div>
@@ -12,32 +12,38 @@
 
 <style lang="scss" scoped>
   ul {
-    align-items: center;
     background-color: white;
     display: flex;
-    font-size: 2em;
-    height: 2em;
-    margin: 0;
     overflow-x: auto;
     overflow-y: hidden;
-    padding: 0;
     width: 100%;
+    margin-top: 12px;
   }
 
   li {
     color: black;
     margin-left: 12px;
+    width: 400px;
+
+    &:last-of-type {
+      margin-right: 12px;
+    }
   }
 </style>
 
 <script lang="ts">
   import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
   import { Kanji } from '../../../shared/models/kanji'
+  import KanjiCard from './KanjiCard.vue'
 
   // @ts-ignore
   import conversionTable from '../../../shared/data/conversion-table.json'
 
-  @Component({})
+  @Component({
+    components: {
+      KanjiCard
+    }
+  })
   export default class PickList extends Vue {
     @Prop() private kanjiSet!: Kanji[]
     @Prop() private romaji!: string
