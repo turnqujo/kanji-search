@@ -1,7 +1,7 @@
 {
   "extends": "../../tsconfig.json",
-  "include": ["./*.worker.ts", "./utility-scripts/*.ts"],
-  "exclude": ["./**/*.spec.ts"],
+  "include": ["./*.worker.ts", "./utility-scripts/*.ts", "./*.spec.ts"],
+  "exclude": [],
   "compilerOptions": {
     "allowJs": true,
     "allowSyntheticDefaultImports": true,

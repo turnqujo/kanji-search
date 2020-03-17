@@ -12,22 +12,12 @@
 
 <style lang="scss" scoped>
   ul {
-    background-color: white;
-    display: flex;
-    overflow-x: auto;
-    overflow-y: hidden;
-    width: 100%;
-    margin-top: 12px;
-  }
-
-  li {
-    color: black;
-    margin-left: 12px;
-    width: 400px;
-
-    &:last-of-type {
-      margin-right: 12px;
-    }
+    box-sizing: border-box;
+    column-gap: 8px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    padding: 8px;
+    row-gap: 8px;
   }
 </style>
 

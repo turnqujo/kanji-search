@@ -34,8 +34,6 @@
   ],
   "exclude": [
     "node_modules",
-    "src/workers/*.worker.ts",
-    "src/workers/utility-scripts/*.ts",
-    "src/workers/*.spec.ts"
+    "src/workers/**/*.ts"
   ]
 }

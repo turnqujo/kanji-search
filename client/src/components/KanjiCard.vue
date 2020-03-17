@@ -1,29 +1,61 @@
 <template>
   <div class="kanji-card">
-    <h2 class="kanji" v-once>{{ kanji.char }}</h2>
+    <h2 class="header" v-once>
+      <span class="char">{{ kanji.char }}</span>
+      <span class="readings">{{ kanji.readings.join(', ') }}</span>
+      <span class="stroke-count" v-once>{{
+        Array.isArray(kanji.stroke)
+          ? kanji.stroke.sort((x, y) => (x > y ? 1 : -1)).join(', ')
+          : kanji.stroke
+      }}</span>
+    </h2>
     <p class="details">
-      <strong class="detail-header readings">Readings: </strong><small>{{ kanji.readings.join(', ') }}</small>
-      <strong class="detail-header meanings">Meanings: </strong><small>{{ kanji.meanings.join(', ') }}</small>
+      {{ kanji.meanings.join(', ') }}
     </p>
   </div>
 </template>
 
 <style lang="scss" scoped>
   .kanji-card {
-    border: 1px solid black;
-    display: flex;
-    width: 250px;
-    box-sizing: border-box;
+    background-color: white;
+    border-radius: 2px;
+    border: 2px solid royalblue;
+    overflow: hidden;
 
-    .kanji {
+    .header {
+      font-size: 16px;
       background-color: royalblue;
       color: white;
-      height: 1em;
-      padding: 2px;
+      padding: 4px 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      .char {
+        font-size: 32px;
+      }
+
+      .stroke-count {
+        height: 16px;
+      }
+
+      .char,
+      .stroke-count {
+        background-color: white;
+        border-radius: 2px;
+        color: royalblue;
+        padding: 4px;
+      }
     }
 
     .details {
-      font-size: 14px;
+      color: black;
+      font-size: 16px;
+      height: 60px;
+      overflow-y: auto;
+      padding: 4px;
+      text-align: left;
+      text-transform: capitalize;
     }
   }
 </style>

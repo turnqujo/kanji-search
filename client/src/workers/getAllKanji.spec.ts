@@ -40,14 +40,16 @@ describe('The Get All Kanji Webworker', () => {
         char: 'a',
         stroke: 1,
         meanings: ['a'],
-        readings: ['b']
+        readings: ['b'],
+        frequency: 1
       },
 
       {
         char: 'b',
         stroke: 2,
         meanings: ['c'],
-        readings: ['d']
+        readings: ['d'],
+        frequency: 2
       }
     ]
 

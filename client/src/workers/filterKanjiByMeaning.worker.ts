@@ -16,6 +16,5 @@ onmessage = (e: MessageEvent) => {
       )
   )
 
-  // @ts-ignore
   postMessage(found)
 }

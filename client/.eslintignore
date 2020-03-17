@@ -1,1 +1,2 @@
-src/workers
+src/workers/*.worker.ts
+src/workers/utility-scripts

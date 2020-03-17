@@ -4,6 +4,7 @@ import { Kanji } from '../../../shared/models/kanji'
 
 // @ts-ignore TODO: Why is this showing an error? JSON is being imported properly.
 import conversionTable from '../../../shared/data/conversion-table.json'
+const conversions = conversionTable as ConversionItem[]
 
 const nahaKanji: Kanji = {
   char: 'A',
@@ -41,132 +42,114 @@ const kanjiSet = [nahaKanji, nahanoKanji, onnaKanji, shiKanji]
 
 const worker = new TestEnvWorker('src/workers/getKanjiByRomaji.worker.ts')
 
+interface WorkerProps {
+  romaji: string
+  kanjiSet: Kanji[]
+  conversionTable: any[]
+  matchOption: 'exact' | 'start' | 'anywhere'
+}
+
+export async function getResponse(message: WorkerProps): Promise<Kanji[]> {
+  return new Promise((resolve, reject) => {
+    worker.onmessage = (res: any) => resolve(res.data)
+    worker.onerror = (e: string | Event) => reject(e)
+    worker.postMessage(message)
+  })
+}
+
 describe('The Get Kanji By Romaji webworker', () => {
-  it('Should return an empty array if given an empty kanji set.', async (done) => {
-    const response = await new Promise((resolve, reject) => {
-      worker.onmessage = (res: any) => resolve(res.data)
-      worker.onerror = (e: string | Event) => reject(e)
-      worker.postMessage({
-        romaji: 'ka',
-        kanjiSet: [],
-        conversionTable,
-        matchOption: 'anywhere'
-      })
+  it('Should return an empty array if given an empty kanji set.', async () => {
+    const result = await getResponse({
+      romaji: 'na',
+      kanjiSet: [],
+      conversionTable: conversions,
+      matchOption: 'anywhere'
     })
 
-    expect(response).toEqual([])
-    done()
+    expect(result).toEqual([])
   })
 
-  it('Should be case insensitive.', async (done) => {
-    const response = await new Promise((resolve, reject) => {
-      worker.onmessage = (res: any) => resolve(res.data)
-      worker.onerror = (e: string | Event) => reject(e)
-      worker.postMessage({
-        romaji: 'NAhA',
-        kanjiSet,
-        conversionTable,
-        matchOption: 'exact'
-      })
+  it('Should be case insensitive.', async () => {
+    const response = await getResponse({
+      romaji: 'NAhA',
+      kanjiSet,
+      conversionTable: conversions,
+      matchOption: 'exact'
     })
 
     expect(response).toEqual([nahaKanji])
-    done()
   })
 
-  it('Should support searching by matching only the starts of kanji readings.', async (done) => {
-    const response = await new Promise((resolve, reject) => {
-      worker.onmessage = (res: any) => resolve(res.data)
-      worker.onerror = (e: string | Event) => reject(e)
-      worker.postMessage({
-        romaji: 'na',
-        kanjiSet,
-        conversionTable,
-        matchOption: 'start'
-      })
+  it('Should support searching by matching only the starts of kanji readings.', async () => {
+    const response = await getResponse({
+      romaji: 'na',
+      kanjiSet,
+      conversionTable: conversions,
+      matchOption: 'start'
     })
 
     expect(response).toEqual([nahaKanji, nahanoKanji])
-    done()
   })
 
-  it('Should support searching by exact matching the kanji readings', async (done) => {
-    const response = await new Promise((resolve, reject) => {
-      worker.onmessage = (res: any) => resolve(res.data)
-      worker.onerror = (e: string | Event) => reject(e)
-      worker.postMessage({
-        romaji: 'naha',
-        kanjiSet,
-        conversionTable,
-        matchOption: 'exact'
-      })
+  it('Should support searching by exact matching the kanji readings', async () => {
+    const response = await getResponse({
+      romaji: 'naha',
+      kanjiSet,
+      conversionTable: conversions,
+      matchOption: 'exact'
     })
 
     expect(response).toEqual([nahaKanji])
-    done()
   })
 
-  it('Should support searching for "n" with and without a preceding nucleus.', () => {
-    const withNucleus = new Promise((resolve, reject) => {
-      worker.onmessage = (res: any) => resolve(res.data)
-      worker.onerror = (e: string | Event) => reject(e)
-      worker.postMessage({
-        romaji: 'on',
-        kanjiSet,
-        conversionTable,
-        matchOption: 'start'
-      })
-    }).then((result) => expect(result).toEqual([onnaKanji]))
+  it('Should support searching for "n" with and without a preceding nucleus.', async () => {
+    const withNucleus = await getResponse({
+      romaji: 'on',
+      kanjiSet,
+      conversionTable: conversions,
+      matchOption: 'start'
+    })
 
-    const withoutNucleus = new Promise((resolve, reject) => {
-      worker.onmessage = (res: any) => resolve(res.data)
-      worker.onerror = (e: string | Event) => reject(e)
-      worker.postMessage({
-        romaji: 'n',
-        kanjiSet,
-        conversionTable,
-        matchOption: 'anywhere'
-      })
-    }).then((result) => expect(result).toEqual([onnaKanji]))
+    expect(withNucleus).toEqual([onnaKanji])
 
-    return Promise.all([withNucleus, withoutNucleus])
+    const withoutNucleus = await getResponse({
+      romaji: 'n',
+      kanjiSet,
+      conversionTable: conversions,
+      matchOption: 'anywhere'
+    })
+
+    expect(withoutNucleus).toEqual([onnaKanji])
   })
 
-  it('Should handle converting each romaji individually, in sequence.', () => {
-    return Promise.all(
-      (conversionTable as ConversionItem[]).map(({ romaji, hiragana, katakana }, index: number) => {
-        const fakeKanji: Kanji = {
-          char: 'hi',
-          stroke: 1,
-          readings: [katakana, hiragana],
-          meanings: [`Comparison #${index + 1}, looking for: ${romaji}`],
-          frequency: 1
-        }
+  it('Should handle converting each romaji individually, in sequence.', async () => {
+    return conversions.map(async ({ romaji, hiragana, katakana }, index: number) => {
+      const fakeKanji: Kanji = {
+        char: 'hi',
+        stroke: 1,
+        readings: [katakana, hiragana],
+        meanings: [`Comparison #${index + 1}, looking for: ${romaji}`],
+        frequency: 1
+      }
 
-        return new Promise((resolve, reject) => {
-          worker.onerror = (e: string | Event) =>
-            reject(`Failed to convert: (${romaji}). Original error: ${e}`)
-
-          worker.onmessage = (res: any) => resolve(res.data)
-
-          worker.postMessage({
-            romaji,
-            kanjiSet: [fakeKanji],
-            matchOption: 'exact',
-            conversionTable
-          })
-        }).then((response) => expect(response).toEqual([fakeKanji]))
+      const response = await getResponse({
+        romaji,
+        kanjiSet: [fakeKanji],
+        matchOption: 'exact',
+        conversionTable: conversions
       })
-    )
+
+      return expect(response).toEqual([fakeKanji])
+    })
   })
 
-  it('Should handle every supported romaji smashed together.', async (done) => {
+  it('Should handle every supported romaji smashed together.', async () => {
     const insaneKanji: Kanji = {
       char: 'lol',
       stroke: Infinity,
       readings: [
-        conversionTable.map((item: ConversionItem) => item.hiragana).join(''),
-        conversionTable.map((item: ConversionItem) => item.katakana).join('')
+        conversions.map((item: ConversionItem) => item.hiragana).join(''),
+        conversions.map((item: ConversionItem) => item.katakana).join('')
       ],
       meanings: ['All supported conversion items smashed together'],
       frequency: Infinity
@@ -174,22 +157,17 @@ describe('The Get Kanji By Romaji webworker', () => {
 
     const allRomaji = conversionTable.map((item: ConversionItem) => item.romaji).join('')
 
-    const response = await new Promise((resolve, reject) => {
-      worker.onmessage = (res: any) => resolve(res.data)
-      worker.onerror = (e: string | Event) => reject(e)
-      worker.postMessage({
-        romaji: allRomaji,
-        kanjiSet: [insaneKanji],
-        conversionTable,
-        matchOption: 'exact'
-      })
+    const response = await getResponse({
+      romaji: allRomaji,
+      kanjiSet: [insaneKanji],
+      conversionTable: conversions,
+      matchOption: 'exact'
     })
 
     expect(response).toEqual([insaneKanji])
-    done()
   })
 
-  it("Should handle multiple ん's in a row.", async (done) => {
+  it("Should handle multiple ん's in a row.", async () => {
     const nnnKanji: Kanji = {
       char: 'lol',
       stroke: 10,
@@ -198,18 +176,32 @@ describe('The Get Kanji By Romaji webworker', () => {
       frequency: 0
     }
 
-    const response = await new Promise((resolve, reject) => {
-      worker.onmessage = (res: any) => resolve(res.data)
-      worker.onerror = (e: string | Event) => reject(e)
-      worker.postMessage({
-        romaji: 'nNn',
-        kanjiSet: [nnnKanji],
-        conversionTable,
-        matchOption: 'exact'
-      })
+    const response = await getResponse({
+      romaji: 'nNn',
+      kanjiSet: [nnnKanji],
+      conversionTable: conversions,
+      matchOption: 'exact'
     })
 
     expect(response).toEqual([nnnKanji])
-    done()
+  })
+
+  it('Should handle words with other characters following ん.', async () => {
+    const tonkatsuKanji: Kanji = {
+      char: '豚カツ',
+      stroke: 10,
+      readings: ['とんかつ', 'トンカツ'],
+      meanings: ['I know this is not one Kanji'],
+      frequency: 0
+    }
+
+    const response = await getResponse({
+      romaji: 'tonkatsu',
+      kanjiSet: [tonkatsuKanji],
+      conversionTable: conversions,
+      matchOption: 'exact'
+    })
+
+    expect(response).toEqual([tonkatsuKanji])
   })
 })

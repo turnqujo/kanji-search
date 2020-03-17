@@ -29,11 +29,9 @@ onmessage = (e: MessageEvent) => {
     case 'frequency':
       postMessage(
         kanjiSet.slice().sort((x, y) => {
-          if (y.frequency === null) {
-            return Number(x.frequency) > Infinity ? leftSortVal : rightSortVal
-          } else {
-            return Number(x.frequency) > Number(y.frequency) ? leftSortVal : rightSortVal
-          }
+          const leftFrequency = x.frequency === null ? Infinity : Number(x.frequency)
+          const rightFrequency = y.frequency === null ? Infinity : Number(y.frequency)
+          return leftFrequency > rightFrequency ? leftSortVal : rightSortVal
         })
       )
       break
