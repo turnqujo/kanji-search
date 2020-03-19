@@ -44,8 +44,6 @@ function findNextConversion(romaji: string, conversionTable: ConversionItem[]): 
       : [foundConversion]
   }
 
-  // !isNucleus(romaji[1]) && !isNucleus(romaji[2])
-
   if (romaji[0] === 'n') {
     const foundThreeCharConversion = conversionTable.find((item) => item.romaji === romaji.substr(0, 3))
     if (foundThreeCharConversion) {

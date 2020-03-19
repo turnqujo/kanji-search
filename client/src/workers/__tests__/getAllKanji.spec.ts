@@ -1,5 +1,5 @@
-import TestEnvWorker from '../../tests/test-utils/test-env-worker'
-import { initDB, fillDB, teardownDB } from '../../tests/test-utils/db'
+import TestEnvWorker from './test-utils/test-env-worker'
+import { initDB, fillDB, teardownDB } from './test-utils/db'
 
 const workerSrc = 'src/workers/getAllKanji.worker.ts'
 

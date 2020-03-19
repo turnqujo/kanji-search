@@ -1,7 +1,7 @@
 {
-  "extends": "../../tsconfig.json",
-  "include": ["./*.worker.ts", "./utility-scripts/*.ts"],
-  "exclude": ["./__tests__/*"],
+  "extends": "../../../tsconfig.json",
+  "include": ["./*.spec.ts"],
+  "exclude": [],
   "compilerOptions": {
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
@@ -12,7 +12,6 @@
     "moduleResolution": "node",
     "noImplicitAny": true,
     "noImplicitThis": false,
-    "outDir": "../../public/workers",
     "preserveConstEnums": true,
     "removeComments": true,
     "sourceMap": false,

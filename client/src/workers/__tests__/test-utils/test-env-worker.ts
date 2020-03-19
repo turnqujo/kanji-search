@@ -1,4 +1,3 @@
-/* eslint-disable */
 // @ts-ignore
 import fs from 'fs'
 import ts from 'typescript'
@@ -16,19 +15,26 @@ type Serializable = string | object | number | boolean
 // TODO: Potential performance enhancements; see: https://stackoverflow.com/a/30370720
 class TestEnvWorker {
   private _onmessage: any
-  get onmessage(): any   { return this._onmessage }
-  set onmessage(cb: any) { this._onmessage = cb }
+  get onmessage(): any {
+    return this._onmessage
+  }
+  set onmessage(cb: any) {
+    this._onmessage = cb
+  }
 
   private _onerror: any
-  get onerror(): any   { return this._onerror }
-  set onerror(cb: any) { this._onerror = cb }
+  get onerror(): any {
+    return this._onerror
+  }
+  set onerror(cb: any) {
+    this._onerror = cb
+  }
 
   private workerContext: any = {
     onmessage: null
   }
 
   constructor(src: string) {
-
     /**
      * TODO: This process could be simpler if the paths defined in webworker import statements
      *       are adjusted to be relative to this file's position instead of the original worker's
@@ -55,7 +61,7 @@ class TestEnvWorker {
       if (extractedScripts) {
         const rawScriptHandles = extractedScripts[0].replace(/['"`]+/g, '').split(', ')
 
-        for (let rawScriptHandle of rawScriptHandles) {
+        for (const rawScriptHandle of rawScriptHandles) {
           const adjustedHandle = rawScriptHandle.replace('.js', '.ts')
           const newScriptPath = `src/workers/${adjustedHandle}`
 
@@ -72,21 +78,25 @@ class TestEnvWorker {
     const compiled = ts.transpile(webWorkerScript, {
       module: ts.ModuleKind.CommonJS,
       sourceMap: false,
-      lib: ['webworker'],
+      lib: ['webworker']
     })
 
     let onmessage: any // Set by webworker code
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     let onerror: any // set by webworker code
     eval(compiled)
 
     // NOTE: This will override any custom `onerror` handler defined in the webworker code
+    // eslint-disable-next-line prefer-const
     onerror = (error: string | Event) => {
       if (this.onerror) {
         this.onerror(error)
       }
     }
 
-    let postMessage = (data: any) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const postMessage = (data: any) => {
       if (this.onmessage) {
         this.onmessage({ data })
       }

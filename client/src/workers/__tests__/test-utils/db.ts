@@ -1,9 +1,8 @@
-/* eslint-disable */
-import { Kanji } from "../../../shared/models/kanji"
+import { Kanji } from '../../../../../shared/models/kanji'
 
 // NOTE: initDB expects the kanjiStore DB to not exist
 export function initDB(): Promise<boolean> {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     const openRequest = indexedDB.open('kanjiStore')
 
     openRequest.onupgradeneeded = () => {
@@ -19,7 +18,7 @@ export function initDB(): Promise<boolean> {
       openRequest.result.close()
     }
 
-    openRequest.onerror = (e) => {
+    openRequest.onerror = () => {
       // TODO: Some sort of logging; just ignore for now
     }
 
@@ -31,14 +30,14 @@ export function initDB(): Promise<boolean> {
 }
 
 export function fillDB(newData: Kanji[]): Promise<boolean> {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     const openRequest = indexedDB.open('kanjiStore')
 
     openRequest.onsuccess = () => {
       const db = openRequest.result
       const transaction = db.transaction('kanji', 'readwrite')
 
-      newData.forEach(newKanji => transaction.objectStore('kanji').add(newKanji))
+      newData.forEach((newKanji) => transaction.objectStore('kanji').add(newKanji))
 
       db.close()
       resolve(true)
@@ -47,7 +46,7 @@ export function fillDB(newData: Kanji[]): Promise<boolean> {
 }
 
 export function teardownDB(): Promise<boolean> {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     const result = indexedDB.deleteDatabase('kanjiStore')
     result.onsuccess = () => {
       resolve(true)

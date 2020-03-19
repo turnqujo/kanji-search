@@ -1,5 +1,5 @@
-import TestEnvWorker from '../../tests/test-utils/test-env-worker'
-import { Kanji } from '../../../shared/models/kanji'
+import TestEnvWorker from './test-utils/test-env-worker'
+import { Kanji } from '../../../../shared/models/kanji'
 
 const nahaKanji: Kanji = {
   char: '亜',
