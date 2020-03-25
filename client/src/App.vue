@@ -9,6 +9,7 @@
 
 <style lang="scss">
   @import './vendor/reset.css';
+  @import '../node_modules/@fortawesome/fontawesome-free/css/all.css';
 
   body {
     background-color: #2c3e50;
