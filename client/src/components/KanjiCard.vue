@@ -62,7 +62,7 @@
 
 <script lang="ts">
   import { Component, Prop, Vue } from 'vue-property-decorator'
-  import { Kanji } from '../../../shared/models/kanji'
+  import { Kanji } from '../models/kanji'
 
   @Component({})
   export default class KanjiCard extends Vue {

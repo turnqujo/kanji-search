@@ -23,11 +23,9 @@
 
 <script lang="ts">
   import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
-  import { Kanji } from '../../../shared/models/kanji'
+  import { Kanji } from '../models/kanji'
+  import conversionTable from '../data/conversion-table'
   import KanjiCard from './KanjiCard.vue'
-
-  // @ts-ignore
-  import conversionTable from '../../../shared/data/conversion-table.json'
 
   @Component({
     components: {

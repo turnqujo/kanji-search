@@ -1,7 +1,5 @@
-import { Kanji } from '../../../shared/models/kanji'
-
-// @ts-ignore
-import conversionTable from '../../../shared/data/conversion-table.json'
+import { Kanji } from '../models/kanji'
+import conversionTable from '../data/conversion-table'
 
 const getKanjiByRomajiWorker = new Worker('workers/getKanjiByRomaji.worker.js')
 

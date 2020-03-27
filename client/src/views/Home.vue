@@ -11,7 +11,7 @@
 
 <script lang="ts">
   import { Component, Vue } from 'vue-property-decorator'
-  import { Kanji } from '../../../shared/models/kanji'
+  import { Kanji } from '../models/kanji'
   import KanjiKeyboard from '@/components/KanjiKeyboard.vue'
   import PickList from '@/components/PickList.vue'
   import SearchForm from '@/components/SearchForm.vue'

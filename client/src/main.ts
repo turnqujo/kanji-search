@@ -2,10 +2,10 @@ import Vue from 'vue'
 import App from './App.vue'
 import './registerServiceWorker'
 import router from './router'
-import { Kanji } from '../../shared/models/kanji'
+import { Kanji } from './models/kanji'
 
 // @ts-ignore TODO: This is actually loading fine
-import jinmeiyoo from '../../shared/data/jinmeiyoo.json'
+import jinmeiyoo from './data/jinmeiyoo.json'
 
 Vue.config.productionTip = false
 

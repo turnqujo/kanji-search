@@ -1,10 +1,6 @@
 import TestEnvWorker from './test-utils/test-env-worker'
-import { ConversionItem } from '../../../../shared/models/conversionItem'
 import { Kanji } from '../../../../shared/models/kanji'
-
-// @ts-ignore TODO: Why is this showing an error? JSON is being imported properly.
-import conversionTable from '../../../../shared/data/conversion-table.json'
-const conversions = conversionTable as ConversionItem[]
+import conversionTable, { ConversionItem } from '../../data/conversion-table'
 
 const nahaKanji: Kanji = {
   char: 'A',
@@ -62,7 +58,7 @@ describe('The Get Kanji By Romaji webworker', () => {
     const result = await getResponse({
       romaji: 'na',
       kanjiSet: [],
-      conversionTable: conversions,
+      conversionTable,
       matchOption: 'anywhere'
     })
 
@@ -73,7 +69,7 @@ describe('The Get Kanji By Romaji webworker', () => {
     const response = await getResponse({
       romaji: 'NAhA',
       kanjiSet,
-      conversionTable: conversions,
+      conversionTable,
       matchOption: 'exact'
     })
 
@@ -84,7 +80,7 @@ describe('The Get Kanji By Romaji webworker', () => {
     const response = await getResponse({
       romaji: 'na',
       kanjiSet,
-      conversionTable: conversions,
+      conversionTable,
       matchOption: 'start'
     })
 
@@ -95,7 +91,7 @@ describe('The Get Kanji By Romaji webworker', () => {
     const response = await getResponse({
       romaji: 'naha',
       kanjiSet,
-      conversionTable: conversions,
+      conversionTable,
       matchOption: 'exact'
     })
 
@@ -106,7 +102,7 @@ describe('The Get Kanji By Romaji webworker', () => {
     const withNucleus = await getResponse({
       romaji: 'on',
       kanjiSet,
-      conversionTable: conversions,
+      conversionTable,
       matchOption: 'start'
     })
 
@@ -115,7 +111,7 @@ describe('The Get Kanji By Romaji webworker', () => {
     const withoutNucleus = await getResponse({
       romaji: 'n',
       kanjiSet,
-      conversionTable: conversions,
+      conversionTable,
       matchOption: 'anywhere'
     })
 
@@ -123,7 +119,7 @@ describe('The Get Kanji By Romaji webworker', () => {
   })
 
   it('Should handle converting each romaji individually, in sequence.', async () => {
-    return conversions.map(async ({ romaji, hiragana, katakana }, index: number) => {
+    return conversionTable.map(async ({ romaji, hiragana, katakana }, index: number) => {
       const fakeKanji: Kanji = {
         char: 'hi',
         stroke: 1,
@@ -136,7 +132,7 @@ describe('The Get Kanji By Romaji webworker', () => {
         romaji,
         kanjiSet: [fakeKanji],
         matchOption: 'exact',
-        conversionTable: conversions
+        conversionTable
       })
 
       return expect(response).toEqual([fakeKanji])
@@ -148,8 +144,8 @@ describe('The Get Kanji By Romaji webworker', () => {
       char: 'lol',
       stroke: Infinity,
       readings: [
-        conversions.map((item: ConversionItem) => item.hiragana).join(''),
-        conversions.map((item: ConversionItem) => item.katakana).join('')
+        conversionTable.map((item: ConversionItem) => item.hiragana).join(''),
+        conversionTable.map((item: ConversionItem) => item.katakana).join('')
       ],
       meanings: ['All supported conversion items smashed together'],
       frequency: Infinity
@@ -160,7 +156,7 @@ describe('The Get Kanji By Romaji webworker', () => {
     const response = await getResponse({
       romaji: allRomaji,
       kanjiSet: [insaneKanji],
-      conversionTable: conversions,
+      conversionTable,
       matchOption: 'exact'
     })
 
@@ -179,7 +175,7 @@ describe('The Get Kanji By Romaji webworker', () => {
     const response = await getResponse({
       romaji: 'nNn',
       kanjiSet: [nnnKanji],
-      conversionTable: conversions,
+      conversionTable,
       matchOption: 'exact'
     })
 
@@ -198,7 +194,7 @@ describe('The Get Kanji By Romaji webworker', () => {
     const response = await getResponse({
       romaji: 'tonkatsu',
       kanjiSet: [tonkatsuKanji],
-      conversionTable: conversions,
+      conversionTable,
       matchOption: 'exact'
     })
 

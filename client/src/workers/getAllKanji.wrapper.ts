@@ -1,4 +1,4 @@
-import { Kanji } from '../../../shared/models/kanji'
+import { Kanji } from '../models/kanji'
 
 const getAllKanjiWorker = new Worker('workers/getAllKanji.worker.js')
 

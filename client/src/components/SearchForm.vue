@@ -4,7 +4,7 @@
       @input="onReadingInput"
       :label="'Reading'"
       :placeholder="'ボ'"
-      :current-value="'test'"
+      :override-value="override"
       :name="'reading-input'"
     >
       <template v-slot:input-prefix>
@@ -15,12 +15,14 @@
         </select>
       </template>
       <template v-slot:input-postfix>
-        <button type="button">
-          <span class="far fa-keyboard"></span>
-        </button>
+        <kana-keyboard></kana-keyboard>
       </template>
     </text-input>
-    <text-input :label-text="'Meaning'" :name="'meaning-input'"></text-input>
+    <text-input
+      :label-text="'Meaning'"
+      :name="'meaning-input'"
+      @input="onMeaningInput"
+    ></text-input>
     <label>
       <span>Sort by</span>
       <select>
@@ -59,15 +61,23 @@
 <script lang="ts">
   import { Component, Vue } from 'vue-property-decorator'
   import TextInput from '@/components/formControls/TextInput.vue'
+  import KanaKeyboard from '@/components/formControls/KanaKeyboard.vue'
 
   @Component({
     components: {
-      TextInput
+      TextInput,
+      KanaKeyboard
     }
   })
   export default class SearchForm extends Vue {
+    override = ''
+
     public onReadingInput(newReading: string) {
       console.log(newReading)
+    }
+
+    public onMeaningInput(newMeaning: string) {
+      this.override = newMeaning
     }
 
     public onInput(e: InputEvent) {

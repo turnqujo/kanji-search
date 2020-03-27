@@ -3,11 +3,11 @@
     <label class="text-input__label" :for="name" v-if="label">{{ label }}</label>
     <slot name="input-prefix"></slot>
     <input
-      type="input"
-      class="text-input__control"
-      v-model.trim="currentValue"
-      :placeholder="placeholder"
       :id="name"
+      :placeholder="placeholder"
+      class="text-input__control"
+      type="input"
+      v-model.trim="currentValue"
     />
     <slot name="input-postfix"></slot>
   </div>
@@ -35,25 +35,27 @@
 </style>
 
 <script lang="ts">
-  import { Component, Prop, Vue } from 'vue-property-decorator'
+  import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
 
-  // TODO: This computed value isn't working as I am expecting - definitely not
-  //       using it correctly.
-  @Component({
-    computed: {
-      currentValue: {
-        get: function() {
-          return ''
-        },
-        set: function(newValue: string) {
-          this.$emit('input', newValue)
-        }
-      }
-    }
-  })
+  @Component({})
   export default class TextInput extends Vue {
-    @Prop({ required: true }) name!: string | number
-    @Prop({ default: null }) label!: string
-    @Prop({ default: '' }) placeholder!: string
+    @Prop({ required: true }) readonly name!: string | number
+    @Prop({ default: null }) readonly label!: string
+    @Prop({ default: '' }) readonly placeholder!: string
+    @Prop({ default: '' }) readonly overrideValue!: string
+
+    @Watch('overrideValue', { deep: false })
+    overrideChanged(newVal: string) {
+      this.currentValue = newVal
+    }
+
+    private realCurrentValue = ''
+    get currentValue(): string {
+      return this.realCurrentValue
+    }
+    set currentValue(newVal: string) {
+      this.realCurrentValue = newVal
+      this.$emit('input', this.realCurrentValue)
+    }
   }
 </script>
