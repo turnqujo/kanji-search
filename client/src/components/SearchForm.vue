@@ -1,28 +1,6 @@
 <template>
   <div class="search-form">
-    <text-input
-      @input="onReadingInput"
-      :label="'Reading'"
-      :placeholder="'ボ'"
-      :override-value="override"
-      :name="'reading-input'"
-    >
-      <template v-slot:input-prefix>
-        <select>
-          <option>Starts with</option>
-          <option>Matches</option>
-          <option>Contains</option>
-        </select>
-      </template>
-      <template v-slot:input-postfix>
-        <kana-keyboard></kana-keyboard>
-      </template>
-    </text-input>
-    <text-input
-      :label-text="'Meaning'"
-      :name="'meaning-input'"
-      @input="onMeaningInput"
-    ></text-input>
+    <kana-keyboard @input="onReadingInput"></kana-keyboard>
     <label>
       <span>Sort by</span>
       <select>
@@ -52,9 +30,7 @@
 <style lang="scss" scoped>
   .search-form {
     display: flex;
-    justify-content: space-around;
-    align-items: center;
-    margin: 16px 16px 0 16px;
+    justify-items: space-between;
   }
 </style>
 
@@ -62,6 +38,8 @@
   import { Component, Vue } from 'vue-property-decorator'
   import TextInput from '@/components/formControls/TextInput.vue'
   import KanaKeyboard from '@/components/formControls/KanaKeyboard.vue'
+  import { getKanjiByRomaji } from '../workers/getKanjiByRomaji.wrapper'
+  import { getAllKanji } from '../workers/getAllKanji.wrapper'
 
   @Component({
     components: {
@@ -70,18 +48,11 @@
     }
   })
   export default class SearchForm extends Vue {
-    override = ''
-
-    public onReadingInput(newReading: string) {
-      console.log(newReading)
-    }
-
-    public onMeaningInput(newMeaning: string) {
-      this.override = newMeaning
-    }
-
-    public onInput(e: InputEvent) {
-      console.log(e)
+    async onReadingInput(newReading: string) {
+      // TODO: This is just testing; should be in parent?
+      const allKanji = await getAllKanji()
+      const foundKanji = await getKanjiByRomaji(newReading, allKanji, 'start')
+      console.log(foundKanji)
     }
   }
 </script>

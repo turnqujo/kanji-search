@@ -1,13 +1,9 @@
 <template>
-  <div>
-    <ul>
-      <!-- <li>{{ hiragana }}</li>
-      <li>{{ katakana }}</li> -->
-      <li v-for="kanji in kanjiSet" :key="kanji.char">
-        <kanji-card v-once :kanji="kanji"></kanji-card>
-      </li>
-    </ul>
-  </div>
+  <ul>
+    <li v-for="kanji in kanjiSet" :key="kanji.char">
+      <kanji-card v-once :kanji="kanji"></kanji-card>
+    </li>
+  </ul>
 </template>
 
 <style lang="scss" scoped>
