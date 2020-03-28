@@ -1,5 +1,5 @@
 import TestEnvWorker from './test-utils/test-env-worker'
-import { Kanji } from '../../../../shared/models/kanji'
+import { Kanji } from '../../models/kanji'
 import conversionTable, { ConversionItem } from '../../data/conversion-table'
 
 const nahaKanji: Kanji = {

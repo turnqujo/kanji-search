@@ -1,71 +1,98 @@
 <template>
   <div class="kana-keyboard">
-    <div class="kana-keyboard__options-container">
-      <select>
-        <option>Starts with</option>
-        <option>Matches</option>
-        <option>Contains</option>
-      </select>
-      <label>
-        <input type="text" v-model="currentInput" />
+    <div class="options-container">
+      <label class="input-label">
+        <span class="input-label-text">Match Setting</span>
+        <select>
+          <option>Starts with</option>
+          <option>Exact</option>
+          <option>Contains</option>
+        </select>
       </label>
-      <select @change="onModeChange">
-        <option value="hiragana">Hiragana</option>
-        <option value="katakana">Katakana</option>
-        <option value="romaji">Romaji</option>
-      </select>
-      <select @change="onModifierChange">
-        <option value="unmodified">Unmodified</option>
-        <option value="dakuten">Dakuten</option>
-        <option value="handakuten">Handakuten</option>
-      </select>
+      <label class="input-label">
+        <span class="input-label-text">Reading</span>
+        <input class="kana-input" type="text" v-model="currentInput" placeholder="ヘン" />
+      </label>
+      <button @click="onToggleKeyboard"><i class="toggle-icon far fa-keyboard" /></button>
     </div>
-    <div class="kana-keyboard__table">
-      <ul class="kana-keyboard__table-row" v-for="(set, index) in kanaSet" :key="index">
-        <li class="kana-keyboard__table-item" v-for="(item, itemIndex) in set" :key="itemIndex">
-          <button v-if="item !== null" @click="() => onKanaClicked(item)">
-            {{ item[mode] }}
-          </button>
-        </li>
-      </ul>
+    <div class="popup" v-if="open">
+      <div class="kana-table">
+        <select @change="onModeChange">
+          <option value="hiragana">Hiragana</option>
+          <option value="katakana">Katakana</option>
+          <option value="romaji">Romaji</option>
+        </select>
+        <select @change="onModifierChange">
+          <option value="unmodified">Unmodified</option>
+          <option value="dakuten">Dakuten</option>
+          <option value="handakuten">Handakuten</option>
+        </select>
+        <ul class="kana-table-row" v-for="(set, index) in kanaSet" :key="index">
+          <li class="kana-table-item" v-for="(item, itemIndex) in set" :key="itemIndex">
+            <button v-if="item !== null" @click="() => onKanaClicked(item)">
+              {{ item[mode] }}
+            </button>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
   .kana-keyboard {
     position: relative;
     color: black;
+  }
 
-    &__toggle-icon {
-      font-size: 28px;
-    }
+  .options-container {
+    display: flex;
+    align-items: flex-end;
+  }
 
-    &__options-container {
-      display: flex;
-    }
+  .input-label {
+    text-align: left;
+  }
 
-    &__table {
-      background-color: white;
-      display: inline-block;
+  .input-label-text {
+    display: block;
+    margin-bottom: 4px;
+    margin-left: 4px;
+  }
 
-      &-row {
-        display: flex;
-      }
+  .kana-input {
+    margin-left: 4px;
+  }
 
-      &-item {
-        font-size: 18px;
-        border: solid gray 1px;
-        border-radius: 2px;
-        margin: 2px;
-        text-align: center;
-        width: 2em;
+  .toggle-icon {
+    font-size: 28px;
+    margin-left: 4px;
+  }
 
-        & > button {
-          padding: 8px;
-          width: 100%;
-        }
-      }
+  .popup {
+    position: absolute;
+  }
+
+  .kana-table {
+    background-color: white;
+    display: inline-block;
+  }
+
+  .kana-table-row {
+    display: flex;
+  }
+
+  .kana-table-item {
+    font-size: 18px;
+    border: solid gray 1px;
+    border-radius: 2px;
+    margin: 2px;
+    text-align: center;
+    width: 2em;
+
+    & > button {
+      padding: 8px;
+      width: 100%;
     }
   }
 </style>
@@ -83,8 +110,13 @@
     mode: ModeType = 'hiragana'
     modifier: Modifier = 'unmodified'
     kanaSet: (ConversionItem | null)[][] = gojuonOrdered
+    open = false
 
-    private realCurrentInput = ''
+    /**
+     * TODO: Store & Emit an array of conversion items instead of a string
+     *  - This would help with mixed-kana inputs
+     */
+    realCurrentInput = ''
     get currentInput() {
       return this.realCurrentInput
     }
@@ -93,17 +125,26 @@
       this.$emit('input', this.realCurrentInput)
     }
 
-    private onModeChange(e: Event) {
+    onModeChange(e: Event) {
       const selectElement = e.target as HTMLSelectElement
       this.mode = selectElement.value as ModeType
     }
 
-    private onModifierChange(e: Event) {
+    onModifierChange(e: Event) {
       const selectElement = e.target as HTMLSelectElement
       this.modifier = selectElement.value as Modifier
     }
 
-    private onKanaClicked(kana: ConversionItem) {
+    onToggleKeyboard() {
+      this.open = !this.open
+
+      // TODO: Stateful error, closing the keyboard causes the kana set to not change
+      if (this.open) {
+        this.mode = 'hiragana'
+      }
+    }
+
+    onKanaClicked(kana: ConversionItem) {
       this.currentInput += kana.romaji
     }
   }

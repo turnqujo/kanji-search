@@ -1,4 +1,4 @@
-import { Kanji } from '../../../../../shared/models/kanji'
+import { Kanji } from '../../../models/kanji'
 
 // NOTE: initDB expects the kanjiStore DB to not exist
 export function initDB(): Promise<boolean> {

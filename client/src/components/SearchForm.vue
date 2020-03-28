@@ -1,6 +1,8 @@
 <template>
   <div class="search-form">
-    <kana-keyboard @input="onReadingInput"></kana-keyboard>
+    <div class="kana-input">
+      <kana-keyboard @input="onReadingInput"></kana-keyboard>
+    </div>
     <label>
       <span>Sort by</span>
       <select>
@@ -30,29 +32,27 @@
 <style lang="scss" scoped>
   .search-form {
     display: flex;
-    justify-items: space-between;
+    justify-content: space-between;
+    margin: 0 16px;
+  }
+
+  .kana-input {
+    display: flex;
   }
 </style>
 
 <script lang="ts">
   import { Component, Vue } from 'vue-property-decorator'
-  import TextInput from '@/components/formControls/TextInput.vue'
   import KanaKeyboard from '@/components/formControls/KanaKeyboard.vue'
-  import { getKanjiByRomaji } from '../workers/getKanjiByRomaji.wrapper'
-  import { getAllKanji } from '../workers/getAllKanji.wrapper'
 
   @Component({
     components: {
-      TextInput,
       KanaKeyboard
     }
   })
   export default class SearchForm extends Vue {
-    async onReadingInput(newReading: string) {
-      // TODO: This is just testing; should be in parent?
-      const allKanji = await getAllKanji()
-      const foundKanji = await getKanjiByRomaji(newReading, allKanji, 'start')
-      console.log(foundKanji)
+    async onReadingInput(reading: string) {
+      this.$emit('change', { reading })
     }
   }
 </script>
