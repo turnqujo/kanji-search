@@ -36,8 +36,6 @@ const shiKanji: Kanji = {
 
 const kanjiSet = [nahaKanji, nahanoKanji, onnaKanji, shiKanji]
 
-const worker = new TestEnvWorker('src/workers/getKanjiByRomaji.worker.ts')
-
 interface WorkerProps {
   romaji: string
   kanjiSet: Kanji[]
@@ -45,15 +43,17 @@ interface WorkerProps {
   matchOption: 'exact' | 'start' | 'anywhere'
 }
 
+const worker = new TestEnvWorker<WorkerProps, Kanji[]>('src/workers/getKanjiByRomaji.worker.ts')
+
 export async function getResponse(message: WorkerProps): Promise<Kanji[]> {
   return new Promise((resolve, reject) => {
-    worker.onmessage = (res: any) => resolve(res.data)
+    worker.onmessage = (res: { data: Kanji[] }) => resolve(res.data)
     worker.onerror = (e: string | Event) => reject(e)
     worker.postMessage(message)
   })
 }
 
-describe('The Get Kanji By Romaji webworker', () => {
+describe('The Get Kanji By Romaji Webworker', () => {
   it('Should return an empty array if given an empty kanji set.', async () => {
     const result = await getResponse({
       romaji: 'na',

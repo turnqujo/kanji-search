@@ -7,13 +7,11 @@ import ts from 'typescript'
  * See here: https://jestjs.io/docs/en/configuration#testenvironment-string
  */
 
-type Serializable = string | object | number | boolean
-
 // TODO: Implement AbstractWorker, better listener handling
 // TODO: Write tests for this class
 // TODO: Typings
 // TODO: Potential performance enhancements; see: https://stackoverflow.com/a/30370720
-class TestEnvWorker {
+class TestEnvWorker<T, R> {
   private _onmessage: any
   get onmessage(): any {
     return this._onmessage
@@ -96,7 +94,7 @@ class TestEnvWorker {
     }
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const postMessage = (data: any) => {
+    const postMessage = (data: R) => {
       if (this.onmessage) {
         this.onmessage({ data })
       }
@@ -105,7 +103,7 @@ class TestEnvWorker {
     this.workerContext.onmessage = onmessage
   }
 
-  public postMessage(message: Serializable) {
+  public postMessage(message: T) {
     if (this.workerContext.onmessage) {
       this.workerContext.onmessage({ data: message })
     }

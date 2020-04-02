@@ -1,31 +1,42 @@
 <template>
   <div class="search-form">
+    <label class="input-label">
+      <span class="input-label-text">Kanji Set</span>
+      <select v-model="formState.kanjiSet">
+        <option value="jooyoo">Jōyō</option>
+        <option value="jinmeiyoo">Jinmeiyō</option>
+      </select>
+    </label>
     <div class="kana-input">
-      <kana-keyboard @input="onReadingInput"></kana-keyboard>
+      <kana-keyboard
+        @input="onReadingInput"
+        @matchSettingChanged="onMatchSettingChange"
+      ></kana-keyboard>
     </div>
-    <label>
-      <span>Sort by</span>
-      <select>
-        <option>Frequency</option>
-        <option>Stroke Count</option>
-        <option>Unicode</option>
-      </select>
-    </label>
-    <label>
-      <span>Asc</span>
-      <input type="radio" name="direction" value="asc" checked />
-    </label>
-    <label>
-      <span>Desc</span>
-      <input type="radio" name="direction" value="desc" />
-    </label>
-    <label>
-      <span>Kanji Set</span>
-      <select>
-        <option>Regular Use Kanji</option>
-        <option>Name Kanji</option>
-      </select>
-    </label>
+    <div>
+      <label class="input-label">
+        <span class="input-label-text">Meaning</span>
+        <input type="text" v-model="formState.meaning" />
+      </label>
+    </div>
+    <div>
+      <label>
+        <span>Sort by</span>
+        <select v-model="formState.sortBy">
+          <option value="frequency">Frequency</option>
+          <option value="strokeCount">Stroke Count</option>
+          <option value="unicode">Unicode</option>
+        </select>
+      </label>
+      <label>
+        <span>Asc</span>
+        <input type="radio" name="direction" value="asc" v-model="formState.orderBy" />
+      </label>
+      <label>
+        <span>Desc</span>
+        <input type="radio" name="direction" value="desc" v-model="formState.orderBy" />
+      </label>
+    </div>
   </div>
 </template>
 
@@ -42,8 +53,21 @@
 </style>
 
 <script lang="ts">
-  import { Component, Vue } from 'vue-property-decorator'
-  import KanaKeyboard from '@/components/formControls/KanaKeyboard.vue'
+  import { Component, Vue, Watch } from 'vue-property-decorator'
+  import { MatchOption } from '../workers/getKanjiByRomaji.wrapper'
+  import KanaKeyboard from '../components/formControls/KanaKeyboard.vue'
+  import { SortBy, OrderBy } from '../workers'
+
+  export type KanjiSet = 'jooyoo' | 'jinmeiyoo'
+
+  export interface SearchFormState {
+    kanjiSet: KanjiSet
+    meaning: string
+    reading: string
+    matchSetting: MatchOption
+    sortBy: SortBy
+    orderBy: OrderBy
+  }
 
   @Component({
     components: {
@@ -51,8 +75,30 @@
     }
   })
   export default class SearchForm extends Vue {
-    async onReadingInput(reading: string) {
-      this.$emit('change', { reading })
+    private formState: SearchFormState = {
+      kanjiSet: 'jooyoo',
+      meaning: '',
+      reading: '',
+      matchSetting: 'start',
+      sortBy: 'strokeCount',
+      orderBy: 'asc'
+    }
+
+    @Watch('formState', { deep: true })
+    onFormChange() {
+      this.$emit('change', this.formState)
+    }
+
+    onReadingInput(reading: string) {
+      this.formState = { ...this.formState, reading }
+    }
+
+    onMatchSettingChange(matchSetting: MatchOption) {
+      this.formState = { ...this.formState, matchSetting }
+    }
+
+    onSortByChanged(sortBy: SortBy) {
+      this.formState = { ...this.formState, sortBy }
     }
   }
 </script>

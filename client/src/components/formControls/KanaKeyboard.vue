@@ -3,10 +3,10 @@
     <div class="options-container">
       <label class="input-label">
         <span class="input-label-text">Match Setting</span>
-        <select>
-          <option>Starts with</option>
-          <option>Exact</option>
-          <option>Contains</option>
+        <select @change="onMatchSettingChanged">
+          <option value="start">Starts with</option>
+          <option value="exact">Exact</option>
+          <option value="anywhere">Contains</option>
         </select>
       </label>
       <label class="input-label">
@@ -16,7 +16,7 @@
       <button @click="onToggleKeyboard"><i class="toggle-icon far fa-keyboard" /></button>
     </div>
     <div class="popup" v-if="open">
-      <div class="kana-table">
+      <div class="kana-table" v-on-click-outside="onToggleKeyboard">
         <select @change="onModeChange">
           <option value="hiragana">Hiragana</option>
           <option value="katakana">Katakana</option>
@@ -48,16 +48,6 @@
   .options-container {
     display: flex;
     align-items: flex-end;
-  }
-
-  .input-label {
-    text-align: left;
-  }
-
-  .input-label-text {
-    display: block;
-    margin-bottom: 4px;
-    margin-left: 4px;
   }
 
   .kana-input {
@@ -100,12 +90,18 @@
 <script lang="ts">
   import { Component, Vue } from 'vue-property-decorator'
   import { ConversionItem } from '../../data/conversion-table'
-  import { gojuonOrdered } from '../../data/gojuon-ordered-kana'
+  import { gojuonOrdered, gojuonDakuten, gojuonHandakuten } from '../../data/gojuon-ordered-kana'
+  import { MatchOption } from '../../workers/getKanjiByRomaji.wrapper'
+  import onClickOutside from '../../directives/OnClickOutside.vue'
 
   type ModeType = 'hiragana' | 'katakana' | 'romaji'
   type Modifier = 'unmodified' | 'dakuten' | 'handakuten'
 
-  @Component({})
+  @Component({
+    directives: {
+      onClickOutside
+    }
+  })
   export default class KanaKeyboard extends Vue {
     mode: ModeType = 'hiragana'
     modifier: Modifier = 'unmodified'
@@ -125,6 +121,11 @@
       this.$emit('input', this.realCurrentInput)
     }
 
+    onMatchSettingChanged(e: Event) {
+      const selectElement = e.target as HTMLSelectElement
+      this.$emit('matchSettingChanged', selectElement.value as MatchOption)
+    }
+
     onModeChange(e: Event) {
       const selectElement = e.target as HTMLSelectElement
       this.mode = selectElement.value as ModeType
@@ -133,6 +134,18 @@
     onModifierChange(e: Event) {
       const selectElement = e.target as HTMLSelectElement
       this.modifier = selectElement.value as Modifier
+
+      switch (this.modifier) {
+        case 'unmodified':
+          this.kanaSet = gojuonOrdered
+          break
+        case 'dakuten':
+          this.kanaSet = gojuonDakuten
+          break
+        case 'handakuten':
+          this.kanaSet = gojuonHandakuten
+          break
+      }
     }
 
     onToggleKeyboard() {
@@ -140,7 +153,10 @@
 
       // TODO: Stateful error, closing the keyboard causes the kana set to not change
       if (this.open) {
+        // Reset to defaults
         this.mode = 'hiragana'
+        this.modifier = 'unmodified'
+        this.kanaSet = gojuonOrdered
       }
     }
 

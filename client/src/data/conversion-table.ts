@@ -2,6 +2,7 @@ export interface ConversionItem {
   katakana: string
   hiragana: string
   romaji: string
+  selection?: 'katakana' | 'hiragana' | 'romaji'
 }
 
 const conversionTable: ConversionItem[] = [

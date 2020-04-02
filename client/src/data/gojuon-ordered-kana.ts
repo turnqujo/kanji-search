@@ -1,6 +1,6 @@
 import { ConversionItem } from './conversion-table'
 
-export const gojuonOrdered: Array<(ConversionItem | null)[]> = [
+export const gojuonOrdered: (ConversionItem | null)[][] = [
   [
     { katakana: 'ア', hiragana: 'あ', romaji: 'a' },
     { katakana: 'カ', hiragana: 'か', romaji: 'ka' },
@@ -61,5 +61,131 @@ export const gojuonOrdered: Array<(ConversionItem | null)[]> = [
     { katakana: 'ヨ', hiragana: 'よ', romaji: 'yo' },
     { katakana: 'ロ', hiragana: 'ろ', romaji: 'ro' },
     { katakana: 'ヲ', hiragana: 'を', romaji: 'wo' }
+  ]
+]
+
+export const gojuonDakuten = [
+  [
+    null,
+    { katakana: 'ガ', hiragana: 'が', romaji: 'ga' },
+    { katakana: 'ザ', hiragana: 'ざ', romaji: 'za' },
+    { katakana: 'ダ', hiragana: 'だ', romaji: 'da' },
+    null,
+    { katakana: 'バ', hiragana: 'ば', romaji: 'ba' },
+    null,
+    null,
+    null,
+    null
+  ],
+  [
+    null,
+    { katakana: 'ギ', hiragana: 'ぎ', romaji: 'gi' },
+    { katakana: 'ジ', hiragana: 'じ', romaji: 'ji' },
+    null,
+    null,
+    { katakana: 'ビ', hiragana: 'び', romaji: 'bi' },
+    null,
+    null,
+    null,
+    null
+  ],
+  [
+    null,
+    { katakana: 'グ', hiragana: 'ぐ', romaji: 'gu' },
+    { katakana: 'ズ', hiragana: 'ず', romaji: 'zu' },
+    null,
+    null,
+    { katakana: 'ブ', hiragana: 'ぶ', romaji: 'bu' },
+    null,
+    null,
+    null,
+    null
+  ],
+  [
+    null,
+    { katakana: 'ゲ', hiragana: 'げ', romaji: 'ge' },
+    { katakana: 'ゼ', hiragana: 'ぜ', romaji: 'ze' },
+    { katakana: 'デ', hiragana: 'で', romaji: 'de' },
+    null,
+    { katakana: 'ベ', hiragana: 'べ', romaji: 'be' },
+    null,
+    null,
+    null,
+    null
+  ],
+  [
+    null,
+    { katakana: 'ゴ', hiragana: 'ご', romaji: 'go' },
+    { katakana: 'ゾ', hiragana: 'ぞ', romaji: 'zo' },
+    { katakana: 'ド', hiragana: 'ど', romaji: 'do' },
+    null,
+    { katakana: 'ボ', hiragana: 'ぼ', romaji: 'bo' },
+    null,
+    null,
+    null,
+    null
+  ]
+]
+
+export const gojuonHandakuten: (ConversionItem | null)[][] = [
+  [
+    null,
+    null,
+    null,
+    null,
+    null,
+    { katakana: 'パ', hiragana: 'ぱ', romaji: 'pa' },
+    null,
+    null,
+    null,
+    null
+  ],
+  [
+    null,
+    null,
+    null,
+    null,
+    null,
+    { katakana: 'ピ', hiragana: 'ぴ', romaji: 'pi' },
+    null,
+    null,
+    null,
+    null
+  ],
+  [
+    null,
+    null,
+    null,
+    null,
+    null,
+    { katakana: 'プ', hiragana: 'ぷ', romaji: 'pu' },
+    null,
+    null,
+    null,
+    null
+  ],
+  [
+    null,
+    null,
+    null,
+    null,
+    null,
+    { katakana: 'ペ', hiragana: 'ぺ', romaji: 'pe' },
+    null,
+    null,
+    null,
+    null
+  ],
+  [
+    null,
+    null,
+    null,
+    null,
+    null,
+    { katakana: 'ポ', hiragana: 'ぽ', romaji: 'po' },
+    null,
+    null,
+    null,
+    null
   ]
 ]

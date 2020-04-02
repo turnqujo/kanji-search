@@ -3,11 +3,7 @@
     <div class="home__header">
       <search-form v-on:change="onSearchFormChanged"></search-form>
     </div>
-    <pick-list
-      v-bind:kanji-set="kanjiSet"
-      v-bind:romaji="enteredRomaji"
-      v-on:onKanjiPicked="onPickedKanji"
-    ></pick-list>
+    <pick-list :kanji-set="kanjiSet"></pick-list>
   </div>
 </template>
 
@@ -26,10 +22,10 @@
 <script lang="ts">
   import { Component, Vue } from 'vue-property-decorator'
   import { Kanji } from '../models/kanji'
-  import PickList from '@/components/PickList.vue'
-  import SearchForm from '@/components/SearchForm.vue'
-  import { getKanjiByRomaji } from '../workers/getKanjiByRomaji.wrapper'
-  import { getAllKanji } from '../workers/getAllKanji.wrapper'
+  import { SearchFormState } from '../components/SearchForm.vue'
+  import PickList from '../components/PickList.vue'
+  import SearchForm from '../components/SearchForm.vue'
+  import { getAllKanji, getKanjiByRomaji, filterKanjiByMeaning, sortKanji } from '../workers'
 
   @Component({
     components: {
@@ -38,24 +34,22 @@
     }
   })
   export default class HomeComponent extends Vue {
-    async onSearchFormChanged(options: any) {
-      const allKanji = await getAllKanji()
-      this.kanjiSet = await getKanjiByRomaji(options.reading, allKanji, 'start')
-    }
-
     kanjiSet: Kanji[] = []
-    enteredRomaji = ''
 
-    onFoundKanji(newKanji: Kanji[]) {
-      this.kanjiSet = newKanji
-    }
+    async onSearchFormChanged(options: SearchFormState) {
+      const allKanji = options.kanjiSet === 'jooyoo' ? await getAllKanji() : []
 
-    onRomajiEntered(romaji: string) {
-      this.enteredRomaji = romaji
-    }
+      const kanjiFromReading = await getKanjiByRomaji(
+        options.reading,
+        allKanji,
+        options.matchSetting
+      )
 
-    onPickedKanji(picked: Kanji) {
-      console.log(picked.char)
+      const kanjiFromMeaning = await filterKanjiByMeaning(kanjiFromReading, options.meaning)
+
+      const sortedKanji = await sortKanji(kanjiFromMeaning, options.sortBy, options.orderBy)
+
+      this.kanjiSet = sortedKanji
     }
   }
 </script>

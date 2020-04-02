@@ -18,9 +18,8 @@
 </style>
 
 <script lang="ts">
-  import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
+  import { Component, Prop, Vue } from 'vue-property-decorator'
   import { Kanji } from '../models/kanji'
-  import conversionTable from '../data/conversion-table'
   import KanjiCard from './KanjiCard.vue'
 
   @Component({
@@ -30,22 +29,5 @@
   })
   export default class PickList extends Vue {
     @Prop() private kanjiSet!: Kanji[]
-    @Prop() private romaji!: string
-
-    hiragana = ''
-    katakana = ''
-
-    @Watch('romaji')
-    onRomajiChanged(newRomaji: string) {
-      const foundConversion = conversionTable.find((x: any) => x.romaji === newRomaji)
-      if (!foundConversion) {
-        this.hiragana = ''
-        this.katakana = ''
-        return
-      }
-
-      this.hiragana = foundConversion.hiragana
-      this.katakana = foundConversion.katakana
-    }
   }
 </script>

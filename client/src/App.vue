@@ -13,7 +13,6 @@
 
   body {
     background-color: #2c3e50;
-    color: lightgray;
   }
 
   #app {
@@ -32,5 +31,15 @@
         color: #42b983;
       }
     }
+  }
+
+  .input-label {
+    text-align: left;
+  }
+
+  .input-label-text {
+    display: block;
+    margin-bottom: 4px;
+    margin-left: 4px;
   }
 </style>

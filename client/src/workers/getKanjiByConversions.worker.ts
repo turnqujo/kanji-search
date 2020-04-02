@@ -1,33 +1,34 @@
-importScripts('utility-scripts/scriptConversions.js')
+// TODO: How to import these?
+interface Kanji {
+  char: string
+  stroke: number | string
+  meanings: string[]
+  readings: string[]
+  frequency: number | string
+}
+
+interface ConversionItem {
+  hiragana: string
+  katakana: string
+  romaji: string
+}
 
 onerror = (_error: string | ErrorEvent) => {}
 
 onmessage = (e: MessageEvent) => {
-  const { romaji, kanjiSet, conversionTable, matchOption = 'exact' } = e.data as {
-    romaji: string
-    kanjiSet: any[]
-    conversionTable: any[]
+  const { kanjiSet, conversions, matchOption = 'exact' } = e.data as {
+    kanjiSet: Kanji[]
+    conversions: ConversionItem[]
     matchOption: 'exact' | 'start' | 'anywhere'
   }
 
-  if (!romaji || kanjiSet.length === 0) {
+  if (!Array.isArray(conversions) || conversions.length === 0) {
     postMessage([])
     return
   }
 
-  let convertedRomaji: any[]
-  try {
-    convertedRomaji = convertRomajiToConversionItem(romaji, conversionTable)
-  } catch (e) {
-    if (self.onerror !== null) {
-      self.onerror(e)
-    }
-
-    return
-  }
-
-  const asHiragana = convertedRomaji.map((item) => item.hiragana).join('')
-  const asKatakana = convertedRomaji.map((item) => item.katakana).join('')
+  const asHiragana = conversions.map((item) => item.hiragana).join('')
+  const asKatakana = conversions.map((item) => item.katakana).join('')
   postMessage(
     kanjiSet.filter(
       (kanji) =>
