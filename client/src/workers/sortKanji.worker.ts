@@ -1,10 +1,17 @@
-onerror = (error: string | Event) => {
-  console.error(error)
+// TODO: How to import these?
+interface Kanji {
+  char: string
+  stroke: number | string
+  meanings: string[]
+  readings: string[]
+  frequency: number | string
 }
+
+onerror = (_error: string | ErrorEvent) => {}
 
 onmessage = (e: MessageEvent) => {
   const { kanjiSet, sortBy, order = 'desc' } = e.data as {
-    kanjiSet: any[]
+    kanjiSet: Kanji[]
     sortBy: 'strokeCount' | 'frequency' | 'unicode'
     order: 'asc' | 'desc'
   }
@@ -39,8 +46,8 @@ onmessage = (e: MessageEvent) => {
       postMessage(kanjiSet.slice().sort((x, y) => (x.char < y.char ? leftSortVal : rightSortVal)))
       break
     default:
-      if (onerror) {
-        ;(onerror as any)('Unknown sort by option.')
+      if (self.onerror !== null) {
+        self.onerror(new ErrorEvent('Error: Unknown sort by option'))
       }
       break
   }

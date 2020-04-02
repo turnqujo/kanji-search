@@ -16,8 +16,8 @@ onmessage = () =>
         }
       })
       .catch((error) => {
-        if (onerror) {
-          ;(onerror as any)(error)
+        if (self.onerror !== null) {
+          self.onerror(error)
         }
 
         db.close()
