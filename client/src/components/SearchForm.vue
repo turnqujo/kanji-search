@@ -56,7 +56,8 @@
   import { Component, Vue, Watch } from 'vue-property-decorator'
   import { MatchOption } from '../workers/getKanjiByRomaji.wrapper'
   import KanaKeyboard from '../components/formControls/KanaKeyboard.vue'
-  import { SortBy, OrderBy } from '../workers'
+  import { SortBy, OrderBy, convertText } from '../workers'
+  import conversionTable from '../data/conversion-table'
 
   export type KanjiSet = 'jooyoo' | 'jinmeiyoo'
 
@@ -89,8 +90,11 @@
       this.$emit('change', this.formState)
     }
 
-    onReadingInput(reading: string) {
-      this.formState = { ...this.formState, reading }
+    // TODO: This should accept an array of conversion items
+    async onReadingInput(reading: string) {
+      // TODO: Move this conversion down so that validation occurs there
+      const conversion = await convertText(reading, conversionTable)
+      this.formState = { ...this.formState, reading: conversion.map(x => x.romaji).join('') }
     }
 
     onMatchSettingChange(matchSetting: MatchOption) {

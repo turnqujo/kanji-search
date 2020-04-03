@@ -89,9 +89,9 @@
 
 <script lang="ts">
   import { Component, Vue } from 'vue-property-decorator'
-  import { ConversionItem } from '../../data/conversion-table'
   import { gojuonOrdered, gojuonDakuten, gojuonHandakuten } from '../../data/gojuon-ordered-kana'
   import { MatchOption } from '../../workers/getKanjiByRomaji.wrapper'
+  import { ConversionItem } from '../../data/conversion-table'
   import onClickOutside from '../../directives/OnClickOutside.vue'
 
   type ModeType = 'hiragana' | 'katakana' | 'romaji'
@@ -108,10 +108,6 @@
     kanaSet: (ConversionItem | null)[][] = gojuonOrdered
     open = false
 
-    /**
-     * TODO: Store & Emit an array of conversion items instead of a string
-     *  - This would help with mixed-kana inputs
-     */
     realCurrentInput = ''
     get currentInput() {
       return this.realCurrentInput
@@ -160,8 +156,8 @@
       }
     }
 
-    onKanaClicked(kana: ConversionItem) {
-      this.currentInput += kana.romaji
+    async onKanaClicked(kana: ConversionItem) {
+      this.currentInput += kana[this.mode]
     }
   }
 </script>

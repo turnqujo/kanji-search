@@ -5,7 +5,7 @@ import router from './router'
 import { Kanji } from './models/kanji'
 
 // @ts-ignore TODO: This is actually loading fine
-import jinmeiyoo from './data/jinmeiyoo.json'
+import jinmeiyoo from './data/joyo.json'
 
 Vue.config.productionTip = false
 
