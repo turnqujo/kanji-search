@@ -11,28 +11,6 @@
   @import './vendor/reset.css';
   @import '../node_modules/@fortawesome/fontawesome-free/css/all.css';
 
-  body {
-    background-color: #2c3e50;
-  }
-
-  #app {
-    font-family: Avenir, Helvetica, Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-align: center;
-  }
-
-  #nav {
-    a {
-      font-weight: bold;
-      color: lightgray;
-
-      &.router-link-exact-active {
-        color: #42b983;
-      }
-    }
-  }
-
   .input-label {
     text-align: left;
   }

@@ -1,55 +1,60 @@
 <template>
   <div class="home">
-    <div class="home__header">
-      <search-form v-on:change="onSearchFormChanged"></search-form>
+    <div class="kanji-form-container">
+      <kanji-form @submit="onFormSubmit"></kanji-form>
     </div>
     <pick-list :kanji-set="kanjiSet"></pick-list>
   </div>
 </template>
 
-<style lang="scss">
-  .home {
-    &__header {
-      background-color: white;
-      border-bottom: 2px solid black;
-      padding: 6px;
-      position: sticky;
-      top: 0;
-    }
-  }
-</style>
+<style lang="scss"></style>
 
 <script lang="ts">
   import { Component, Vue } from 'vue-property-decorator'
   import { Kanji } from '../models/kanji'
-  import { SearchFormState } from '../components/SearchForm.vue'
   import PickList from '../components/PickList.vue'
-  import SearchForm from '../components/SearchForm.vue'
-  import { getAllKanji, getKanjiByRomaji, filterKanjiByMeaning, sortKanji } from '../workers'
+  import KanjiForm, { SubmitProps } from '../components/KanjiForm.vue'
+  import { getAllKanji, filterKanjiByMeaning, sortKanji, getKanjiByConversion } from '../workers'
 
   @Component({
     components: {
-      SearchForm,
-      PickList
+      PickList,
+      KanjiForm
     }
   })
   export default class HomeComponent extends Vue {
     kanjiSet: Kanji[] = []
 
-    async onSearchFormChanged(options: SearchFormState) {
-      const allKanji = options.kanjiSet === 'jooyoo' ? await getAllKanji() : []
+    async onFormSubmit(values: SubmitProps) {
+      const unfilteredKanji = await getAllKanji(values.kanjiSet)
 
-      const kanjiFromReading = await getKanjiByRomaji(
-        options.reading,
-        allKanji,
-        options.matchSetting
-      )
+      // TODO: Just pass the conversions to a reworked worker which accepts them
+      const romajiReading = values.readingConverted.map((x) => x.romaji).join()
 
-      const kanjiFromMeaning = await filterKanjiByMeaning(kanjiFromReading, options.meaning)
+      let readingMeaningFiltered = []
+      if (!romajiReading && !!values.meaning) {
+        readingMeaningFiltered = await filterKanjiByMeaning(unfilteredKanji, values.meaning)
+      } else if (!!romajiReading && !values.meaning) {
+        readingMeaningFiltered = await getKanjiByConversion(
+          unfilteredKanji,
+          values.readingConverted,
+          values.readingMatchOption
+        )
+      } else if (!!romajiReading && !!values.meaning) {
+        // TODO: Add some control to order these, or query & join both?
+        const meaningFiltered = await filterKanjiByMeaning(unfilteredKanji, values.meaning)
+        readingMeaningFiltered = await getKanjiByConversion(
+          meaningFiltered,
+          values.readingConverted,
+          values.readingMatchOption
+        )
+      } else {
+        readingMeaningFiltered = unfilteredKanji
+      }
 
-      const sortedKanji = await sortKanji(kanjiFromMeaning, options.sortBy, options.orderBy)
+      const sorted = await sortKanji(readingMeaningFiltered, values.sortField, values.sortDirection)
 
-      this.kanjiSet = sortedKanji
+      this.kanjiSet = sorted
     }
   }
 </script>

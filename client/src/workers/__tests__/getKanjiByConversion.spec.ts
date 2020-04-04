@@ -4,12 +4,12 @@ import { ConversionItem } from '@/data/conversion-table'
 
 interface WorkerProps {
   kanjiSet: Kanji[]
-  conversions: ConversionItem[]
+  conversionItems: ConversionItem[]
   matchOption: 'exact' | 'start' | 'anywhere'
 }
 
 const worker = new TestEnvWorker<WorkerProps, Kanji[]>(
-  'src/workers/getKanjiByConversions.worker.ts'
+  'src/workers/getKanjiByConversion.worker.ts'
 )
 
 async function getResponse(message: WorkerProps): Promise<Kanji[]> {
@@ -20,11 +20,11 @@ async function getResponse(message: WorkerProps): Promise<Kanji[]> {
   })
 }
 
-describe('The Get Kanji by Conversions Webworker', () => {
+describe('The Get Kanji by Conversion Webworker', () => {
   it('Should return an empty array if given an empty kanji set.', async () => {
     const result = await getResponse({
       kanjiSet: [],
-      conversions: [
+      conversionItems: [
         {
           katakana: 'a',
           hiragana: 'b',
@@ -64,7 +64,7 @@ describe('The Get Kanji by Conversions Webworker', () => {
 
     const result = await getResponse({
       kanjiSet: [wrongKanji, expectedKanji, deceptiveKanji],
-      conversions: [
+      conversionItems: [
         { katakana: 'キ', hiragana: 'き', romaji: 'ki' },
         { katakana: 'ク', hiragana: 'く', romaji: 'ku' },
         { katakana: 'ケ', hiragana: 'け', romaji: 'ke' }
@@ -102,7 +102,7 @@ describe('The Get Kanji by Conversions Webworker', () => {
 
     const result = await getResponse({
       kanjiSet: [wrongKanji, expectedKanji, alsoExpected],
-      conversions: [
+      conversionItems: [
         { katakana: 'キ', hiragana: 'き', romaji: 'ki' },
         { katakana: 'ク', hiragana: 'く', romaji: 'ku' },
         { katakana: 'ケ', hiragana: 'け', romaji: 'ke' }
@@ -140,7 +140,7 @@ describe('The Get Kanji by Conversions Webworker', () => {
 
     const result = await getResponse({
       kanjiSet: [wrongKanji, expectedKanji, alsoExpected],
-      conversions: [{ katakana: 'キ', hiragana: 'き', romaji: 'ki' }],
+      conversionItems: [{ katakana: 'キ', hiragana: 'き', romaji: 'ki' }],
       matchOption: 'anywhere'
     })
 

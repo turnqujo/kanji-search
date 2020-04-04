@@ -1,12 +1,3 @@
-// TODO: How to import these?
-interface Kanji {
-  char: string
-  stroke: number | string
-  meanings: string[]
-  readings: string[]
-  frequency: number | string
-}
-
 onerror = (_error: string | ErrorEvent) => {}
 
 onmessage = (e: MessageEvent) => {

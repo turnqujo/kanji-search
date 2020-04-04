@@ -5,7 +5,10 @@ import router from './router'
 import { Kanji } from './models/kanji'
 
 // @ts-ignore TODO: This is actually loading fine
-import jinmeiyoo from './data/joyo.json'
+import jinmeiyoo from './data/jinmeiyoo.json'
+
+// @ts-ignore TODO: This is actually loading fine
+import jooyoo from './data/joyo.json'
 
 Vue.config.productionTip = false
 
@@ -17,18 +20,31 @@ async function init() {
     const openRequest = indexedDB.open('kanjiStore')
 
     openRequest.onupgradeneeded = () => {
-      const storedKanji = openRequest.result.createObjectStore('kanji', {
+      const storedJooyooKanji = openRequest.result.createObjectStore('kanji-jooyoo', {
         keyPath: 'char'
       })
 
-      storedKanji.createIndex('stroke', 'stroke', { unique: false })
-      storedKanji.createIndex('meanings', 'meanings', {
+      storedJooyooKanji.createIndex('stroke', 'stroke', { unique: false })
+      storedJooyooKanji.createIndex('meanings', 'meanings', {
         unique: false,
         multiEntry: true
       })
-      storedKanji.createIndex('readings', 'readings', { unique: false })
+      storedJooyooKanji.createIndex('readings', 'readings', { unique: false })
 
-      jinmeiyoo.forEach((kanji: Kanji) => storedKanji.add(kanji))
+      jooyoo.forEach((kanji: Kanji) => storedJooyooKanji.add(kanji))
+
+      const storedJinmeiyooKanji = openRequest.result.createObjectStore('kanji-jinmeiyoo', {
+        keyPath: 'char'
+      })
+
+      storedJinmeiyooKanji.createIndex('stroke', 'stroke', { unique: false })
+      storedJinmeiyooKanji.createIndex('meanings', 'meanings', {
+        unique: false,
+        multiEntry: true
+      })
+      storedJinmeiyooKanji.createIndex('readings', 'readings', { unique: false })
+
+      jinmeiyoo.forEach((kanji: Kanji) => storedJinmeiyooKanji.add(kanji))
 
       openRequest.result.close()
       resolve(true)

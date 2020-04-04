@@ -1,14 +1,14 @@
 importScripts('utility-scripts/dbUtil.js')
 
-onerror = (error: string | Event) => {
-  console.error(error)
-}
+onmessage = (e: MessageEvent) => {
+  const { kanjiSet } = e.data as {
+    kanjiSet: 'jooyoo' | 'jinmeiyoo'
+  }
 
-onmessage = () =>
   openDB('kanjiStore').then((db) => {
-    getTransaction(db, 'kanji', 'readonly')
+    getTransaction(db, `kanji-${kanjiSet}`, 'readonly')
       .then((transaction) => {
-        const request = transaction.objectStore('kanji').getAll()
+        const request = transaction.objectStore(`kanji-${kanjiSet}`).getAll()
 
         request.onsuccess = () => {
           db.close()
@@ -16,10 +16,8 @@ onmessage = () =>
         }
       })
       .catch((error) => {
-        if (self.onerror !== null) {
-          self.onerror(error)
-        }
-
         db.close()
+        throw error
       })
   })
+}

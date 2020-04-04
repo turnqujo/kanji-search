@@ -1,20 +1,26 @@
 import TestEnvWorker from './test-utils/test-env-worker'
 import { initDB, fillDB, teardownDB } from './test-utils/db'
-import { Kanji } from '@/models/kanji'
+import { Kanji, KanjiSet } from '@/models'
 
-const worker = new TestEnvWorker<string, Kanji[]>('src/workers/getAllKanji.worker.ts')
+interface WorkerProps {
+  kanjiSet: KanjiSet
+}
 
-async function getResponse(): Promise<Kanji[]> {
+const worker = new TestEnvWorker<WorkerProps, Kanji[]>('src/workers/getAllKanji.worker.ts')
+
+async function getResponse(kanjiSet: KanjiSet): Promise<Kanji[]> {
   return new Promise((resolve, reject) => {
     worker.onmessage = (res: any) => resolve(res.data)
     worker.onerror = (e: string | Event) => reject(e)
-    worker.postMessage('')
+    worker.postMessage({ kanjiSet })
   })
 }
 
 describe('The Get All Kanji Webworker', () => {
   beforeEach(async () => {
-    await initDB()
+    if (!(await initDB())) {
+      fail('Was not able to successfully init DB.')
+    }
   })
 
   afterEach(async () => {
@@ -22,11 +28,11 @@ describe('The Get All Kanji Webworker', () => {
   })
 
   it('Should return an empty array if no Kanji are loaded.', async () => {
-    const response = await getResponse()
+    const response = await getResponse('jinmeiyoo')
     expect(response).toEqual([])
   })
 
-  it('Should return any stored Kanji when asked.', async () => {
+  it('Should return any stored Kanji from a specific set when asked.', async () => {
     const storedKanji = [
       {
         char: 'a',
@@ -45,8 +51,13 @@ describe('The Get All Kanji Webworker', () => {
       }
     ]
 
-    await fillDB(storedKanji)
-    const response = await getResponse()
-    expect(response).toEqual(storedKanji)
+    await fillDB(storedKanji, 'jooyoo')
+    await fillDB([], 'jinmeiyoo')
+
+    const jooyooKanji = await getResponse('jooyoo')
+    expect(jooyooKanji).toEqual(storedKanji)
+
+    const jinmeiyooKanji = await getResponse('jinmeiyoo')
+    expect(jinmeiyooKanji).toEqual([])
   })
 })

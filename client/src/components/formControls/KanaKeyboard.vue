@@ -90,7 +90,7 @@
 <script lang="ts">
   import { Component, Vue } from 'vue-property-decorator'
   import { gojuonOrdered, gojuonDakuten, gojuonHandakuten } from '../../data/gojuon-ordered-kana'
-  import { MatchOption } from '../../workers/getKanjiByRomaji.wrapper'
+  import { MatchOption } from '../../models'
   import { ConversionItem } from '../../data/conversion-table'
   import onClickOutside from '../../directives/OnClickOutside.vue'
 

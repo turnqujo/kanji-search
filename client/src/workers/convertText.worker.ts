@@ -6,8 +6,6 @@ interface ConversionItem {
   original?: 'katakana' | 'hiragana' | 'romaji'
 }
 
-onerror = (_error: string | ErrorEvent) => {}
-
 function findConversionItem(
   needle: string,
   conversionTable: ConversionItem[]
@@ -39,7 +37,7 @@ function convertText(text: string, conversionTable: ConversionItem[]): Conversio
     }
 
     if (!foundConversion.original) {
-      throw new Error('Error: foundConversion has unexpectedly empty "original" property.')
+      throw new Error('`foundConversion` has unexpectedly empty "original" property.')
     }
     const conversionLength = Number(foundConversion[foundConversion.original].length)
 
@@ -48,7 +46,7 @@ function convertText(text: string, conversionTable: ConversionItem[]): Conversio
       : [foundConversion]
   }
 
-  throw new Error(`Error: could not find conversion for text: ${text}.`)
+  throw new Error('Could not find conversion for input.')
 }
 
 onmessage = (e: MessageEvent) => {
@@ -57,15 +55,13 @@ onmessage = (e: MessageEvent) => {
     conversionTable: ConversionItem[]
   }
 
-  // TODO: This should use the onmessageerror handler
   if (!text) {
     postMessage([])
     return
   }
 
-  // TODO: This should use the onmessageerror handler
   if (!Array.isArray(conversionTable) || conversionTable.length === 0) {
-    throw new Error('Invalid input, malformed conversionTable.')
+    throw new Error('Conversion table is malformed or missing.')
   }
 
   postMessage(convertText(text.toLocaleLowerCase(), conversionTable))

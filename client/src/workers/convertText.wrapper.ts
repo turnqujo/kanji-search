@@ -7,7 +7,10 @@ export function convertText(
   conversionTable: ConversionItem[]
 ): Promise<ConversionItem[]> {
   return new Promise<ConversionItem[]>((resolve, reject) => {
-    convertTextWorker.onerror = (error: string | ErrorEvent) => reject(error)
+    convertTextWorker.onerror = (error: ErrorEvent) => {
+      error.preventDefault()
+      reject(error.message)
+    }
     convertTextWorker.onmessage = (e: MessageEvent) => resolve(e.data)
     convertTextWorker.postMessage({
       text,
