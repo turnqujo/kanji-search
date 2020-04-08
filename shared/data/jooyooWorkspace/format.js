@@ -15,8 +15,12 @@ fs.readFile('./kanjidic2.xml', 'utf-8', (err, data) => {
       return
     }
 
-
     const frequencyOrder = JSON.parse(fs.readFileSync('../frequencyWorkspace/wikipedia.json', 'utf8')).map(x => x[0])
+    const jouyou = JSON.parse(fs.readFileSync('./jooyoo.json', 'utf-8'))
+    const jinmeiyou = JSON.parse(fs.readFileSync('../jinmeiyooWorkspace/out.json', 'utf-8'))
+
+    const jouyouChars = jouyou.map(x => x.char)
+    const jinmeiyouChars = jinmeiyou.map(x => x.char)
 
     // Filter data
     const hasReadingMeaning = jsonData.dict.character.filter(x => x.hasOwnProperty('reading_meaning'))
@@ -27,9 +31,33 @@ fs.readFile('./kanjidic2.xml', 'utf-8', (err, data) => {
     const reformed = hasReadings.map(sourceKanji => {
       const index = frequencyOrder.indexOf(sourceKanji.literal[0])
       const frequency = index < 0 ? null : index + 1
+      const char = sourceKanji.literal[0]
+
+      let set = []
+      if (jouyouChars.indexOf(char) > -1) {
+        set.push('jouyou')
+      }
+
+      if (jinmeiyouChars.indexOf(char) > -1) {
+        set.push('jinmeiyou')
+      }
+
+      if (set.indexOf('jouyou') === -1 && set.indexOf('jinmeiyou') === -1) {
+        set.push('hyougai')
+      }
+
+      const grade = sourceKanji.misc[0].hasOwnProperty('grade') ? sourceKanji.misc[0].grade[0] : null
+      if (!!grade) {
+        set.push('kyouiku')
+      }
+
+      const jlpt = sourceKanji.misc[0].hasOwnProperty('jlpt') ? sourceKanji.misc[0].jlpt[0] : null
+      if (!!jlpt) {
+        set.push('jlpt')
+      }
 
       return {
-        char: sourceKanji.literal[0],
+        char,
         stroke: sourceKanji.misc[0]['stroke_count'].sort((x, y) => x < y ? -1 : 1),
         meanings: sourceKanji.reading_meaning[0].rmgroup[0].meaning.filter(x => typeof x === 'string'),
         readings: {
@@ -38,8 +66,9 @@ fs.readFile('./kanjidic2.xml', 'utf-8', (err, data) => {
           nanori: sourceKanji.reading_meaning[0].nanori || []
         },
         frequency,
-        jlpt: sourceKanji.misc[0].hasOwnProperty('jlpt') ? sourceKanji.misc[0].jlpt[0] : null,
-        grade: sourceKanji.misc[0].hasOwnProperty('grade') ? sourceKanji.misc[0].grade[0] : null
+        jlpt,
+        grade,
+        set
       }
     })
 

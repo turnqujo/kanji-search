@@ -6,19 +6,9 @@ export function initDB(): Promise<boolean> {
     const openRequest = indexedDB.open('kanjiStore')
 
     openRequest.onupgradeneeded = () => {
-      const jooyooKanjiStore = openRequest.result.createObjectStore('kanji-jooyoo', {
+      openRequest.result.createObjectStore('kanji', {
         keyPath: 'char'
       })
-      jooyooKanjiStore.createIndex('stroke', 'stroke', { unique: false })
-      jooyooKanjiStore.createIndex('meanings', 'meanings', { unique: false, multiEntry: true })
-      jooyooKanjiStore.createIndex('readings', 'readings', { unique: false })
-
-      const jinmeiyooStore = openRequest.result.createObjectStore('kanji-jinmeiyoo', {
-        keyPath: 'char'
-      })
-      jinmeiyooStore.createIndex('stroke', 'stroke', { unique: false })
-      jinmeiyooStore.createIndex('meanings', 'meanings', { unique: false, multiEntry: true })
-      jinmeiyooStore.createIndex('readings', 'readings', { unique: false })
 
       openRequest.result.close()
       resolve(true)
@@ -39,16 +29,15 @@ export function initDB(): Promise<boolean> {
   })
 }
 
-export function fillDB(newData: Kanji[], kanjiSet: 'jooyoo' | 'jinmeiyoo'): Promise<boolean> {
-  const storeName = `kanji-${kanjiSet}`
+export function fillDB(newData: Kanji[]): Promise<boolean> {
   return new Promise((resolve) => {
     const openRequest = indexedDB.open('kanjiStore')
 
     openRequest.onsuccess = () => {
       const db = openRequest.result
-      const transaction = db.transaction(storeName, 'readwrite')
+      const transaction = db.transaction('kanji', 'readwrite')
 
-      newData.forEach((newKanji) => transaction.objectStore(storeName).add(newKanji))
+      newData.forEach((newKanji) => transaction.objectStore('kanji').add(newKanji))
 
       db.close()
       resolve(true)

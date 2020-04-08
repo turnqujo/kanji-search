@@ -8,6 +8,9 @@ export function getKanjiByConversion(
   conversionItems: ConversionItem[],
   matchOption: MatchOption
 ): Promise<Kanji[]> {
+  const stringData = JSON.stringify(kanjiSet)
+  const transfer = new ArrayBuffer(stringData.length * 8)
+
   return new Promise<Kanji[]>((resolve, reject) => {
     getKanjiByConversionWorker.onerror = (error: ErrorEvent) => {
       error.preventDefault()
@@ -16,10 +19,13 @@ export function getKanjiByConversion(
 
     getKanjiByConversionWorker.onmessage = (e: MessageEvent) => resolve(e.data)
 
-    getKanjiByConversionWorker.postMessage({
-      conversionItems,
-      kanjiSet,
-      matchOption
-    })
+    getKanjiByConversionWorker.postMessage(
+      {
+        conversionItems,
+        kanjiSet,
+        matchOption
+      },
+      [transfer]
+    )
   })
 }

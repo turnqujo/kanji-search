@@ -1,9 +1,6 @@
-import { Kanji } from '../models/kanji'
+import { Kanji, SortBy, OrderBy } from '../models'
 
 const getKanjiByRomajiWorker = new Worker('workers/sortKanji.worker.js')
-
-export type SortBy = 'strokeCount' | 'frequency' | 'unicode'
-export type OrderBy = 'asc' | 'desc'
 
 export function sortKanji(kanjiSet: Kanji[], sortBy: SortBy, order: OrderBy): Promise<Kanji[]> {
   return new Promise<Kanji[]>((resolve) => {

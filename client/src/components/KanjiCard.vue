@@ -2,7 +2,7 @@
   <div class="kanji-card">
     <h2 class="header" v-once>
       <span class="char">{{ kanji.char }}</span>
-      <span class="readings">{{ kanji.readings.join(', ') }}</span>
+      <span class="readings">TODO</span>
       <span class="stroke-count" v-once>{{
         Array.isArray(kanji.stroke)
           ? kanji.stroke.sort((x, y) => (x > y ? 1 : -1)).join(', ')

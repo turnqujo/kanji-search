@@ -1,11 +1,3 @@
-// TODO: How to import these?
-interface ConversionItem {
-  hiragana: string
-  katakana: string
-  romaji: string
-  original?: 'katakana' | 'hiragana' | 'romaji'
-}
-
 function findConversionItem(
   needle: string,
   conversionTable: ConversionItem[]

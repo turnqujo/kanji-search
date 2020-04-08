@@ -8,9 +8,7 @@ interface WorkerProps {
   matchOption: 'exact' | 'start' | 'anywhere'
 }
 
-const worker = new TestEnvWorker<WorkerProps, Kanji[]>(
-  'src/workers/getKanjiByConversion.worker.ts'
-)
+const worker = new TestEnvWorker<WorkerProps, Kanji[]>('src/workers/getKanjiByConversion.worker.ts')
 
 async function getResponse(message: WorkerProps): Promise<Kanji[]> {
   return new Promise((resolve, reject) => {

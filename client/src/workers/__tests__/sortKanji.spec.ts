@@ -1,12 +1,18 @@
 import TestEnvWorker from './test-utils/test-env-worker'
-import { Kanji } from '../../models/kanji'
-import { SortBy, OrderBy } from '../'
+import { Kanji, SortBy, OrderBy } from '../../models'
 
 const nahaKanji: Kanji = {
   char: '亜',
   stroke: 4,
   meanings: ['Hiragana "naha"'],
-  readings: ['なは'],
+  readings: {
+    on: ['なは'],
+    kun: [],
+    nanori: []
+  },
+  jlpt: null,
+  grade: null,
+  set: [],
   frequency: 4
 }
 
@@ -14,7 +20,14 @@ const nahanoKanji: Kanji = {
   char: '帰',
   stroke: 1,
   meanings: ['Katakana "nahano"'],
-  readings: ['ナハノ'],
+  readings: {
+    on: ['ナハノ'],
+    kun: [],
+    nanori: []
+  },
+  jlpt: null,
+  grade: null,
+  set: [],
   frequency: 2
 }
 
@@ -22,7 +35,14 @@ const onnaKanji: Kanji = {
   char: '年',
   stroke: 2,
   meanings: ['Hiragana "onna"'],
-  readings: ['おんな'],
+  readings: {
+    on: ['おんな'],
+    kun: [],
+    nanori: []
+  },
+  jlpt: null,
+  grade: null,
+  set: [],
   frequency: 3
 }
 
@@ -30,7 +50,14 @@ const shiKanji: Kanji = {
   char: '謎',
   stroke: 3,
   meanings: ['Hiragana "shiitake"'],
-  readings: ['しいたけ'],
+  readings: {
+    on: ['しいたけ'],
+    kun: [],
+    nanori: []
+  },
+  jlpt: null,
+  grade: null,
+  set: [],
   frequency: 1
 }
 
@@ -83,7 +110,14 @@ describe('The Sort Kanji Webworker', () => {
       char: '操',
       stroke: [0, 15],
       meanings: ['Multiple stroke options'],
-      readings: ['Does not matter'],
+      readings: {
+        on: [],
+        kun: [],
+        nanori: []
+      },
+      jlpt: null,
+      grade: null,
+      set: [],
       frequency: 1
     }
 
@@ -141,7 +175,14 @@ describe('The Sort Kanji Webworker', () => {
       char: '帰',
       stroke: 1,
       meanings: ['Katakana "nahano"'],
-      readings: ['ナハノ'],
+      readings: {
+        on: [],
+        kun: [],
+        nanori: []
+      },
+      jlpt: null,
+      grade: null,
+      set: [],
       frequency: null // Infinity is not valid JSON
     }
 

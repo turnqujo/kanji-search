@@ -1,10 +1,8 @@
-onerror = (_error: string | ErrorEvent) => {}
-
 onmessage = (e: MessageEvent) => {
   const { kanjiSet, sortBy, order = 'desc' } = e.data as {
     kanjiSet: Kanji[]
-    sortBy: 'strokeCount' | 'frequency' | 'unicode'
-    order: 'asc' | 'desc'
+    sortBy: SortBy
+    order: OrderBy
   }
 
   if (kanjiSet.length === 0 || !sortBy) {
@@ -37,9 +35,6 @@ onmessage = (e: MessageEvent) => {
       postMessage(kanjiSet.slice().sort((x, y) => (x.char < y.char ? leftSortVal : rightSortVal)))
       break
     default:
-      if (self.onerror !== null) {
-        self.onerror(new ErrorEvent('Error: Unknown sort by option'))
-      }
-      break
+      throw new Error('Unknown sort by option')
   }
 }

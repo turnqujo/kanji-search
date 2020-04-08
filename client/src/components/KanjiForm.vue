@@ -2,14 +2,56 @@
   <form @submit.prevent="onSubmit" class="form-container">
     <fieldset class="fieldset">
       <legend class="fieldset-legend">Kanji Set</legend>
-      <div class="radio-container">
-        <label class="radio-label">
-          <span class="radio-label__text">Jōyō</span>
-          <input type="radio" name="kanji-set" value="jooyoo" v-model="kanjiSet" class="radio" />
+      <div class="checkbox-container">
+        <label class="checkbox-label">
+          <span class="checkbox-label__text">Jōyō</span>
+          <input
+            type="checkbox"
+            name="kanji-set"
+            value="jouyou"
+            v-model="kanjiSet"
+            class="checkbox"
+          />
         </label>
-        <label class="radio-label">
-          <span class="radio-label__text">Jinmeiyō</span>
-          <input type="radio" name="kanji-set" value="jinmeiyoo" v-model="kanjiSet" class="radio" />
+        <label class="checkbox-label">
+          <span class="checkbox-label__text">Jinmeiyō</span>
+          <input
+            type="checkbox"
+            name="kanji-set"
+            value="jinmeiyou"
+            v-model="kanjiSet"
+            class="checkbox"
+          />
+        </label>
+        <label class="checkbox-label">
+          <span class="checkbox-label__text">Kyōiku</span>
+          <input
+            type="checkbox"
+            name="kanji-set"
+            value="kyouiku"
+            v-model="kanjiSet"
+            class="checkbox"
+          />
+        </label>
+        <label class="checkbox-label">
+          <span class="checkbox-label__text">JLPT</span>
+          <input
+            type="checkbox"
+            name="kanji-set"
+            value="jlpt"
+            v-model="kanjiSet"
+            class="checkbox"
+          />
+        </label>
+        <label class="checkbox-label">
+          <span class="checkbox-label__text">Hyōgai</span>
+          <input
+            type="checkbox"
+            name="kanji-set"
+            value="hyougai"
+            v-model="kanjiSet"
+            class="checkbox"
+          />
         </label>
       </div>
     </fieldset>
@@ -38,7 +80,7 @@
       </label>
     </fieldset>
     <fieldset class="fieldset">
-      <legend class="fieldset-legend">Sort Options</legend>
+      <legend class="fieldset-legend">Sorting</legend>
       <label class="input-label">
         <span class="input-label__text">Sort By</span>
         <select v-model="sortField">
@@ -78,6 +120,16 @@
     }
   }
 
+  .checkbox-label {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .checkbox-label:not(:first-of-type) {
+    margin-left: 16px;
+  }
+
   .radio-label:not(:first-of-type) {
     margin-left: 8px;
   }
@@ -89,8 +141,8 @@
 
 <script lang="ts">
   import { Component, Vue } from 'vue-property-decorator'
-  import { KanjiSet, MatchOption } from '../models'
-  import { SortBy, OrderBy, convertText } from '../workers'
+  import { KanjiSet, MatchOption, SortBy, OrderBy } from '../models'
+  import { convertText } from '../workers'
   import conversionTable, { ConversionItem } from '../data/conversion-table'
 
   export interface SubmitProps {
@@ -104,7 +156,7 @@
 
   @Component({})
   export default class KanjiForm extends Vue {
-    private kanjiSet: KanjiSet = 'jooyoo'
+    private kanjiSet: KanjiSet = []
     private readingMatchOption: MatchOption = 'start'
     private reading = ''
     private readingError = ''

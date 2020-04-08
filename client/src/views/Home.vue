@@ -14,7 +14,7 @@
   import { Kanji } from '../models/kanji'
   import PickList from '../components/PickList.vue'
   import KanjiForm, { SubmitProps } from '../components/KanjiForm.vue'
-  import { getAllKanji, filterKanjiByMeaning, sortKanji, getKanjiByConversion } from '../workers'
+  import { getKanji, filterKanjiByMeaning, sortKanji, getKanjiByConversion } from '../workers'
 
   @Component({
     components: {
@@ -26,21 +26,18 @@
     kanjiSet: Kanji[] = []
 
     async onFormSubmit(values: SubmitProps) {
-      const unfilteredKanji = await getAllKanji(values.kanjiSet)
-
-      // TODO: Just pass the conversions to a reworked worker which accepts them
-      const romajiReading = values.readingConverted.map((x) => x.romaji).join()
+      const unfilteredKanji = await getKanji(values.kanjiSet)
 
       let readingMeaningFiltered = []
-      if (!romajiReading && !!values.meaning) {
+      if (values.readingConverted.length === 0 && !!values.meaning) {
         readingMeaningFiltered = await filterKanjiByMeaning(unfilteredKanji, values.meaning)
-      } else if (!!romajiReading && !values.meaning) {
+      } else if (values.readingConverted.length > 0 && !values.meaning) {
         readingMeaningFiltered = await getKanjiByConversion(
           unfilteredKanji,
           values.readingConverted,
           values.readingMatchOption
         )
-      } else if (!!romajiReading && !!values.meaning) {
+      } else if (values.readingConverted.length > 0 && !!values.meaning) {
         // TODO: Add some control to order these, or query & join both?
         const meaningFiltered = await filterKanjiByMeaning(unfilteredKanji, values.meaning)
         readingMeaningFiltered = await getKanjiByConversion(
@@ -54,7 +51,7 @@
 
       const sorted = await sortKanji(readingMeaningFiltered, values.sortField, values.sortDirection)
 
-      this.kanjiSet = sorted
+      this.kanjiSet = sorted.slice(0, 100)
     }
   }
 </script>

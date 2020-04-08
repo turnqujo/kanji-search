@@ -1,22 +1,6 @@
-// TODO: How to import these?
-interface ConversionItem {
-  hiragana: string
-  katakana: string
-  romaji: string
-  original?: 'katakana' | 'hiragana' | 'romaji'
-}
-
-interface Kanji {
-  char: string
-  stroke: number | string | number[]
-  meanings: string[]
-  readings: string[]
-  frequency: number | string | null
-}
-
 onmessage = (e: MessageEvent) => {
   const { kanjiSet, conversionItems, matchOption = 'exact' } = e.data as {
-    kanjiSet: Kanji[],
+    kanjiSet: Kanji[]
     conversionItems: ConversionItem[]
     matchOption: 'start' | 'anywhere' | 'exact'
   }
@@ -37,20 +21,26 @@ onmessage = (e: MessageEvent) => {
   const asHiragana = conversionItems.map((item) => item.hiragana).join('')
   const asKatakana = conversionItems.map((item) => item.katakana).join('')
   postMessage(
-    kanjiSet.filter(
-      (kanji) =>
-        !!kanji.readings.find((reading: string) => {
-          switch (matchOption) {
-            case 'exact':
-              return reading === asHiragana || reading === asKatakana
-            case 'start':
-              return reading.startsWith(asHiragana) || reading.startsWith(asKatakana)
-            case 'anywhere':
-              return reading.indexOf(asHiragana) >= 0 || reading.indexOf(asKatakana) >= 0
-            default:
-              throw new Error('Unknown match option')
-          }
-        })
-    )
+    kanjiSet.filter((kanji) => {
+      const { on, kun, nanori } = kanji.readings
+      const allReadings = [...on, ...kun]
+
+      if (nanori) {
+        allReadings.push(...nanori)
+      }
+
+      return !!allReadings.find((reading: string) => {
+        switch (matchOption) {
+          case 'exact':
+            return reading === asHiragana || reading === asKatakana
+          case 'start':
+            return reading.startsWith(asHiragana) || reading.startsWith(asKatakana)
+          case 'anywhere':
+            return reading.indexOf(asHiragana) >= 0 || reading.indexOf(asKatakana) >= 0
+          default:
+            throw new Error('Unknown match option')
+        }
+      })
+    })
   )
 }
