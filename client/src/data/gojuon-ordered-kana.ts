@@ -33,9 +33,8 @@ export const gojuonOrdered: (ConversionItem | null)[][] = [
     { katakana: 'ヌ', hiragana: 'ぬ', romaji: 'nu' },
     { katakana: 'フ', hiragana: 'ふ', romaji: 'fu' },
     { katakana: 'ム', hiragana: 'む', romaji: 'mu' },
+    { katakana: 'ユ', hiragana: 'ゆ', romaji: 'yu' },
     { katakana: 'ル', hiragana: 'る', romaji: 'ru' },
-    null,
-    // NOTE: This is not the correct placement, but it is the most visually appealing
     { katakana: 'ン', hiragana: 'ん', romaji: 'n' }
   ],
   [

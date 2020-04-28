@@ -5,7 +5,14 @@ const kanjiA: Kanji = {
   char: 'a',
   stroke: 1,
   meanings: ['aaa'],
-  readings: ['b'],
+  readings: {
+    on: ['b'],
+    kun: [],
+    nanori: []
+  },
+  jlpt: 1,
+  grade: 1,
+  set: [],
   frequency: 0
 }
 
@@ -13,7 +20,14 @@ const kanjiB: Kanji = {
   char: 'b',
   stroke: 2,
   meanings: ['c'],
-  readings: ['d'],
+  readings: {
+    on: ['d'],
+    kun: [],
+    nanori: []
+  },
+  jlpt: 1,
+  grade: 1,
+  set: [],
   frequency: 1
 }
 
@@ -21,7 +35,14 @@ const kanjiC: Kanji = {
   char: 'c',
   stroke: 2,
   meanings: ['öL', 'aa'],
-  readings: ['asdf'],
+  readings: {
+    on: ['asdf'],
+    kun: [],
+    nanori: []
+  },
+  jlpt: 1,
+  grade: 1,
+  set: [],
   frequency: 2
 }
 

@@ -1,4 +1,5 @@
 export type KanjiSet = ('jouyou' | 'jinmeiyou' | 'hyougai' | 'kyouiku' | 'jlpt')[]
+export type ReadingType = ('on' | 'kun' | 'nanori')[]
 
 export interface Kanji {
   char: string

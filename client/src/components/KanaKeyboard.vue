@@ -1,20 +1,8 @@
 <template>
   <div class="kana-keyboard">
-    <div class="options-container">
-      <label class="input-label">
-        <span class="input-label-text">Match Setting</span>
-        <select @change="onMatchSettingChanged">
-          <option value="start">Starts with</option>
-          <option value="exact">Exact</option>
-          <option value="anywhere">Contains</option>
-        </select>
-      </label>
-      <label class="input-label">
-        <span class="input-label-text">Reading</span>
-        <input class="kana-input" type="text" v-model="currentInput" placeholder="ヘン" />
-      </label>
-      <button @click="onToggleKeyboard"><i class="toggle-icon far fa-keyboard" /></button>
-    </div>
+    <button type="button" @click="onToggleKeyboard">
+      <i class="toggle-icon far fa-keyboard" />
+    </button>
     <div class="popup" v-if="open">
       <div class="kana-table" v-on-click-outside="onToggleKeyboard">
         <select @change="onModeChange">
@@ -24,12 +12,13 @@
         </select>
         <select @change="onModifierChange">
           <option value="unmodified">Unmodified</option>
+          <option value="chiisai">Chiisai</option>
           <option value="dakuten">Dakuten</option>
           <option value="handakuten">Handakuten</option>
         </select>
         <ul class="kana-table-row" v-for="(set, index) in kanaSet" :key="index">
           <li class="kana-table-item" v-for="(item, itemIndex) in set" :key="itemIndex">
-            <button v-if="item !== null" @click="() => onKanaClicked(item)">
+            <button type="button" v-if="item !== null" @click="() => onKanaClicked(item)">
               {{ item[mode] }}
             </button>
           </li>
@@ -42,16 +31,6 @@
 <style lang="scss" scoped>
   .kana-keyboard {
     position: relative;
-    color: black;
-  }
-
-  .options-container {
-    display: flex;
-    align-items: flex-end;
-  }
-
-  .kana-input {
-    margin-left: 4px;
   }
 
   .toggle-icon {
@@ -89,13 +68,13 @@
 
 <script lang="ts">
   import { Component, Vue } from 'vue-property-decorator'
-  import { gojuonOrdered, gojuonDakuten, gojuonHandakuten } from '../../data/gojuon-ordered-kana'
-  import { MatchOption } from '../../models'
-  import { ConversionItem } from '../../data/conversion-table'
-  import onClickOutside from '../../directives/OnClickOutside.vue'
+  import { gojuonOrdered, gojuonDakuten, gojuonHandakuten } from '../data/gojuon-ordered-kana'
+  import { chiisaiKana } from '../data/chiisai-kana'
+  import { ConversionItem } from '../data/conversion-table'
+  import onClickOutside from '../directives/OnClickOutside.vue'
 
   type ModeType = 'hiragana' | 'katakana' | 'romaji'
-  type Modifier = 'unmodified' | 'dakuten' | 'handakuten'
+  type Modifier = 'unmodified' | 'chiisai' | 'dakuten' | 'handakuten'
 
   @Component({
     directives: {
@@ -107,20 +86,6 @@
     modifier: Modifier = 'unmodified'
     kanaSet: (ConversionItem | null)[][] = gojuonOrdered
     open = false
-
-    realCurrentInput = ''
-    get currentInput() {
-      return this.realCurrentInput
-    }
-    set currentInput(newVal: string) {
-      this.realCurrentInput = newVal
-      this.$emit('input', this.realCurrentInput)
-    }
-
-    onMatchSettingChanged(e: Event) {
-      const selectElement = e.target as HTMLSelectElement
-      this.$emit('matchSettingChanged', selectElement.value as MatchOption)
-    }
 
     onModeChange(e: Event) {
       const selectElement = e.target as HTMLSelectElement
@@ -134,6 +99,9 @@
       switch (this.modifier) {
         case 'unmodified':
           this.kanaSet = gojuonOrdered
+          break
+        case 'chiisai':
+          this.kanaSet = chiisaiKana
           break
         case 'dakuten':
           this.kanaSet = gojuonDakuten
@@ -157,7 +125,7 @@
     }
 
     async onKanaClicked(kana: ConversionItem) {
-      this.currentInput += kana[this.mode]
+      this.$emit('kana-picked', { ...kana, original: this.mode })
     }
   }
 </script>

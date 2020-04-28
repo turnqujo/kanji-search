@@ -1,8 +1,9 @@
 onmessage = (e: MessageEvent) => {
-  const { kanjiSet, conversionItems, matchOption = 'exact' } = e.data as {
+  const { kanjiSet, conversionItems, matchOption, readingType } = e.data as {
     kanjiSet: Kanji[]
     conversionItems: ConversionItem[]
-    matchOption: 'start' | 'anywhere' | 'exact'
+    matchOption: 'start' | 'anywhere' | 'exact',
+    readingType: ('on' | 'kun' | 'nanori')[]
   }
 
   if (!Array.isArray(conversionItems)) {
@@ -11,6 +12,14 @@ onmessage = (e: MessageEvent) => {
 
   if (!Array.isArray(kanjiSet)) {
     throw new Error('Kanji Set is malformed.')
+  }
+
+  if (!matchOption) {
+    throw new Error('Match Option is malformed.')
+  }
+
+  if (!Array.isArray(readingType)) {
+    throw new Error('Reading Type is malformed.')
   }
 
   if (conversionItems.length === 0 || kanjiSet.length === 0) {
@@ -22,14 +31,20 @@ onmessage = (e: MessageEvent) => {
   const asKatakana = conversionItems.map((item) => item.katakana).join('')
   postMessage(
     kanjiSet.filter((kanji) => {
-      const { on, kun, nanori } = kanji.readings
-      const allReadings = [...on, ...kun]
-
-      if (nanori) {
-        allReadings.push(...nanori)
+      const readings = []
+      if (readingType.indexOf('on') > -1) {
+        readings.push(...kanji.readings.on)
       }
 
-      return !!allReadings.find((reading: string) => {
+      if (readingType.indexOf('kun') > -1) {
+        readings.push(...kanji.readings.kun)
+      }
+
+      if (readingType.indexOf('nanori') > -1 && Array.isArray(kanji.readings.nanori)) {
+        readings.push(...kanji.readings.nanori)
+      }
+
+      return !!readings.find((reading: string) => {
         switch (matchOption) {
           case 'exact':
             return reading === asHiragana || reading === asKatakana

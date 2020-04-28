@@ -3,7 +3,9 @@
     <div class="kanji-form-container">
       <kanji-form @submit="onFormSubmit"></kanji-form>
     </div>
-    <pick-list :kanji-set="kanjiSet"></pick-list>
+    <div class="pick-list-container">
+      <pick-list :kanji-set="kanjiSet"></pick-list>
+    </div>
   </div>
 </template>
 
@@ -14,7 +16,13 @@
   import { Kanji } from '../models/kanji'
   import PickList from '../components/PickList.vue'
   import KanjiForm, { SubmitProps } from '../components/KanjiForm.vue'
-  import { getKanji, filterKanjiByMeaning, sortKanji, getKanjiByConversion } from '../workers'
+  import {
+    getKanji,
+    filterKanjiByMeaning,
+    sortKanji,
+    getKanjiByConversion,
+    filterKanjiByMetric
+  } from '../workers'
 
   @Component({
     components: {
@@ -25,6 +33,9 @@
   export default class HomeComponent extends Vue {
     kanjiSet: Kanji[] = []
 
+    /**
+     * TODO: This is obviously a trash way to handle this
+     */
     async onFormSubmit(values: SubmitProps) {
       const unfilteredKanji = await getKanji(values.kanjiSet)
 
@@ -35,7 +46,8 @@
         readingMeaningFiltered = await getKanjiByConversion(
           unfilteredKanji,
           values.readingConverted,
-          values.readingMatchOption
+          values.readingMatchOption,
+          values.readingType
         )
       } else if (values.readingConverted.length > 0 && !!values.meaning) {
         // TODO: Add some control to order these, or query & join both?
@@ -43,15 +55,21 @@
         readingMeaningFiltered = await getKanjiByConversion(
           meaningFiltered,
           values.readingConverted,
-          values.readingMatchOption
+          values.readingMatchOption,
+          values.readingType
         )
       } else {
         readingMeaningFiltered = unfilteredKanji
       }
 
-      const sorted = await sortKanji(readingMeaningFiltered, values.sortField, values.sortDirection)
+      let graded = readingMeaningFiltered.slice()
+      if (values.grade) {
+        graded = await filterKanjiByMetric(readingMeaningFiltered, 'grade', `${values.grade}`)
+      }
 
-      this.kanjiSet = sorted.slice(0, 100)
+      const sorted = await sortKanji(graded, values.sortField, values.sortDirection)
+
+      this.kanjiSet = sorted
     }
   }
 </script>

@@ -29,5 +29,5 @@ interface Kanji {
   set: KanjiSet
 }
 
-type SortBy = 'strokeCount' | 'frequency' | 'unicode'
+type SortBy = 'strokeCount' | 'frequency' | 'grade' | 'jlpt' | 'unicode'
 type OrderBy = 'asc' | 'desc'

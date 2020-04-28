@@ -1,3 +1,7 @@
+function getNumber(val: number | string | null): number {
+  return val === null ? Infinity : Number(val)
+}
+
 onmessage = (e: MessageEvent) => {
   const { kanjiSet, sortBy, order = 'desc' } = e.data as {
     kanjiSet: Kanji[]
@@ -24,11 +28,25 @@ onmessage = (e: MessageEvent) => {
       break
     case 'frequency':
       postMessage(
-        kanjiSet.slice().sort((x, y) => {
-          const leftFrequency = x.frequency === null ? Infinity : Number(x.frequency)
-          const rightFrequency = y.frequency === null ? Infinity : Number(y.frequency)
-          return leftFrequency > rightFrequency ? leftSortVal : rightSortVal
-        })
+        kanjiSet
+          .slice()
+          .sort((x, y) =>
+            getNumber(x.frequency) > getNumber(y.frequency) ? leftSortVal : rightSortVal
+          )
+      )
+      break
+    case 'grade':
+      postMessage(
+        kanjiSet
+          .slice()
+          .sort((x, y) => (getNumber(x.grade) > getNumber(y.grade) ? leftSortVal : rightSortVal))
+      )
+      break
+    case 'jlpt':
+      postMessage(
+        kanjiSet
+          .slice()
+          .sort((x, y) => (getNumber(x.jlpt) > getNumber(y.jlpt) ? leftSortVal : rightSortVal))
       )
       break
     case 'unicode':

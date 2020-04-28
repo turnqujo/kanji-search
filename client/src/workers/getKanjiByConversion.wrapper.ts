@@ -1,12 +1,13 @@
 import { ConversionItem } from '../data/conversion-table'
-import { Kanji, MatchOption } from '../models'
+import { Kanji, MatchOption, ReadingType } from '../models'
 
 const getKanjiByConversionWorker = new Worker('workers/getKanjiByConversion.worker.js')
 
 export function getKanjiByConversion(
   kanjiSet: Kanji[],
   conversionItems: ConversionItem[],
-  matchOption: MatchOption
+  matchOption: MatchOption,
+  readingType: ReadingType
 ): Promise<Kanji[]> {
   const stringData = JSON.stringify(kanjiSet)
   const transfer = new ArrayBuffer(stringData.length * 8)
@@ -23,7 +24,8 @@ export function getKanjiByConversion(
       {
         conversionItems,
         kanjiSet,
-        matchOption
+        matchOption,
+        readingType
       },
       [transfer]
     )

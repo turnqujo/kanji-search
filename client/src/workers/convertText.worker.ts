@@ -21,8 +21,8 @@ function findConversionItem(
 }
 
 function convertText(text: string, conversionTable: ConversionItem[]): ConversionItem[] {
-  // NOTE: 3 is the most characters needed for a section of text to be unambiguous
-  for (let selectionLength = 3; selectionLength >= 1; selectionLength--) {
+  // TODO: Instead of starting at a length of 4, could check the next item for a kana match
+  for (let selectionLength = 4; selectionLength >= 1; selectionLength--) {
     const foundConversion = findConversionItem(text.slice(0, selectionLength), conversionTable)
     if (foundConversion === null) {
       continue

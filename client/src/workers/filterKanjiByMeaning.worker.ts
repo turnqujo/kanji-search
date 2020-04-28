@@ -1,7 +1,3 @@
-onerror = (error: string | Event) => {
-  console.error(error)
-}
-
 onmessage = (e: MessageEvent) => {
   const { kanjiSet, searchTerm } = e.data as {
     kanjiSet: any[]

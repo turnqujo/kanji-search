@@ -1,11 +1,12 @@
 import TestEnvWorker from './test-utils/test-env-worker'
-import { Kanji } from '@/models/kanji'
+import { Kanji, ReadingType } from '@/models/kanji'
 import { ConversionItem } from '@/data/conversion-table'
 
 interface WorkerProps {
   kanjiSet: Kanji[]
   conversionItems: ConversionItem[]
-  matchOption: 'exact' | 'start' | 'anywhere'
+  matchOption: 'exact' | 'start' | 'anywhere',
+  readingType: ReadingType
 }
 
 const worker = new TestEnvWorker<WorkerProps, Kanji[]>('src/workers/getKanjiByConversion.worker.ts')
@@ -16,6 +17,51 @@ async function getResponse(message: WorkerProps): Promise<Kanji[]> {
     worker.onerror = (e: string | Event) => reject(e)
     worker.postMessage(message)
   })
+}
+
+const kikukeKanji = {
+  char: 'kikuke',
+  stroke: 7,
+  meanings: [],
+  readings: {
+    on: ['きくけ'],
+    kun: ['マ'],
+    nanori: []
+  },
+  grade: 0,
+  jlpt: 0,
+  frequency: 0,
+  set: []
+}
+
+const kakikukeKanji = {
+  char: 'kakikuke',
+  stroke: 7,
+  meanings: [],
+  readings: {
+    on: ['かきくけ', 'ま'],
+    kun: ['キャ'],
+    nanori: []
+  },
+  grade: 0,
+  jlpt: 0,
+  frequency: 0,
+  set: []
+}
+
+const kikukekoKanji = {
+  char: 'kikukeko',
+  stroke: 7,
+  meanings: [],
+  readings: {
+    on: ['きくけこ'],
+    kun: ['シ', 'マ'],
+    nanori: []
+  },
+  grade: 0,
+  jlpt: 0,
+  frequency: 0,
+  set: []
 }
 
 describe('The Get Kanji by Conversion Webworker', () => {
@@ -29,119 +75,62 @@ describe('The Get Kanji by Conversion Webworker', () => {
           romaji: 'c'
         }
       ],
-      matchOption: 'anywhere'
+      matchOption: 'anywhere',
+      readingType: ['on', 'kun', 'nanori']
     })
 
     expect(result).toEqual([])
   })
 
   it('Should handle exact matches.', async () => {
-    const expectedKanji = {
-      char: 'kikuke',
-      stroke: 7,
-      meanings: [],
-      readings: ['きくけ'],
-      frequency: 0
-    }
-
-    const wrongKanji = {
-      char: 'kakikuke',
-      stroke: 7,
-      meanings: [],
-      readings: ['かきくけ'],
-      frequency: 0
-    }
-
-    const deceptiveKanji = {
-      char: 'kikukeko',
-      stroke: 7,
-      meanings: [],
-      readings: ['きくけこ'],
-      frequency: 0
-    }
-
     const result = await getResponse({
-      kanjiSet: [wrongKanji, expectedKanji, deceptiveKanji],
+      kanjiSet: [kikukeKanji, kakikukeKanji, kikukekoKanji],
       conversionItems: [
         { katakana: 'キ', hiragana: 'き', romaji: 'ki' },
         { katakana: 'ク', hiragana: 'く', romaji: 'ku' },
         { katakana: 'ケ', hiragana: 'け', romaji: 'ke' }
       ],
-      matchOption: 'exact'
+      matchOption: 'exact',
+      readingType: ['on', 'kun', 'nanori']
     })
 
-    expect(result).toEqual([expectedKanji])
+    expect(result).toEqual([kikukeKanji])
   })
 
   it('Should handle matching only the starts of readings.', async () => {
-    const expectedKanji = {
-      char: 'kikuke',
-      stroke: 7,
-      meanings: [],
-      readings: ['きくけ'],
-      frequency: 0
-    }
-
-    const wrongKanji = {
-      char: 'kakikuke',
-      stroke: 7,
-      meanings: [],
-      readings: ['かきくけ'],
-      frequency: 0
-    }
-
-    const alsoExpected = {
-      char: 'kikukeko',
-      stroke: 7,
-      meanings: [],
-      readings: ['きくけこ'],
-      frequency: 0
-    }
-
     const result = await getResponse({
-      kanjiSet: [wrongKanji, expectedKanji, alsoExpected],
+      kanjiSet: [kikukeKanji, kakikukeKanji, kikukekoKanji],
       conversionItems: [
         { katakana: 'キ', hiragana: 'き', romaji: 'ki' },
         { katakana: 'ク', hiragana: 'く', romaji: 'ku' },
         { katakana: 'ケ', hiragana: 'け', romaji: 'ke' }
       ],
-      matchOption: 'start'
+      matchOption: 'start',
+      readingType: ['on', 'kun', 'nanori']
     })
 
-    expect(result).toEqual([expectedKanji, alsoExpected])
+    expect(result).toEqual([kikukeKanji, kikukekoKanji])
   })
 
   it('Should handle searching for matches anywhere in the kanji set.', async () => {
-    const expectedKanji = {
-      char: 'kikuke',
-      stroke: 7,
-      meanings: [],
-      readings: ['きくけ'],
-      frequency: 0
-    }
-
-    const wrongKanji = {
-      char: 'kakikuke',
-      stroke: 7,
-      meanings: [],
-      readings: ['かきくけ'],
-      frequency: 0
-    }
-
-    const alsoExpected = {
-      char: 'kikukeko',
-      stroke: 7,
-      meanings: [],
-      readings: ['きくけこ'],
-      frequency: 0
-    }
-
     const result = await getResponse({
-      kanjiSet: [wrongKanji, expectedKanji, alsoExpected],
+      kanjiSet: [kikukeKanji, kakikukeKanji, kikukekoKanji],
       conversionItems: [{ katakana: 'キ', hiragana: 'き', romaji: 'ki' }],
-      matchOption: 'anywhere'
+      matchOption: 'anywhere',
+      readingType: ['on', 'kun', 'nanori']
     })
 
-    expect(result).toEqual([wrongKanji, expectedKanji, alsoExpected])
+    expect(result).toEqual([kikukeKanji, kakikukeKanji, kikukekoKanji])
+  })
+
+  it('Should handle limiting searches to specific reading types (On, Kun, Nanori)', async () => {
+    const result = await getResponse({
+      kanjiSet: [kikukeKanji, kakikukeKanji, kikukekoKanji],
+      conversionItems: [{ katakana: 'マ', hiragana: 'ま', romaji: 'ma' }],
+      matchOption: 'anywhere',
+      readingType: ['kun']
+    })
+
+    expect(result).toEqual([kikukeKanji, kikukekoKanji])
   })
 })

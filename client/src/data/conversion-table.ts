@@ -75,6 +75,15 @@ const conversionTable: ConversionItem[] = [
   { katakana: 'ワ', hiragana: 'わ', romaji: 'wa' },
   { katakana: 'ヲ', hiragana: 'を', romaji: 'wo' },
   { katakana: 'ン', hiragana: 'ん', romaji: 'n' },
+  { katakana: 'ァ', hiragana: 'ぁ', romaji: 'xa' },
+  { katakana: 'ィ', hiragana: 'ぃ', romaji: 'xi' },
+  { katakana: 'ゥ', hiragana: 'ぅ', romaji: 'xu' },
+  { katakana: 'ェ', hiragana: 'ぇ', romaji: 'xe' },
+  { katakana: 'ォ', hiragana: 'ぉ', romaji: 'xo' },
+  { katakana: 'ッ', hiragana: 'っ', romaji: 'xtsu' },
+  { katakana: 'ャ', hiragana: 'ゃ', romaji: 'xya' },
+  { katakana: 'ュ', hiragana: 'ゅ', romaji: 'xyu' },
+  { katakana: 'ョ', hiragana: 'ょ', romaji: 'xyo' },
   { katakana: 'キャ', hiragana: 'きゃ', romaji: 'kya' },
   { katakana: 'キュ', hiragana: 'きゅ', romaji: 'kyu' },
   { katakana: 'キョ', hiragana: 'きょ', romaji: 'kyo' },
@@ -104,7 +113,8 @@ const conversionTable: ConversionItem[] = [
   { katakana: 'ビョ', hiragana: 'びょ', romaji: 'byo' },
   { katakana: 'ピャ', hiragana: 'ぴゃ', romaji: 'pya' },
   { katakana: 'ピュ', hiragana: 'ぴゅ', romaji: 'pyu' },
-  { katakana: 'ピョ', hiragana: 'ぴょ', romaji: 'pyo' }
+  { katakana: 'ピョ', hiragana: 'ぴょ', romaji: 'pyo' },
+  { katakana: 'ー', hiragana: 'ー', romaji: '-' }
 ]
 
 export default conversionTable
