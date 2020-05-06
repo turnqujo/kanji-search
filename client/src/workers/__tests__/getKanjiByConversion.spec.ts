@@ -5,7 +5,7 @@ import { ConversionItem } from '@/data/conversion-table'
 interface WorkerProps {
   kanjiSet: Kanji[]
   conversionItems: ConversionItem[]
-  matchOption: 'exact' | 'start' | 'anywhere',
+  matchOption: 'exact' | 'start' | 'anywhere'
   readingType: ReadingType
 }
 

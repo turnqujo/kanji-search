@@ -125,7 +125,7 @@
       <legend class="fieldset-legend">Sorting</legend>
       <label class="input-label">
         <span class="input-label__text">Primary Sort</span>
-        <select v-model="sortField">
+        <select v-model="primarySortField">
           <option value="frequency">Popularity</option>
           <option value="grade">Grade</option>
           <option value="jlpt">JLPT</option>
@@ -136,32 +136,47 @@
       <div class="radio-container">
         <label class="radio-label">
           Ascending
-          <input type="radio" name="primary-sort-dir" value="asc" v-model="sortDirection" />
+          <input type="radio" name="primary-sort-dir" value="asc" v-model="primarySortDirection" />
         </label>
         <label class="radio-label">
           Descending
-          <input type="radio" name="primary-sort-dir" value="desc" v-model="sortDirection" />
+          <input type="radio" name="primary-sort-dir" value="desc" v-model="primarySortDirection" />
         </label>
       </div>
-      <label class="input-label">
-        <span class="input-label__text">Secondary Sort</span>
-        <select v-model="sortField">
-          <option value="frequency">Popularity</option>
-          <option value="grade">Grade</option>
-          <option value="jlpt">JLPT</option>
-          <option value="strokeCount">Stroke Count</option>
-          <option value="unicode">Unicode</option>
-        </select>
-      </label>
-      <div class="radio-container">
-        <label class="radio-label">
-          Ascending
-          <input type="radio" name="secondary-sort-dir" value="asc" v-model="sortDirection" />
+      <div v-if="primarySortField !== 'frequency' && primarySortField !== 'unicode'">
+        <label class="input-label">
+          <span class="input-label__text">Secondary Sort</span>
+          <select v-model="secondarySortField">
+            <option value="none">None</option>
+            <option value="frequency">Popularity</option>
+            <option value="grade" :disabled="primarySortField === 'grade'">Grade</option>
+            <option value="jlpt" :disabled="primarySortField === 'jlpt'">JLPT</option>
+            <option value="strokeCount" :disabled="primarySortField === 'strokeCount'"
+              >Stroke Count</option
+            >
+            <option value="unicode">Unicode</option>
+          </select>
         </label>
-        <label class="radio-label">
-          Descending
-          <input type="radio" name="secondary-sort-dir" value="desc" v-model="sortDirection" />
-        </label>
+        <div class="radio-container" v-if="secondarySortField !== 'none'">
+          <label class="radio-label">
+            Ascending
+            <input
+              type="radio"
+              name="secondary-sort-dir"
+              value="asc"
+              v-model="secondarySortDirection"
+            />
+          </label>
+          <label class="radio-label">
+            Descending
+            <input
+              type="radio"
+              name="secondary-sort-dir"
+              value="desc"
+              v-model="secondarySortDirection"
+            />
+          </label>
+        </div>
       </div>
     </fieldset>
     <button type="submit">Search</button>
@@ -205,7 +220,7 @@
 
 <script lang="ts">
   import { Component, Vue } from 'vue-property-decorator'
-  import { KanjiSet, ReadingType, MatchOption, SortBy, OrderBy } from '../models'
+  import { KanjiSet, ReadingType, MatchOption, SortBy, OrderBy, SortOptions } from '../models'
   import { convertText } from '../workers'
   import conversionTable, { ConversionItem } from '../data/conversion-table'
   import KanaKeyboard from './KanaKeyboard.vue'
@@ -216,9 +231,9 @@
     readingConverted: ConversionItem[]
     readingType: ReadingType
     meaning: string
-    sortField: SortBy
-    sortDirection: OrderBy
     grade: number | string | null
+    primarySort: SortOptions
+    secondarySort: SortOptions
   }
 
   @Component({
@@ -236,8 +251,10 @@
     private meaning = ''
     private meaningError = false
     private grade = '-1'
-    private sortField: SortBy = 'frequency'
-    private sortDirection: OrderBy = 'asc'
+    private primarySortField: SortBy = 'frequency'
+    private primarySortDirection: OrderBy = 'asc'
+    private secondarySortField: SortBy | 'none' = 'none'
+    private secondarySortDirection: OrderBy = 'asc'
 
     async onReadingBlur() {
       this.readingError = ''
@@ -274,8 +291,14 @@
         readingConverted: this.readingConverted,
         readingType: this.readingType,
         meaning: this.meaning,
-        sortField: this.sortField,
-        sortDirection: this.sortDirection,
+        primarySort: {
+          field: this.primarySortField,
+          direction: this.primarySortDirection
+        },
+        secondarySort: {
+          field: this.secondarySortField === 'none' ? null : this.secondarySortField,
+          direction: this.secondarySortDirection
+        },
         grade: this.grade === '-1' ? null : this.grade
       } as SubmitProps)
     }

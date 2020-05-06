@@ -67,7 +67,11 @@
         graded = await filterKanjiByMetric(readingMeaningFiltered, 'grade', `${values.grade}`)
       }
 
-      const sorted = await sortKanji(graded, values.sortField, values.sortDirection)
+      const sorted = await sortKanji(
+        graded,
+        values.primarySort,
+        values.secondarySort.field === null ? null : values.secondarySort
+      )
 
       this.kanjiSet = sorted
     }

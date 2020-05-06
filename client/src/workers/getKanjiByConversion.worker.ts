@@ -2,7 +2,7 @@ onmessage = (e: MessageEvent) => {
   const { kanjiSet, conversionItems, matchOption, readingType } = e.data as {
     kanjiSet: Kanji[]
     conversionItems: ConversionItem[]
-    matchOption: 'start' | 'anywhere' | 'exact',
+    matchOption: 'start' | 'anywhere' | 'exact'
     readingType: ('on' | 'kun' | 'nanori')[]
   }
 

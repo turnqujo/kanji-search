@@ -1,5 +1,5 @@
 import TestEnvWorker from './test-utils/test-env-worker'
-import { Kanji, SortBy, OrderBy } from '../../models'
+import { Kanji, SortOptions } from '../../models'
 
 const nahaKanji: Kanji = {
   char: '亜',
@@ -11,7 +11,7 @@ const nahaKanji: Kanji = {
     nanori: []
   },
   jlpt: null,
-  grade: null,
+  grade: 1,
   set: [],
   frequency: 4
 }
@@ -26,7 +26,7 @@ const nahanoKanji: Kanji = {
     nanori: []
   },
   jlpt: null,
-  grade: null,
+  grade: 1,
   set: [],
   frequency: 2
 }
@@ -41,7 +41,7 @@ const onnaKanji: Kanji = {
     nanori: []
   },
   jlpt: null,
-  grade: null,
+  grade: 2,
   set: [],
   frequency: 3
 }
@@ -65,8 +65,8 @@ const kanjiSet: Kanji[] = [nahaKanji, nahanoKanji, onnaKanji, shiKanji]
 
 interface Props {
   kanjiSet: Kanji[]
-  sortBy: SortBy
-  order: OrderBy
+  primary: SortOptions
+  secondary: SortOptions | null
 }
 
 const worker = new TestEnvWorker<Props, Kanji[]>('src/workers/sortKanji.worker.ts')
@@ -81,15 +81,26 @@ async function getResponse(message: Props): Promise<Kanji[]> {
 
 describe('The Sort Kanji Webworker', () => {
   it('Should return an empty array if given an empty set of kanji.', async () => {
-    const response = await getResponse({ kanjiSet: [], sortBy: 'frequency', order: 'asc' })
+    const response = await getResponse({
+      kanjiSet: [],
+      primary: {
+        field: 'frequency',
+        direction: 'asc'
+      },
+      secondary: null
+    })
+
     expect(response).toEqual([])
   })
 
   it('Should support sorting by stroke count, descending.', async () => {
     const response = await getResponse({
       kanjiSet,
-      sortBy: 'strokeCount',
-      order: 'desc'
+      primary: {
+        field: 'strokeCount',
+        direction: 'desc'
+      },
+      secondary: null
     })
 
     expect(response).toEqual([nahaKanji, shiKanji, onnaKanji, nahanoKanji])
@@ -98,8 +109,11 @@ describe('The Sort Kanji Webworker', () => {
   it('Should support sorting by stroke count, ascending.', async () => {
     const response = await getResponse({
       kanjiSet,
-      sortBy: 'strokeCount',
-      order: 'asc'
+      primary: {
+        field: 'strokeCount',
+        direction: 'asc'
+      },
+      secondary: null
     })
 
     expect(response).toEqual([nahanoKanji, onnaKanji, shiKanji, nahaKanji])
@@ -123,8 +137,11 @@ describe('The Sort Kanji Webworker', () => {
 
     const response = await getResponse({
       kanjiSet: [multiStrokeKanji, ...kanjiSet],
-      sortBy: 'strokeCount',
-      order: 'asc'
+      primary: {
+        field: 'strokeCount',
+        direction: 'asc'
+      },
+      secondary: null
     })
 
     expect(response).toEqual([multiStrokeKanji, nahanoKanji, onnaKanji, shiKanji, nahaKanji])
@@ -133,8 +150,11 @@ describe('The Sort Kanji Webworker', () => {
   it('Should support sorting by unicode order, descending.', async () => {
     const response = await getResponse({
       kanjiSet,
-      sortBy: 'unicode',
-      order: 'desc'
+      primary: {
+        field: 'unicode',
+        direction: 'desc'
+      },
+      secondary: null
     })
 
     expect(response).toEqual([nahaKanji, nahanoKanji, onnaKanji, shiKanji])
@@ -143,8 +163,11 @@ describe('The Sort Kanji Webworker', () => {
   it('Should support sorting by unicode order, ascending.', async () => {
     const response = await getResponse({
       kanjiSet,
-      sortBy: 'unicode',
-      order: 'asc'
+      primary: {
+        field: 'unicode',
+        direction: 'asc'
+      },
+      secondary: null
     })
 
     expect(response).toEqual([shiKanji, onnaKanji, nahanoKanji, nahaKanji])
@@ -153,8 +176,11 @@ describe('The Sort Kanji Webworker', () => {
   it('Should support sorting by usage frequency, descending.', async () => {
     const response = await getResponse({
       kanjiSet,
-      sortBy: 'frequency',
-      order: 'desc'
+      primary: {
+        field: 'frequency',
+        direction: 'desc'
+      },
+      secondary: null
     })
 
     expect(response).toEqual([nahaKanji, onnaKanji, nahanoKanji, shiKanji])
@@ -163,8 +189,11 @@ describe('The Sort Kanji Webworker', () => {
   it('Should support sorting by usage frequency, ascending.', async () => {
     const response = await getResponse({
       kanjiSet,
-      sortBy: 'frequency',
-      order: 'asc'
+      primary: {
+        field: 'frequency',
+        direction: 'asc'
+      },
+      secondary: null
     })
 
     expect(response).toEqual([shiKanji, nahanoKanji, onnaKanji, nahaKanji])
@@ -188,8 +217,11 @@ describe('The Sort Kanji Webworker', () => {
 
     const ascResponse = await getResponse({
       kanjiSet: [...kanjiSet, unrankedKanji],
-      sortBy: 'frequency',
-      order: 'asc'
+      primary: {
+        field: 'frequency',
+        direction: 'asc'
+      },
+      secondary: null
     })
 
     const expectedAscOrder = [shiKanji, nahanoKanji, onnaKanji, nahaKanji, unrankedKanji]
@@ -197,11 +229,46 @@ describe('The Sort Kanji Webworker', () => {
 
     const descResponse = await getResponse({
       kanjiSet: [...kanjiSet, unrankedKanji],
-      sortBy: 'frequency',
-      order: 'desc'
+      primary: {
+        field: 'frequency',
+        direction: 'desc'
+      },
+      secondary: null
     })
 
     const expectedDescOrder = [unrankedKanji, nahaKanji, onnaKanji, nahanoKanji, shiKanji]
     expect(descResponse).toEqual(expectedDescOrder)
+  })
+
+  it('Should support sorting by a secondary criteria.', async () => {
+    const response = await getResponse({
+      kanjiSet: kanjiSet,
+      primary: {
+        field: 'grade',
+        direction: 'asc'
+      },
+      secondary: {
+        field: 'frequency',
+        direction: 'asc'
+      }
+    })
+
+    expect(response).toEqual([nahanoKanji, nahaKanji, onnaKanji, shiKanji])
+  })
+
+  it('Should not apply a second sort if sorting by unicode, since it will be unambiguous.', async () => {
+    const response = await getResponse({
+      kanjiSet: kanjiSet,
+      primary: {
+        field: 'unicode',
+        direction: 'asc'
+      },
+      secondary: {
+        field: 'frequency',
+        direction: 'asc'
+      }
+    })
+
+    expect(response).toEqual([shiKanji, onnaKanji, nahanoKanji, nahaKanji])
   })
 })

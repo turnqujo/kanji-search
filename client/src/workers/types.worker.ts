@@ -31,3 +31,8 @@ interface Kanji {
 
 type SortBy = 'strokeCount' | 'frequency' | 'grade' | 'jlpt' | 'unicode'
 type OrderBy = 'asc' | 'desc'
+
+interface SortOptions {
+  field: SortBy
+  direction: OrderBy
+}
