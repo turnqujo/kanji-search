@@ -1,4 +1,4 @@
-import { Kanji } from '@/models'
+import { Kanji, MinMax } from '../../models'
 import TestEnvWorker from './test-utils/test-env-worker'
 
 type MetricType = 'jlpt' | 'grade'
@@ -6,7 +6,7 @@ type MetricType = 'jlpt' | 'grade'
 interface WorkerProps {
   kanji: Kanji[]
   metricType: MetricType
-  metric: string | number
+  metric: string | number | MinMax
 }
 
 const worker = new TestEnvWorker<WorkerProps, Kanji[]>('src/workers/filterKanjiByMetric.worker.ts')
@@ -41,10 +41,25 @@ const kanjiB: Kanji = {
   frequency: 1
 }
 
+const kanjiC: Kanji = {
+  char: 'c',
+  stroke: 1,
+  meanings: [],
+  readings: {
+    on: [],
+    kun: [],
+    nanori: []
+  },
+  jlpt: 3,
+  grade: 3,
+  set: ['jinmeiyou'],
+  frequency: 1
+}
+
 async function getResponse(
   kanji: Kanji[],
   metricType: MetricType,
-  metric: string | number
+  metric: string | number | MinMax
 ): Promise<Kanji[]> {
   return new Promise((resolve, reject) => {
     worker.onmessage = (res: any) => resolve(res.data)
@@ -55,7 +70,7 @@ async function getResponse(
 
 describe('The Filter Kanji By Metric Webworker', () => {
   it('Should return an empty array if no kanji are provided.', async () => {
-    const response = await getResponse([], 'grade', '')
+    const response = await getResponse([], 'grade', 3)
     expect(response).toEqual([])
   })
 
@@ -67,5 +82,15 @@ describe('The Filter Kanji By Metric Webworker', () => {
   it('Should support filtering by Grade level.', async () => {
     const response = await getResponse([kanjiA, kanjiB], 'grade', 1)
     expect(response).toEqual([kanjiA])
+  })
+
+  it('Should support filtering using a min/max range.', async () => {
+    const response = await getResponse([kanjiA, kanjiB, kanjiC], 'grade', { min: 1, max: 2 })
+    expect(response).toEqual([kanjiA, kanjiB])
+  })
+
+  it('Should coerce a null min/max value to infinity, allowing for unrestricted upper / lower bounds.', async () => {
+    const response = await getResponse([kanjiA, kanjiB, kanjiC], 'grade', { min: 2, max: null })
+    expect(response).toEqual([kanjiB, kanjiC])
   })
 })

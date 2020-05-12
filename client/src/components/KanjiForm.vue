@@ -112,16 +112,6 @@
       </label>
     </fieldset>
     <fieldset class="fieldset">
-      <legend class="fieldset-legend">Misc. Options</legend>
-      <label class="input-label">
-        <span class="input-label__text">Grade</span>
-        <select v-model="grade">
-          <option value="-1">Any</option>
-          <option v-for="g in 10" :key="g" :value="g">{{ g }}</option>
-        </select>
-      </label>
-    </fieldset>
-    <fieldset class="fieldset">
       <legend class="fieldset-legend">Sorting</legend>
       <label class="input-label">
         <span class="input-label__text">Primary Sort</span>
@@ -231,7 +221,6 @@
     readingConverted: ConversionItem[]
     readingType: ReadingType
     meaning: string
-    grade: number | string | null
     primarySort: SortOptions
     secondarySort: SortOptions
   }
@@ -250,7 +239,6 @@
     private readingType: ReadingType = ['on', 'kun', 'nanori']
     private meaning = ''
     private meaningError = false
-    private grade = '-1'
     private primarySortField: SortBy = 'frequency'
     private primarySortDirection: OrderBy = 'asc'
     private secondarySortField: SortBy | 'none' = 'none'
@@ -298,8 +286,7 @@
         secondarySort: {
           field: this.secondarySortField === 'none' ? null : this.secondarySortField,
           direction: this.secondarySortDirection
-        },
-        grade: this.grade === '-1' ? null : this.grade
+        }
       } as SubmitProps)
     }
   }

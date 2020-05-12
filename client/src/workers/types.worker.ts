@@ -36,3 +36,10 @@ interface SortOptions {
   field: SortBy
   direction: OrderBy
 }
+
+interface MinMax {
+  min: number | null
+  max: number | null
+}
+
+type LimitField = 'jlpt' | 'grade' | 'stroke' | 'frequency'

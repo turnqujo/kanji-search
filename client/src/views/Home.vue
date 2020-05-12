@@ -16,13 +16,7 @@
   import { Kanji } from '../models/kanji'
   import PickList from '../components/PickList.vue'
   import KanjiForm, { SubmitProps } from '../components/KanjiForm.vue'
-  import {
-    getKanji,
-    filterKanjiByMeaning,
-    sortKanji,
-    getKanjiByConversion,
-    filterKanjiByMetric
-  } from '../workers'
+  import { getKanji, filterKanjiByMeaning, sortKanji, getKanjiByConversion } from '../workers'
 
   @Component({
     components: {
@@ -62,13 +56,8 @@
         readingMeaningFiltered = unfilteredKanji
       }
 
-      let graded = readingMeaningFiltered.slice()
-      if (values.grade) {
-        graded = await filterKanjiByMetric(readingMeaningFiltered, 'grade', `${values.grade}`)
-      }
-
       const sorted = await sortKanji(
-        graded,
+        readingMeaningFiltered.slice(),
         values.primarySort,
         values.secondarySort.field === null ? null : values.secondarySort
       )
