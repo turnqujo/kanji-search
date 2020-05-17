@@ -1,7 +1,7 @@
 <template>
   <form @submit.prevent="onSubmit" class="form-container">
-    <fieldset class="fieldset">
-      <legend class="fieldset-legend">Kanji Set</legend>
+    <fieldset>
+      <legend>Kanji Set</legend>
       <div class="checkbox-container">
         <label class="checkbox-label">
           <span class="checkbox-label__text">Jōyō</span>
@@ -55,8 +55,8 @@
         </label>
       </div>
     </fieldset>
-    <fieldset class="fieldset">
-      <legend class="fieldset-legend">Search by Reading</legend>
+    <fieldset>
+      <legend>Search by Reading</legend>
       <label class="input-label">
         <span class="input-label__text">Matching</span>
         <select v-model="readingMatchOption">
@@ -104,15 +104,15 @@
         </label>
       </div>
     </fieldset>
-    <fieldset class="fieldset">
-      <legend class="fieldset-legend">Search by Meaning</legend>
+    <fieldset>
+      <legend>Search by Meaning</legend>
       <label class="input-label">
         <span class="input-label__text">Text</span>
         <input type="text" v-model="meaning" />
       </label>
     </fieldset>
-    <fieldset class="fieldset">
-      <legend class="fieldset-legend">Sorting</legend>
+    <fieldset>
+      <legend>Sorting</legend>
       <label class="input-label">
         <span class="input-label__text">Primary Sort</span>
         <select v-model="primarySortField">
@@ -174,21 +174,6 @@
 </template>
 
 <style lang="scss" scoped>
-  .fieldset {
-    display: flex;
-    align-items: last baseline;
-    border: 1px solid lightgray;
-    padding: 8px 12px;
-
-    &:not(:first-of-type) {
-      margin-top: 12px;
-    }
-
-    & > .fieldset-legend {
-      font-weight: bold;
-    }
-  }
-
   .checkbox-label {
     display: inline-flex;
     flex-direction: column;

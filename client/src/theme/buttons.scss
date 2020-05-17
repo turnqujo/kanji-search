@@ -1,0 +1,94 @@
+.kn-btn {
+  border-radius: 3px;
+  color: var(--kn-background);
+  padding: 8px 12px;
+  transition-duration: 80ms;
+  transition-property: background-color, color;
+  transition-timing-function: ease-in-out;
+
+  &:hover,
+  &:focus {
+    text-decoration: underline;
+  }
+
+  &:active {
+    color: var(--kn-foreground);
+  }
+
+  @mixin semanticVariations($main, $accent) {
+    background-color: $main;
+
+    &:active {
+      background-color: $accent;
+    }
+  }
+
+  &.kn-primary {
+    @include semanticVariations(var(--kn-primary), var(--kn-primary-dark));
+  }
+
+  &.kn-secondary {
+    @include semanticVariations(var(--kn-secondary), var(--kn-secondary-dark));
+  }
+
+  &.kn-neutral {
+    @include semanticVariations(var(--kn-neutral), var(--kn-neutral-dark));
+  }
+
+  &.kn-success {
+    @include semanticVariations(var(--kn-success), var(--kn-success-dark));
+  }
+
+  &.kn-warning {
+    @include semanticVariations(var(--kn-warning), var(--kn-warning-dark));
+  }
+
+  &.kn-danger {
+    @include semanticVariations(var(--kn-danger), var(--kn-danger-dark));
+  }
+}
+
+.kn-btn.kn-ghost {
+  border-style: outset;
+  border-style: solid;
+  border-width: 3px;
+
+  // NOTE: Override
+  transition-property: border-color;
+
+  @mixin semanticVariations($main, $accent) {
+    color: $main;
+    border-color: $main;
+
+    // TODO: Override, here for specificity
+    background-color: transparent;
+
+    &:active {
+      border-color: $accent;
+    }
+  }
+
+  &.kn-primary {
+    @include semanticVariations(var(--kn-primary), var(--kn-primary-dark));
+  }
+
+  &.kn-secondary {
+    @include semanticVariations(var(--kn-secondary), var(--kn-secondary-dark));
+  }
+
+  &.kn-neutral {
+    @include semanticVariations(var(--kn-neutral), var(--kn-neutral-dark));
+  }
+
+  &.kn-success {
+    @include semanticVariations(var(--kn-success), var(--kn-success-dark));
+  }
+
+  &.kn-warning {
+    @include semanticVariations(var(--kn-warning), var(--kn-warning-dark));
+  }
+
+  &.kn-danger {
+    @include semanticVariations(var(--kn-danger), var(--kn-danger-dark));
+  }
+}

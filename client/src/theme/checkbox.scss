@@ -1,0 +1,45 @@
+.kn-checkbox, .kn-radio {
+  align-items: center;
+  display: flex;
+  cursor: pointer;
+
+  &__control {
+    margin: 0 4px 0 0;
+    cursor: pointer;
+  }
+
+  &__label {
+    color: var(--kn-foreground);
+    user-select: none;
+  }
+
+  &__control:hover + &__label,
+  &__control:active + &__label,
+  &__control:focus + &__label {
+    text-decoration: underline;
+  }
+
+  &.kn-primary &__control:checked + &__label {
+    color: var(--kn-primary);
+  }
+
+  &.kn-secondary &__control:checked + &__label {
+    color: var(--kn-secondary);
+  }
+
+  &.kn-neutral &__control:checked + &__label {
+    color: var(--kn-neutral);
+  }
+
+  &.kn-success &__control:checked + &__label {
+    color: var(--kn-success);
+  }
+
+  &.kn-warning &__control:checked + &__label {
+    color: var(--kn-warning);
+  }
+
+  &.kn-danger &__control:checked + &__label {
+    color: var(--kn-danger);
+  }
+}

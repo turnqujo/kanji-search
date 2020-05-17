@@ -9,6 +9,11 @@ const routes = [
     path: '/',
     name: 'Home',
     component: Home
+  },
+  {
+    path: '/kit-of-parts',
+    name: 'Kit of Parts',
+    component: () => import('@/views/KitOfParts.vue')
   }
 ]
 

@@ -1,0 +1,59 @@
+.theme--default {
+  &__colors {
+    --kn-white: #ffffff;
+    --kn-black: #090909;
+
+    --kn-gray-light: #e3e3e3;
+    --kn-gray: #bababa;
+    --kn-gray-dark: #4a4a4a;
+
+    --kn-red: #ff6666;
+    --kn-red-light: #ff9999;
+    --kn-red-dark: #661a1a;
+
+    --kn-orange: #ff9326;
+    --kn-orange-light: #ffd4a8;
+    --kn-orange-dark: #663b0f;
+
+    --kn-green: #9ceb4f;
+    --kn-green-light: #d7f7b9;
+    --kn-green-dark: #3e5e20;
+
+    --kn-blue: #31baff;
+    --kn-blue-light: #ade3ff;
+    --kn-blue-dark: #144a66;
+
+    --kn-purple: #9d8cff;
+    --kn-purple-light: #d8d1ff;
+    --kn-purple-dark: #3f3866;
+  }
+
+  &--dark {
+    --kn-foreground: var(--kn-white);
+    --kn-background: var(--kn-black);
+
+    --kn-neutral-light: var(--kn-gray-light);
+    --kn-neutral: var(--kn-gray);
+    --kn-neutral-dark: var(--kn-gray-dark);
+
+    --kn-primary-light: var(--kn-blue-light);
+    --kn-primary: var(--kn-blue);
+    --kn-primary-dark: var(--kn-blue-dark);
+
+    --kn-secondary-light: var(--kn-purple-light);
+    --kn-secondary: var(--kn-purple);
+    --kn-secondary-dark: var(--kn-purple-dark);
+
+    --kn-success-light: var(--kn-green-light);
+    --kn-success: var(--kn-green);
+    --kn-success-dark: var(--kn-green-dark);
+
+    --kn-warning-light: var(--kn-orange-light);
+    --kn-warning: var(--kn-orange);
+    --kn-warning-dark: var(--kn-orange-dark);
+
+    --kn-danger-light: var(--kn-red-light);
+    --kn-danger: var(--kn-red);
+    --kn-danger-dark: var(--kn-red-dark);
+  }
+}
