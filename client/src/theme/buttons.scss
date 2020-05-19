@@ -1,8 +1,8 @@
 .kn-btn {
+  @include shiftText--neutral(140ms);
   border-radius: 3px;
   color: var(--kn-background);
   padding: 0.5em 1em;
-  @include shiftText--neutral(140ms);
   // TODO: Better way to handle this?
   transition-property: background-color, font-style, font-variation-settings;
 

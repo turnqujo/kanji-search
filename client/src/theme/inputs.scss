@@ -1,0 +1,84 @@
+.kn-input {
+  display: flex;
+  align-items: center;
+  height: 100%;
+
+  &__label {
+    color: var(--kn-background);
+    background-color: var(--kn-foreground);
+    padding: 0.3em;
+    margin-right: 0.25em;
+    font-weight: bold;
+    cursor: pointer;
+    @include shiftText--neutral(140ms);
+  }
+
+  &.kn-primary &__label {
+    background-color: var(--kn-primary);
+  }
+
+  &.kn-secondary &__label {
+    background-color: var(--kn-secondary);
+  }
+
+  &.kn-neutral &__label {
+    background-color: var(--kn-neutral);
+  }
+
+  &.kn-success &__label {
+    background-color: var(--kn-success);
+  }
+
+  &.kn-warning &__label {
+    background-color: var(--kn-warning);
+  }
+
+  &.kn-danger &__label {
+    background-color: var(--kn-danger);
+  }
+
+  &:disabled &__label {
+    background-color: red !important;
+    @include shiftText--active(14deg, 14);
+  }
+
+  &__control {
+    background-color: transparent;
+    border-bottom: 3px solid currentColor;
+    border-left: none;
+    border-right: none;
+    border-top: none;
+    color: currentColor;
+    caret-color: currentColor;
+    padding: 0.5em;
+    width: 100%;
+
+    &::placeholder {
+      color: currentColor;
+    }
+  }
+
+  &.kn-primary &__control {
+    color: var(--kn-primary);
+  }
+
+  &.kn-secondary &__control {
+    color: var(--kn-secondary);
+  }
+
+  &.kn-neutral &__control {
+    color: var(--kn-neutral);
+  }
+
+  &.kn-success &__control {
+    color: var(--kn-success);
+  }
+
+  &.kn-warning &__control {
+    color: var(--kn-warning);
+  }
+
+  &.kn-danger &__control {
+    color: var(--kn-danger);
+  }
+}

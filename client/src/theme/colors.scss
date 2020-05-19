@@ -28,6 +28,40 @@
     --kn-purple-dark: #3f3866;
   }
 
+  // TODO: Adjust for contrast
+  &--light {
+    --kn-foreground: var(--kn-black);
+    --kn-background: var(--kn-white);
+
+    --kn-neutral-light: var(--kn-gray);
+    --kn-neutral: var(--kn-gray);
+    --kn-neutral-dark: var(--kn-gray-dark);
+
+    --kn-primary-light: var(--kn-blue);
+    --kn-primary: var(--kn-blue);
+    --kn-primary-dark: var(--kn-blue-dark);
+
+    --kn-secondary-light: var(--kn-purple);
+    --kn-secondary: var(--kn-purple);
+    --kn-secondary-dark: var(--kn-purple-dark);
+
+    --kn-success-light: var(--kn-green);
+    --kn-success: var(--kn-green);
+    --kn-success-dark: var(--kn-green-dark);
+
+    --kn-warning-light: var(--kn-orange);
+    --kn-warning: var(--kn-orange);
+    --kn-warning-dark: var(--kn-orange-dark);
+
+    --kn-danger-light: var(--kn-red);
+    --kn-danger: var(--kn-red);
+    --kn-danger-dark: var(--kn-red-dark);
+
+    --kn-disabled-light: var(--kn-gray);
+    --kn-disabled: var(--kn-gray);
+    --kn-disabled-dark: var(--kn-gray-dark);
+  }
+
   &--dark {
     --kn-foreground: var(--kn-white);
     --kn-background: var(--kn-black);

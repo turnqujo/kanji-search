@@ -1,7 +1,7 @@
 .kn-selection-item {
   align-items: center;
-  color: var(--kn-foreground);
   display: flex;
+  flex-direction: column-reverse;
   user-select: none;
 
   &.kn-primary {
@@ -31,6 +31,7 @@
   &__label {
     @include shiftText--neutral(140ms);
     cursor: pointer;
+    margin-right: 0.25em;
   }
 
   &__control:active + &__label,
@@ -50,20 +51,15 @@
   }
 
   &__control {
+    border-radius: 3px;
     border: 2px solid currentColor;
     color: inherit;
     cursor: pointer;
-    margin: 0 0.5em 0 0;
     outline: none;
     padding: 0.4em;
     transition-duration: 140ms;
     transition-property: background-color, color, border-color;
     transition-timing-function: ease-in-out;
-
-    &:focus, &:active {
-      // NOTE: This is to prevent browsers from adding a strange blue border
-      border: 2px solid currentColor;
-    }
 
     &:checked {
       background-color: currentColor;
@@ -71,10 +67,6 @@
 
     &:disabled {
       border-color: var(--kn-disabled-dark);
-
-      &:active {
-        border-color: var(--kn-disabled-dark);
-      }
     }
   }
 

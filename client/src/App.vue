@@ -16,35 +16,15 @@
   @import 'theme/sizes.scss';
   @import 'theme/buttons.scss';
   @import 'theme/checkbox.scss';
-
-  .input-label {
-    text-align: left;
-  }
-
-  .input-label-text {
-    display: block;
-    margin-bottom: 4px;
-    margin-left: 4px;
-  }
+  @import 'theme/inputs.scss';
 
   #app {
     background-color: var(--kn-background);
-    color: var(--kn-foreground);
-    padding: 24px;
-    min-height: 100vh;
     box-sizing: border-box;
-  }
-
-  input {
-    border: 2px solid var(--kn-neutral);
-    border-radius: 4px;
-    background-color: var(--kn-background);
     color: var(--kn-foreground);
-
-    &:active,
-    &:focus {
-      border-color: var(--kn-primary);
-    }
+    font-size: 14px;
+    min-height: 100vh;
+    padding: 24px;
   }
 
   .kn-fieldset {
