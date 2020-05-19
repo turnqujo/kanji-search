@@ -127,64 +127,9 @@ export const gojuonDakuten = [
 ]
 
 export const gojuonHandakuten: (ConversionItem | null)[][] = [
-  [
-    null,
-    null,
-    null,
-    null,
-    null,
-    { katakana: 'パ', hiragana: 'ぱ', romaji: 'pa' },
-    null,
-    null,
-    null,
-    null
-  ],
-  [
-    null,
-    null,
-    null,
-    null,
-    null,
-    { katakana: 'ピ', hiragana: 'ぴ', romaji: 'pi' },
-    null,
-    null,
-    null,
-    null
-  ],
-  [
-    null,
-    null,
-    null,
-    null,
-    null,
-    { katakana: 'プ', hiragana: 'ぷ', romaji: 'pu' },
-    null,
-    null,
-    null,
-    null
-  ],
-  [
-    null,
-    null,
-    null,
-    null,
-    null,
-    { katakana: 'ペ', hiragana: 'ぺ', romaji: 'pe' },
-    null,
-    null,
-    null,
-    null
-  ],
-  [
-    null,
-    null,
-    null,
-    null,
-    null,
-    { katakana: 'ポ', hiragana: 'ぽ', romaji: 'po' },
-    null,
-    null,
-    null,
-    null
-  ]
+  [null, null, null, null, null, { katakana: 'パ', hiragana: 'ぱ', romaji: 'pa' }, null, null, null, null],
+  [null, null, null, null, null, { katakana: 'ピ', hiragana: 'ぴ', romaji: 'pi' }, null, null, null, null],
+  [null, null, null, null, null, { katakana: 'プ', hiragana: 'ぷ', romaji: 'pu' }, null, null, null, null],
+  [null, null, null, null, null, { katakana: 'ペ', hiragana: 'ぺ', romaji: 'pe' }, null, null, null, null],
+  [null, null, null, null, null, { katakana: 'ポ', hiragana: 'ぽ', romaji: 'po' }, null, null, null, null]
 ]

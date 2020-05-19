@@ -1,45 +1,84 @@
-.kn-checkbox, .kn-radio {
+.kn-selection-item {
   align-items: center;
+  color: var(--kn-foreground);
   display: flex;
-  cursor: pointer;
+  user-select: none;
 
-  &__control {
-    margin: 0 4px 0 0;
-    cursor: pointer;
+  &.kn-primary {
+    color: var(--kn-primary);
+  }
+
+  &.kn-secondary {
+    color: var(--kn-secondary);
+  }
+
+  &.kn-neutral {
+    color: var(--kn-neutral);
+  }
+
+  &.kn-success {
+    color: var(--kn-success);
+  }
+
+  &.kn-warning {
+    color: var(--kn-warning);
+  }
+
+  &.kn-danger {
+    color: var(--kn-danger);
   }
 
   &__label {
-    color: var(--kn-foreground);
-    user-select: none;
+    @include shiftText--neutral(140ms);
+    cursor: pointer;
   }
 
-  &__control:hover + &__label,
   &__control:active + &__label,
   &__control:focus + &__label {
     text-decoration: underline;
   }
 
-  &.kn-primary &__control:checked + &__label {
-    color: var(--kn-primary);
+  &__control:disabled,
+  &__control:disabled + &__label {
+    color: var(--kn-disabled);
+    pointer-events: none;
   }
 
-  &.kn-secondary &__control:checked + &__label {
-    color: var(--kn-secondary);
+  &__control:disabled + &__label {
+    @include shiftText--active(14deg, 14);
+    text-decoration: none;
   }
 
-  &.kn-neutral &__control:checked + &__label {
-    color: var(--kn-neutral);
+  &__control {
+    border: 2px solid currentColor;
+    color: inherit;
+    cursor: pointer;
+    margin: 0 0.5em 0 0;
+    outline: none;
+    padding: 0.4em;
+    transition-duration: 140ms;
+    transition-property: background-color, color, border-color;
+    transition-timing-function: ease-in-out;
+
+    &:focus, &:active {
+      // NOTE: This is to prevent browsers from adding a strange blue border
+      border: 2px solid currentColor;
+    }
+
+    &:checked {
+      background-color: currentColor;
+    }
+
+    &:disabled {
+      border-color: var(--kn-disabled-dark);
+
+      &:active {
+        border-color: var(--kn-disabled-dark);
+      }
+    }
   }
 
-  &.kn-success &__control:checked + &__label {
-    color: var(--kn-success);
-  }
-
-  &.kn-warning &__control:checked + &__label {
-    color: var(--kn-warning);
-  }
-
-  &.kn-danger &__control:checked + &__label {
-    color: var(--kn-danger);
+  &.kn-radio &__control {
+    border-radius: 100%;
   }
 }

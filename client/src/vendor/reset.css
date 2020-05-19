@@ -16,12 +16,15 @@ article, aside, canvas, details, embed,
 figure, figcaption, footer, header, hgroup,
 menu, nav, output, ruby, section, summary,
 time, mark, audio, video {
-	margin: 0;
-	padding: 0;
 	border: 0;
-	font-size: 100%;
 	font: inherit;
 	font-family: monospace;
+	font-kerning: none;
+	font-size: 14px;
+	font-weight: bold;
+	letter-spacing: 1px;
+	margin: 0;
+	padding: 0;
 	vertical-align: baseline;
 }
 /* HTML5 display-role reset for older browsers */
@@ -52,14 +55,28 @@ button,
 input[type='submit'],
 input[type='reset'] {
 	background: none;
-	color: inherit;
 	border: none;
-	padding: 0;
-	font: inherit;
+	color: inherit;
 	cursor: pointer;
+	font: inherit;
+	letter-spacing: 1px;
 	outline: inherit;
+	padding: 0;
 }
 
 button::-moz-focus-inner {
 	border: 0;
+}
+
+input[type='checkbox'],
+input[type='radio'] {
+	appearance: none;
+}
+
+fieldset {
+	box-sizing: border-box;
+}
+
+legend {
+	block-size: 1em;
 }

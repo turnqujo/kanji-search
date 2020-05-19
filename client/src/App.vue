@@ -11,7 +11,9 @@
 <style lang="scss">
   @import './vendor/reset.css';
   @import '../node_modules/@fortawesome/fontawesome-free/css/all.css';
+  @import 'theme/mixins/shiftText.scss';
   @import 'theme/colors.scss';
+  @import 'theme/sizes.scss';
   @import 'theme/buttons.scss';
   @import 'theme/checkbox.scss';
 

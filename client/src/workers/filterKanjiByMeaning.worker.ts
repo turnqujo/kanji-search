@@ -7,8 +7,7 @@ onmessage = (e: MessageEvent) => {
   const found = kanjiSet.filter(
     (kanji) =>
       !!kanji.meanings.find(
-        (meaning: string) =>
-          meaning.toLocaleLowerCase().indexOf(searchTerm.toLocaleLowerCase()) >= 0
+        (meaning: string) => meaning.toLocaleLowerCase().indexOf(searchTerm.toLocaleLowerCase()) >= 0
       )
   )
 

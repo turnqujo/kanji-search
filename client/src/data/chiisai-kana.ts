@@ -13,18 +13,7 @@ export const chiisaiKana: (ConversionItem | null)[][] = [
     null,
     null
   ],
-  [
-    { katakana: 'ィ', hiragana: 'ぃ', romaji: 'xi' },
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null
-  ],
+  [{ katakana: 'ィ', hiragana: 'ぃ', romaji: 'xi' }, null, null, null, null, null, null, null, null, null],
   [
     { katakana: 'ゥ', hiragana: 'ぅ', romaji: 'xu' },
     null,
@@ -37,18 +26,7 @@ export const chiisaiKana: (ConversionItem | null)[][] = [
     null,
     null
   ],
-  [
-    { katakana: 'ェ', hiragana: 'ぇ', romaji: 'xe' },
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null
-  ],
+  [{ katakana: 'ェ', hiragana: 'ぇ', romaji: 'xe' }, null, null, null, null, null, null, null, null, null],
   [
     { katakana: 'ォ', hiragana: 'ぉ', romaji: 'xo' },
     null,

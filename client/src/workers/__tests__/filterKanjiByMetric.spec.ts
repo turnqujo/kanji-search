@@ -56,11 +56,7 @@ const kanjiC: Kanji = {
   frequency: 1
 }
 
-async function getResponse(
-  kanji: Kanji[],
-  metricType: MetricType,
-  metric: string | number | MinMax
-): Promise<Kanji[]> {
+async function getResponse(kanji: Kanji[], metricType: MetricType, metric: string | number | MinMax): Promise<Kanji[]> {
   return new Promise((resolve, reject) => {
     worker.onmessage = (res: any) => resolve(res.data)
     worker.onerror = (e: string | Event) => reject(e)

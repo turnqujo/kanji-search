@@ -5,53 +5,23 @@
       <div class="checkbox-container">
         <label class="checkbox-label">
           <span class="checkbox-label__text">Jōyō</span>
-          <input
-            type="checkbox"
-            name="kanji-set"
-            value="jouyou"
-            v-model="kanjiSet"
-            class="checkbox"
-          />
+          <input type="checkbox" name="kanji-set" value="jouyou" v-model="kanjiSet" class="checkbox" />
         </label>
         <label class="checkbox-label">
           <span class="checkbox-label__text">Jinmeiyō</span>
-          <input
-            type="checkbox"
-            name="kanji-set"
-            value="jinmeiyou"
-            v-model="kanjiSet"
-            class="checkbox"
-          />
+          <input type="checkbox" name="kanji-set" value="jinmeiyou" v-model="kanjiSet" class="checkbox" />
         </label>
         <label class="checkbox-label">
           <span class="checkbox-label__text">Kyōiku</span>
-          <input
-            type="checkbox"
-            name="kanji-set"
-            value="kyouiku"
-            v-model="kanjiSet"
-            class="checkbox"
-          />
+          <input type="checkbox" name="kanji-set" value="kyouiku" v-model="kanjiSet" class="checkbox" />
         </label>
         <label class="checkbox-label">
           <span class="checkbox-label__text">JLPT</span>
-          <input
-            type="checkbox"
-            name="kanji-set"
-            value="jlpt"
-            v-model="kanjiSet"
-            class="checkbox"
-          />
+          <input type="checkbox" name="kanji-set" value="jlpt" v-model="kanjiSet" class="checkbox" />
         </label>
         <label class="checkbox-label">
           <span class="checkbox-label__text">Hyōgai</span>
-          <input
-            type="checkbox"
-            name="kanji-set"
-            value="hyougai"
-            v-model="kanjiSet"
-            class="checkbox"
-          />
+          <input type="checkbox" name="kanji-set" value="hyougai" v-model="kanjiSet" class="checkbox" />
         </label>
       </div>
     </fieldset>
@@ -74,33 +44,15 @@
       <div>
         <label class="checkbox-label">
           <span class="checkbox-label__text">On</span>
-          <input
-            type="checkbox"
-            name="reading-type"
-            value="on"
-            v-model="readingType"
-            class="checkbox"
-          />
+          <input type="checkbox" name="reading-type" value="on" v-model="readingType" class="checkbox" />
         </label>
         <label class="checkbox-label">
           <span class="checkbox-label__text">Kun</span>
-          <input
-            type="checkbox"
-            name="reading-type"
-            value="kun"
-            v-model="readingType"
-            class="checkbox"
-          />
+          <input type="checkbox" name="reading-type" value="kun" v-model="readingType" class="checkbox" />
         </label>
         <label class="checkbox-label">
           <span class="checkbox-label__text">Nanori</span>
-          <input
-            type="checkbox"
-            name="reading-type"
-            value="nanori"
-            v-model="readingType"
-            class="checkbox"
-          />
+          <input type="checkbox" name="reading-type" value="nanori" v-model="readingType" class="checkbox" />
         </label>
       </div>
     </fieldset>
@@ -141,30 +93,18 @@
             <option value="frequency">Popularity</option>
             <option value="grade" :disabled="primarySortField === 'grade'">Grade</option>
             <option value="jlpt" :disabled="primarySortField === 'jlpt'">JLPT</option>
-            <option value="strokeCount" :disabled="primarySortField === 'strokeCount'"
-              >Stroke Count</option
-            >
+            <option value="strokeCount" :disabled="primarySortField === 'strokeCount'">Stroke Count</option>
             <option value="unicode">Unicode</option>
           </select>
         </label>
         <div class="radio-container" v-if="secondarySortField !== 'none'">
           <label class="radio-label">
             Ascending
-            <input
-              type="radio"
-              name="secondary-sort-dir"
-              value="asc"
-              v-model="secondarySortDirection"
-            />
+            <input type="radio" name="secondary-sort-dir" value="asc" v-model="secondarySortDirection" />
           </label>
           <label class="radio-label">
             Descending
-            <input
-              type="radio"
-              name="secondary-sort-dir"
-              value="desc"
-              v-model="secondarySortDirection"
-            />
+            <input type="radio" name="secondary-sort-dir" value="desc" v-model="secondarySortDirection" />
           </label>
         </div>
       </div>

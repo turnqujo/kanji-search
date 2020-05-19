@@ -17,9 +17,7 @@ onmessage = (e: MessageEvent) => {
             return
           }
 
-          postMessage(
-            request.result.filter((res: Kanji) => kanjiSet.some((set) => res.set.indexOf(set) > -1))
-          )
+          postMessage(request.result.filter((res: Kanji) => kanjiSet.some((set) => res.set.indexOf(set) > -1)))
         }
       })
       .catch((error) => {

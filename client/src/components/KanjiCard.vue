@@ -17,11 +17,7 @@
       <li class="metric-badge">
         <span class="metric-badge__label">Strokes:</span>
         <span class="metric-badge__data stroke" v-once>
-          {{
-            Array.isArray(kanji.stroke)
-              ? kanji.stroke.sort((x, y) => (x > y ? 1 : -1)).join(', ')
-              : kanji.stroke
-          }}
+          {{ Array.isArray(kanji.stroke) ? kanji.stroke.sort((x, y) => (x > y ? 1 : -1)).join(', ') : kanji.stroke }}
         </span>
       </li>
     </ul>

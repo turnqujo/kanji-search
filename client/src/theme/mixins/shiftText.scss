@@ -1,0 +1,12 @@
+@mixin shiftText--neutral($duration) {
+  font-style: oblique 0deg;
+  font-variation-settings: 'slnt' 0;
+  transition-duration: $duration;
+  transition-property: font-style, font-variation-settings;
+  transition-timing-function: ease-in-out;
+}
+
+@mixin shiftText--active($deg, $slant) {
+  font-style: oblique $deg;
+  font-variation-settings: 'slnt' $slant;
+}

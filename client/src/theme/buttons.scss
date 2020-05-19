@@ -1,21 +1,18 @@
 .kn-btn {
   border-radius: 3px;
   color: var(--kn-background);
-  padding: 8px 12px;
-  transition-duration: 80ms;
-  transition-property: background-color, color;
-  transition-timing-function: ease-in-out;
+  padding: 0.5em 1em;
+  @include shiftText--neutral(140ms);
+  // TODO: Better way to handle this?
+  transition-property: background-color, font-style, font-variation-settings;
+
 
   &:hover,
   &:focus {
     text-decoration: underline;
   }
 
-  &:active {
-    color: var(--kn-foreground);
-  }
-
-  @mixin semanticVariations($main, $accent) {
+  @mixin semanticVariation($main, $accent) {
     background-color: $main;
 
     &:active {
@@ -24,27 +21,34 @@
   }
 
   &.kn-primary {
-    @include semanticVariations(var(--kn-primary), var(--kn-primary-dark));
+    @include semanticVariation(var(--kn-primary), var(--kn-primary-light));
   }
 
   &.kn-secondary {
-    @include semanticVariations(var(--kn-secondary), var(--kn-secondary-dark));
+    @include semanticVariation(var(--kn-secondary), var(--kn-secondary-light));
   }
 
   &.kn-neutral {
-    @include semanticVariations(var(--kn-neutral), var(--kn-neutral-dark));
+    @include semanticVariation(var(--kn-neutral), var(--kn-neutral-light));
   }
 
   &.kn-success {
-    @include semanticVariations(var(--kn-success), var(--kn-success-dark));
+    @include semanticVariation(var(--kn-success), var(--kn-success-light));
   }
 
   &.kn-warning {
-    @include semanticVariations(var(--kn-warning), var(--kn-warning-dark));
+    @include semanticVariation(var(--kn-warning), var(--kn-warning-light));
   }
 
   &.kn-danger {
-    @include semanticVariations(var(--kn-danger), var(--kn-danger-dark));
+    @include semanticVariation(var(--kn-danger), var(--kn-danger-light));
+  }
+
+  &:disabled {
+    background-color: var(--kn-disabled-dark);
+    color: var(--kn-disabled-light);
+    pointer-events: none;
+    @include shiftText--active(14deg, 14);
   }
 }
 
@@ -52,13 +56,11 @@
   border-style: outset;
   border-style: solid;
   border-width: 3px;
+  transition-property: border-color, font-style, font-variation-settings;
 
-  // NOTE: Override
-  transition-property: border-color;
-
-  @mixin semanticVariations($main, $accent) {
-    color: $main;
+  @mixin semanticVariation($main, $accent) {
     border-color: $main;
+    color: $main;
 
     // TODO: Override, here for specificity
     background-color: transparent;
@@ -69,26 +71,35 @@
   }
 
   &.kn-primary {
-    @include semanticVariations(var(--kn-primary), var(--kn-primary-dark));
+    @include semanticVariation(var(--kn-primary), var(--kn-primary-dark));
   }
 
   &.kn-secondary {
-    @include semanticVariations(var(--kn-secondary), var(--kn-secondary-dark));
+    @include semanticVariation(var(--kn-secondary), var(--kn-secondary-dark));
   }
 
   &.kn-neutral {
-    @include semanticVariations(var(--kn-neutral), var(--kn-neutral-dark));
+    @include semanticVariation(var(--kn-neutral), var(--kn-neutral-dark));
   }
 
   &.kn-success {
-    @include semanticVariations(var(--kn-success), var(--kn-success-dark));
+    @include semanticVariation(var(--kn-success), var(--kn-success-dark));
   }
 
   &.kn-warning {
-    @include semanticVariations(var(--kn-warning), var(--kn-warning-dark));
+    @include semanticVariation(var(--kn-warning), var(--kn-warning-dark));
   }
 
   &.kn-danger {
-    @include semanticVariations(var(--kn-danger), var(--kn-danger-dark));
+    @include semanticVariation(var(--kn-danger), var(--kn-danger-dark));
+  }
+
+  &:disabled {
+    border-color: var(--kn-disabled-dark);
+    color: var(--kn-disabled-light);
+
+    &:active {
+      border-color: var(--kn-disabled-dark);
+    }
   }
 }

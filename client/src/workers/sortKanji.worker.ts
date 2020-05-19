@@ -14,9 +14,7 @@ function customSort(list: Kanji[], { field, direction }: SortOptions) {
         return leftStroke > rightStroke ? leftSort : rightSort
       })
     case 'frequency':
-      return list.sort((x, y) =>
-        getNumber(x.frequency) > getNumber(y.frequency) ? leftSort : rightSort
-      )
+      return list.sort((x, y) => (getNumber(x.frequency) > getNumber(y.frequency) ? leftSort : rightSort))
     case 'grade':
       return list.sort((x, y) => (getNumber(x.grade) > getNumber(y.grade) ? leftSort : rightSort))
     case 'jlpt':

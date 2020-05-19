@@ -1,7 +1,4 @@
-function findConversionItem(
-  needle: string,
-  conversionTable: ConversionItem[]
-): ConversionItem | null {
+function findConversionItem(needle: string, conversionTable: ConversionItem[]): ConversionItem | null {
   const romajiIndex = conversionTable.findIndex((item) => item.romaji === needle)
   if (romajiIndex >= 0) {
     return { ...conversionTable[romajiIndex], original: 'romaji' }
