@@ -1,84 +1,60 @@
 .kn-input {
   display: flex;
-  align-items: center;
-  height: 100%;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+
+  @each $variation in $semanticColors {
+    &.#{$variation} &__label {
+      background-color: var(--#{$variation});
+    }
+
+    &.#{$variation} &__control:not(:disabled) {
+      color: var(--#{$variation});
+
+      &::selection {
+        color: var(--#{$variation}-dark);
+        background-color: var(--#{$variation}-light);
+      }
+    }
+  }
 
   &__label {
-    color: var(--kn-background);
-    background-color: var(--kn-foreground);
-    padding: 0.3em;
-    margin-right: 0.25em;
-    font-weight: bold;
-    cursor: pointer;
     @include shiftText--neutral(140ms);
+    background-color: var(--kn-foreground);
+    color: var(--kn-background);
+    cursor: pointer;
+    font-weight: bold;
+    padding: 0.25em 0.5em 0 0.5em;
+    user-select: none;
   }
 
-  &.kn-primary &__label {
-    background-color: var(--kn-primary);
-  }
-
-  &.kn-secondary &__label {
-    background-color: var(--kn-secondary);
-  }
-
-  &.kn-neutral &__label {
-    background-color: var(--kn-neutral);
-  }
-
-  &.kn-success &__label {
-    background-color: var(--kn-success);
-  }
-
-  &.kn-warning &__label {
-    background-color: var(--kn-warning);
-  }
-
-  &.kn-danger &__label {
-    background-color: var(--kn-danger);
-  }
-
-  &:disabled &__label {
-    background-color: red !important;
+  &__control:disabled + &__label {
     @include shiftText--active(14deg, 14);
+    background-color: var(--kn-disabled);
+    pointer-events: none;
   }
 
   &__control {
     background-color: transparent;
-    border-bottom: 3px solid currentColor;
+    border-bottom: 2px solid currentColor;
     border-left: none;
     border-right: none;
     border-top: none;
     color: currentColor;
-    caret-color: currentColor;
-    padding: 0.5em;
-    width: 100%;
+    padding: 0.25em 0.5em;
 
     &::placeholder {
       color: currentColor;
     }
   }
 
-  &.kn-primary &__control {
-    color: var(--kn-primary);
-  }
+  &__control:disabled {
+    border-color: var(--kn-disabled);
+    color: var(--kn-disabled);
+    pointer-events: none;
 
-  &.kn-secondary &__control {
-    color: var(--kn-secondary);
-  }
-
-  &.kn-neutral &__control {
-    color: var(--kn-neutral);
-  }
-
-  &.kn-success &__control {
-    color: var(--kn-success);
-  }
-
-  &.kn-warning &__control {
-    color: var(--kn-warning);
-  }
-
-  &.kn-danger &__control {
-    color: var(--kn-danger);
+    &::placeholder {
+      color: var(--kn-disabled);
+    }
   }
 }

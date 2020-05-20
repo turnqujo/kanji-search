@@ -1,6 +1,15 @@
 <template>
-  <div>
+  <div :class="sizeAll">
     <ul class="showcase__options">
+      <li>
+        <select v-model="sizeAll">
+          <option value="kn-xsmall">Extra Small</option>
+          <option value="kn-small">Small</option>
+          <option value="kn-medium">Medium</option>
+          <option value="kn-large">Large</option>
+          <option value="kn-xlarge">Extra Large</option>
+        </select>
+      </li>
       <li>
         <button
           type="button"
@@ -134,44 +143,44 @@
       <ol>
         <li>
           <label class="kn-input">
-            <span class="kn-input__label ">Default</span>
             <input type="text" class="kn-input__control" placeholder="Placeholder" />
+            <span class="kn-input__label ">Default</span>
           </label>
         </li>
         <li>
           <label class="kn-input kn-primary">
-            <span class="kn-input__label ">Primary</span>
             <input type="text" class="kn-input__control" placeholder="Placeholder" />
+            <span class="kn-input__label ">Primary</span>
           </label>
         </li>
         <li>
           <label class="kn-input kn-secondary">
-            <span class="kn-input__label ">Secondary</span>
             <input type="text" class="kn-input__control" placeholder="Placeholder" />
+            <span class="kn-input__label ">Secondary</span>
           </label>
         </li>
         <li>
           <label class="kn-input kn-neutral">
-            <span class="kn-input__label ">Neutral</span>
             <input type="text" class="kn-input__control" placeholder="Placeholder" />
+            <span class="kn-input__label ">Neutral</span>
           </label>
         </li>
         <li>
           <label class="kn-input kn-success">
-            <span class="kn-input__label ">Success</span>
             <input type="text" class="kn-input__control" placeholder="Placeholder" />
+            <span class="kn-input__label ">Success</span>
           </label>
         </li>
         <li>
           <label class="kn-input kn-warning">
-            <span class="kn-input__label ">Warning</span>
             <input type="text" class="kn-input__control" placeholder="Placeholder" />
+            <span class="kn-input__label ">Warning</span>
           </label>
         </li>
         <li>
           <label class="kn-input kn-danger">
-            <span class="kn-input__label ">Danger</span>
             <input type="text" class="kn-input__control" placeholder="Placeholder" />
+            <span class="kn-input__label ">Danger</span>
           </label>
         </li>
       </ol>
@@ -191,14 +200,21 @@
   }
 
   .showcase__options {
-    text-align: end;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+
+  .showcase__options > li:not(:first-of-type) {
+    margin-left: 12px;
   }
 
   .showcase__input-text > ol {
     flex-direction: column;
+    align-items: flex-start;
 
-    & > li {
-      max-width: 250px;
+    & > li:not(:first-of-type) {
+      margin-top: 12px;
     }
   }
 </style>
@@ -206,8 +222,11 @@
 <script lang="ts">
   import { Component, Vue } from 'vue-property-decorator'
 
+  type fontSizes = 'kn-xsmall' | 'kn-small' | 'kn-medium' | 'kn-large' | 'kn-xlarge'
+
   @Component({})
   export default class KitOfParts extends Vue {
+    sizeAll: fontSizes = 'kn-medium'
     disableAll = false
   }
 </script>

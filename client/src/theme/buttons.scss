@@ -1,47 +1,26 @@
 .kn-btn {
   @include shiftText--neutral(140ms);
   border-radius: 3px;
+  background-color: var(--kn-foreground);
   color: var(--kn-background);
   padding: 0.5em 1em;
-  // TODO: Better way to handle this?
-  transition-property: background-color, font-style, font-variation-settings;
 
+  // TODO: Better way to handle this? Have to include font-style and settings again
+  transition-property: background-color, font-style, font-variation-settings;
 
   &:hover,
   &:focus {
     text-decoration: underline;
   }
 
-  @mixin semanticVariation($main, $accent) {
-    background-color: $main;
-
-    &:active {
-      background-color: $accent;
+  @each $variation in $semanticColors {
+    &.#{$variation} {
+      background-color: var(--#{$variation});
     }
-  }
 
-  &.kn-primary {
-    @include semanticVariation(var(--kn-primary), var(--kn-primary-light));
-  }
-
-  &.kn-secondary {
-    @include semanticVariation(var(--kn-secondary), var(--kn-secondary-light));
-  }
-
-  &.kn-neutral {
-    @include semanticVariation(var(--kn-neutral), var(--kn-neutral-light));
-  }
-
-  &.kn-success {
-    @include semanticVariation(var(--kn-success), var(--kn-success-light));
-  }
-
-  &.kn-warning {
-    @include semanticVariation(var(--kn-warning), var(--kn-warning-light));
-  }
-
-  &.kn-danger {
-    @include semanticVariation(var(--kn-danger), var(--kn-danger-light));
+    &.#{$variation}:active {
+      background-color: var(--#{$variation}-light);
+    }
   }
 
   &:disabled {
@@ -53,45 +32,25 @@
 }
 
 .kn-btn.kn-ghost {
+  background-color: transparent;
   border-style: outset;
   border-style: solid;
   border-width: 3px;
+  color: var(--kn-foreground);
   transition-property: border-color, font-style, font-variation-settings;
 
-  @mixin semanticVariation($main, $accent) {
-    border-color: $main;
-    color: $main;
+  @each $variation in $semanticColors {
+    &.#{$variation} {
+      border-color: var(--#{$variation});
+      color: var(--#{$variation});
 
-    // TODO: Override, here for specificity
-    background-color: transparent;
-
-    &:active {
-      border-color: $accent;
+      // TODO: Override, here for specificity
+      background-color: transparent;
     }
-  }
 
-  &.kn-primary {
-    @include semanticVariation(var(--kn-primary), var(--kn-primary-dark));
-  }
-
-  &.kn-secondary {
-    @include semanticVariation(var(--kn-secondary), var(--kn-secondary-dark));
-  }
-
-  &.kn-neutral {
-    @include semanticVariation(var(--kn-neutral), var(--kn-neutral-dark));
-  }
-
-  &.kn-success {
-    @include semanticVariation(var(--kn-success), var(--kn-success-dark));
-  }
-
-  &.kn-warning {
-    @include semanticVariation(var(--kn-warning), var(--kn-warning-dark));
-  }
-
-  &.kn-danger {
-    @include semanticVariation(var(--kn-danger), var(--kn-danger-dark));
+    &.#{$variation}:active {
+      border-color: var(--#{$variation}-dark);
+    }
   }
 
   &:disabled {

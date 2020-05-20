@@ -4,28 +4,10 @@
   flex-direction: column-reverse;
   user-select: none;
 
-  &.kn-primary {
-    color: var(--kn-primary);
-  }
-
-  &.kn-secondary {
-    color: var(--kn-secondary);
-  }
-
-  &.kn-neutral {
-    color: var(--kn-neutral);
-  }
-
-  &.kn-success {
-    color: var(--kn-success);
-  }
-
-  &.kn-warning {
-    color: var(--kn-warning);
-  }
-
-  &.kn-danger {
-    color: var(--kn-danger);
+  @each $variation in $semanticColors {
+    &.#{$variation} {
+      color: var(--#{$variation});
+    }
   }
 
   &__label {
