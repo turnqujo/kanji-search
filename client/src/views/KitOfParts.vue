@@ -20,6 +20,59 @@
         </button>
       </li>
     </ul>
+    <fieldset class="kn-fieldset showcase showcase__typography" :disabled="disableAll">
+      <legend class="kn-fieldset__legend">Typography</legend>
+      <ol>
+        <li><h1>Header One</h1></li>
+        <li><h2>Header Two</h2></li>
+        <li><h3>Header Three</h3></li>
+        <li><h4>Header Four</h4></li>
+        <li><h5>Header Five</h5></li>
+        <li><h6>Header Six</h6></li>
+        <li><p>Paragraph</p></li>
+        <li><strong>Strong</strong></li>
+        <li><em>Emphasis</em></li>
+        <li><b>Bold</b></li>
+        <li>
+          <strong><em>Super strong emphasis</em></strong>
+        </li>
+        <li><code>code('example');</code></li>
+        <li>
+          <pre><code>function codeExample(arg) {
+  return arg === 42
+    ? 'Positive!'
+    : 'Negative.'
+}</code></pre>
+        </li>
+        <li>
+          Above the rule
+          <hr />
+          Below the rule
+        </li>
+        <li>
+          <figure>
+            <img src="img/icons/apple-touch-icon-60x60.png" />
+            <figcaption>Caption Below</figcaption>
+          </figure>
+        </li>
+        <li>
+          <figure>
+            <figcaption>Caption Above</figcaption>
+            <img src="img/icons/apple-touch-icon-60x60.png" />
+          </figure>
+        </li>
+        <li>
+          <figure>
+            <figcaption><b>Code Figure</b></figcaption>
+            <pre><code>function codeExample(arg) {
+  return arg === 42
+    ? 'Positive!'
+    : 'Negative.'
+}</code></pre>
+          </figure>
+        </li>
+      </ol>
+    </fieldset>
     <fieldset class="kn-fieldset showcase showcase__buttons" :disabled="disableAll">
       <legend class="kn-fieldset__legend">Buttons {{ disableAll ? '(Disabled)' : '' }}</legend>
       <ol>
@@ -195,7 +248,6 @@
 
   .showcase > ol {
     display: flex;
-    flex-direction: row;
     justify-content: space-evenly;
   }
 
@@ -207,6 +259,14 @@
 
   .showcase__options > li:not(:first-of-type) {
     margin-left: 12px;
+  }
+
+  .showcase__typography > ol {
+    flex-direction: column;
+
+    & > li:not(:first-of-type) {
+      margin-top: 12px;
+    }
   }
 
   .showcase__input-text > ol {

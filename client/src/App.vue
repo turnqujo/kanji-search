@@ -14,6 +14,7 @@
   @import 'theme/mixins/shiftText.scss';
   @import 'theme/colors.scss';
   @import 'theme/sizes.scss';
+  @import 'theme/typography.scss';
   @import 'theme/buttons.scss';
   @import 'theme/checkbox.scss';
   @import 'theme/inputs.scss';
@@ -25,16 +26,5 @@
     font-size: 14px;
     min-height: 100vh;
     padding: 24px;
-  }
-
-  .kn-fieldset {
-    border: 2px solid var(--kn-neutral-dark);
-    border-radius: 4px;
-    padding: 8px 12px;
-
-    &__legend {
-      color: var(--kn-foreground);
-      padding: 0 8px;
-    }
   }
 </style>
