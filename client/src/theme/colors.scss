@@ -1,116 +1,121 @@
 $semanticColors: kn-primary kn-secondary kn-neutral kn-success kn-warning kn-danger;
 
-.theme--default {
-  &__colors {
-    --kn-white: #ffffff;
-    --kn-black: #090909;
+:root {
+  --kn-white: #ffffff;
+  --kn-black: #090909;
 
-    --kn-gray: #bababa;
-    --kn-gray-light: #e3e3e3;
-    --kn-gray-dark: #4a4a4a;
+  --kn-gray: #bababa;
+  --kn-gray-light: #e3e3e3;
+  --kn-gray-dark: #4a4a4a;
 
-    --kn-red: #ff6666;
-    --kn-red-light: #ff9999;
-    --kn-red-dark: #661a1a;
+  --kn-red: #ff6666;
+  --kn-red-light: #ff9999;
+  --kn-red-dark: #661a1a;
 
-    --kn-orange: #ff9326;
-    --kn-orange-light: #ffd4a8;
-    --kn-orange-dark: #663b0f;
+  --kn-orange: #ff9326;
+  --kn-orange-light: #ffd4a8;
+  --kn-orange-dark: #663b0f;
 
-    --kn-green: #9ceb4f;
-    --kn-green-light: #d7f7b9;
-    --kn-green-dark: #3e5e20;
+  --kn-green: #9ceb4f;
+  --kn-green-light: #d7f7b9;
+  --kn-green-dark: #3e5e20;
 
-    --kn-mint: #00E5B7;
-    --kn-mint-light: #66FFCC;
-    --kn-mint-dark: #00CC99;
+  --kn-mint: #00E5B7;
+  --kn-mint-light: #66FFCC;
+  --kn-mint-dark: #00896D;
 
-    --kn-blue: #31baff;
-    --kn-blue-light: #ade3ff;
-    --kn-blue-dark: #144a66;
+  --kn-blue: #31baff;
+  --kn-blue-light: #ade3ff;
+  --kn-blue-dark: #144a66;
 
-    --kn-purple: #9d8cff;
-    --kn-purple-light: #d8d1ff;
-    --kn-purple-dark: #3f3866;
-  }
+  --kn-purple: #9d8cff;
+  --kn-purple-light: #d8d1ff;
+  --kn-purple-dark: #3f3866;
+}
 
-  // TODO: Adjust for contrast
-  &--light {
-    --kn-background: var(--kn-white);
+.theme--dark {
+  --kn-background: var(--kn-black);
 
-    --kn-foreground: var(--kn-black);
-    --kn-foreground-light: var(--kn-gray);
-    --kn-foreground-dark: var(--kn-gray-dark);
+  --kn-foreground: var(--kn-white);
+  --kn-foreground-light: var(--kn-white);
+  --kn-foreground-dark: var(--kn-gray-dark);
 
-    --kn-foreground-accent: var(--kn-orange-dark);
-    --kn-foreground-accent-dark: var(--kn-orange-dark);
+  --kn-foreground-accent: var(--kn-mint);
+  --kn-foreground-accent-light: var(--kn-mint-light);
+  --kn-foreground-accent-dark: var(--kn-mint-dark);
 
-    --kn-primary: var(--kn-blue);
-    --kn-primary-light: var(--kn-blue);
-    --kn-primary-dark: var(--kn-blue-dark);
+  --kn-primary: var(--kn-blue);
+  --kn-primary-light: var(--kn-blue-light);
+  --kn-primary-dark: var(--kn-blue-dark);
 
-    --kn-secondary: var(--kn-purple);
-    --kn-secondary-light: var(--kn-purple);
-    --kn-secondary-dark: var(--kn-purple-dark);
+  --kn-secondary: var(--kn-purple);
+  --kn-secondary-light: var(--kn-purple-light);
+  --kn-secondary-dark: var(--kn-purple-dark);
 
-    --kn-neutral: var(--kn-gray);
-    --kn-neutral-light: var(--kn-gray);
-    --kn-neutral-dark: var(--kn-gray-dark);
+  --kn-neutral: var(--kn-gray);
+  --kn-neutral-light: var(--kn-gray-light);
+  --kn-neutral-dark: var(--kn-gray-dark);
 
-    --kn-success: var(--kn-green);
-    --kn-success-light: var(--kn-green);
-    --kn-success-dark: var(--kn-green-dark);
+  --kn-success: var(--kn-green);
+  --kn-success-light: var(--kn-green-light);
+  --kn-success-dark: var(--kn-green-dark);
 
-    --kn-warning: var(--kn-orange);
-    --kn-warning-light: var(--kn-orange);
-    --kn-warning-dark: var(--kn-orange-dark);
+  --kn-warning: var(--kn-orange);
+  --kn-warning-light: var(--kn-orange-light);
+  --kn-warning-dark: var(--kn-orange-dark);
 
-    --kn-danger: var(--kn-red);
-    --kn-danger-light: var(--kn-red);
-    --kn-danger-dark: var(--kn-red-dark);
+  --kn-danger: var(--kn-red);
+  --kn-danger-light: var(--kn-red-light);
+  --kn-danger-dark: var(--kn-red-dark);
 
-    --kn-disabled: var(--kn-gray);
-    --kn-disabled-light: var(--kn-gray);
-    --kn-disabled-dark: var(--kn-gray-dark);
-  }
+  --kn-disabled: var(--kn-gray);
+  --kn-disabled-light: var(--kn-gray-light);
+  --kn-disabled-dark: var(--kn-gray-dark);
 
-  &--dark {
-    --kn-background: var(--kn-black);
+  transition: background-color 140ms ease-in-out;
+  background-color: var(--kn-background);
+  color: var(--kn-foreground);
+}
 
-    --kn-foreground: var(--kn-white);
-    --kn-foreground-light: var(--kn-white);
-    --kn-foreground-dark: var(--kn-gray-dark);
+.theme--light {
+  --kn-background: var(--kn-white);
 
-    --kn-foreground-accent: var(--kn-mint);
-    --kn-foreground-accent-light: var(--kn-mint-light);
-    --kn-foreground-accent-dark: var(--kn-mint-dark);
+  --kn-foreground: var(--kn-black);
+  --kn-foreground-light: var(--kn-gray);
+  --kn-foreground-dark: var(--kn-gray-dark);
 
-    --kn-primary: var(--kn-blue);
-    --kn-primary-light: var(--kn-blue-light);
-    --kn-primary-dark: var(--kn-blue-dark);
+  --kn-foreground-accent: var(--kn-orange-dark);
+  --kn-foreground-accent-dark: var(--kn-orange-dark);
 
-    --kn-secondary: var(--kn-purple);
-    --kn-secondary-light: var(--kn-purple-light);
-    --kn-secondary-dark: var(--kn-purple-dark);
+  --kn-primary: var(--kn-blue);
+  --kn-primary-light: var(--kn-blue);
+  --kn-primary-dark: var(--kn-blue-dark);
 
-    --kn-neutral: var(--kn-gray);
-    --kn-neutral-light: var(--kn-gray-light);
-    --kn-neutral-dark: var(--kn-gray-dark);
+  --kn-secondary: var(--kn-purple);
+  --kn-secondary-light: var(--kn-purple);
+  --kn-secondary-dark: var(--kn-purple-dark);
 
-    --kn-success: var(--kn-green);
-    --kn-success-light: var(--kn-green-light);
-    --kn-success-dark: var(--kn-green-dark);
+  --kn-neutral: var(--kn-gray);
+  --kn-neutral-light: var(--kn-gray);
+  --kn-neutral-dark: var(--kn-gray-dark);
 
-    --kn-warning: var(--kn-orange);
-    --kn-warning-light: var(--kn-orange-light);
-    --kn-warning-dark: var(--kn-orange-dark);
+  --kn-success: var(--kn-green);
+  --kn-success-light: var(--kn-green);
+  --kn-success-dark: var(--kn-green-dark);
 
-    --kn-danger: var(--kn-red);
-    --kn-danger-light: var(--kn-red-light);
-    --kn-danger-dark: var(--kn-red-dark);
+  --kn-warning: var(--kn-orange);
+  --kn-warning-light: var(--kn-orange);
+  --kn-warning-dark: var(--kn-orange-dark);
 
-    --kn-disabled: var(--kn-gray);
-    --kn-disabled-light: var(--kn-gray-light);
-    --kn-disabled-dark: var(--kn-gray-dark);
-  }
+  --kn-danger: var(--kn-red);
+  --kn-danger-light: var(--kn-red);
+  --kn-danger-dark: var(--kn-red-dark);
+
+  --kn-disabled: var(--kn-gray);
+  --kn-disabled-light: var(--kn-gray);
+  --kn-disabled-dark: var(--kn-gray-dark);
+
+  transition: background-color 140ms ease-in-out;
+  background-color: var(--kn-background);
+  color: var(--kn-foreground);
 }

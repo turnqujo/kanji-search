@@ -47,4 +47,6 @@ async function init() {
     render: (h) => h(App)
   }).$mount('#app')
 }
+
+// TODO: not awaiting this?
 init()

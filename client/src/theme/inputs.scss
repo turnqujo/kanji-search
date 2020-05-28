@@ -1,10 +1,14 @@
-.kn-input {
+.kn-input, .kn-select {
   display: flex;
   flex-direction: row-reverse;
   justify-content: flex-end;
 
   @each $variation in $semanticColors {
     &.#{$variation} &__label {
+      background-color: var(--#{$variation});
+    }
+
+    &.#{$variation}::before {
       background-color: var(--#{$variation});
     }
 
@@ -18,18 +22,20 @@
     }
   }
 
-  &__label {
-    @include shiftText--neutral(140ms);
-    background-color: var(--kn-foreground);
-    color: var(--kn-background);
+  &__label,
+  &::before {
     cursor: pointer;
     font-weight: bold;
-    padding: 0.25em 0.5em 0 0.5em;
     user-select: none;
+    background-color: var(--kn-foreground);
+  }
+
+  &__label {
+    color: var(--kn-background);
+    padding: 0.25em;
   }
 
   &__control:disabled + &__label {
-    @include shiftText--active(14deg, 14);
     background-color: var(--kn-disabled);
     pointer-events: none;
   }
@@ -40,21 +46,61 @@
     border-left: none;
     border-right: none;
     border-top: none;
+    border-radius: 0;
+    height: 100%;
     color: currentColor;
     padding: 0.25em 0.5em;
-
-    &::placeholder {
-      color: currentColor;
-    }
+    font-size: inherit;
   }
 
   &__control:disabled {
     border-color: var(--kn-disabled);
     color: var(--kn-disabled);
     pointer-events: none;
+  }
+}
 
-    &::placeholder {
-      color: var(--kn-disabled);
+.kn-input {
+  &__control::placeholder {
+    color: currentColor;
+  }
+
+  &__control:disabled::placeholder {
+    color: var(--kn-disabled);
+  }
+}
+
+.kn-select {
+  position: relative;
+
+  @each $variation in $semanticColors {
+    &.#{$variation} &__label:before {
+      color: var(--#{$variation});
     }
+
+    &.#{$variation} &__control:focus + &__label::before {
+      color: var(--#{$variation}-light);
+    }
+  }
+
+  &__label::before {
+    content: '\23F7';
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    color: var(--kn-foreground);
+    font-size: 1.5em;
+    pointer-events: none;
+  }
+
+  &__control {
+    appearance: none;
+    cursor: pointer;
+    padding-right: 2em;
+  }
+
+  &__control:disabled + &__label::before {
+    color: var(--kn-disabled);
   }
 }

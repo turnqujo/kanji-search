@@ -1,135 +1,239 @@
 <template>
   <form @submit.prevent="onSubmit" class="form-container">
     <fieldset>
-      <legend>Kanji Set</legend>
-      <div class="checkbox-container">
-        <label class="checkbox-label">
-          <span class="checkbox-label__text">Jōyō</span>
-          <input type="checkbox" name="kanji-set" value="jouyou" v-model="kanjiSet" class="checkbox" />
-        </label>
-        <label class="checkbox-label">
-          <span class="checkbox-label__text">Jinmeiyō</span>
-          <input type="checkbox" name="kanji-set" value="jinmeiyou" v-model="kanjiSet" class="checkbox" />
-        </label>
-        <label class="checkbox-label">
-          <span class="checkbox-label__text">Kyōiku</span>
-          <input type="checkbox" name="kanji-set" value="kyouiku" v-model="kanjiSet" class="checkbox" />
-        </label>
-        <label class="checkbox-label">
-          <span class="checkbox-label__text">JLPT</span>
-          <input type="checkbox" name="kanji-set" value="jlpt" v-model="kanjiSet" class="checkbox" />
-        </label>
-        <label class="checkbox-label">
-          <span class="checkbox-label__text">Hyōgai</span>
-          <input type="checkbox" name="kanji-set" value="hyougai" v-model="kanjiSet" class="checkbox" />
-        </label>
-      </div>
+      <legend>Search by Meaning</legend>
+      <label class="kn-input">
+        <input type="text" class="kn-input__control" placeholder="Sun, dog, etc." v-model="meaning" />
+        <span class="kn-input__label">Text</span>
+      </label>
     </fieldset>
     <fieldset>
       <legend>Search by Reading</legend>
-      <label class="input-label">
-        <span class="input-label__text">Matching</span>
-        <select v-model="readingMatchOption">
-          <option value="start">Starts with</option>
-          <option value="anywhere">Contains</option>
-          <option value="exact">Exact</option>
-        </select>
-      </label>
-      <label class="input-label">
-        <span class="input-label__text">Text</span>
-        <input type="text" v-model="reading" @blur="onReadingBlur" />
+      <label class="kn-input">
         <span v-if="readingError !== ''">{{ readingError }}</span>
+        <input
+          type="text"
+          class="kn-input__control"
+          placeholder="Kana or Romaji"
+          v-model="reading"
+          @blur="onReadingBlur"
+        />
+        <span class="kn-input__label">Text</span>
       </label>
       <kana-keyboard @kana-picked="onPickedKana"></kana-keyboard>
+      <label class="kn-select">
+        <select class="kn-select__control" v-model="readingMatchOption">
+          <option value="exact">Exactly</option>
+          <option value="start">Start only</option>
+          <option value="anywhere">Anywhere</option>
+        </select>
+        <span class="kn-select__label">Matches</span>
+      </label>
       <div>
-        <label class="checkbox-label">
-          <span class="checkbox-label__text">On</span>
-          <input type="checkbox" name="reading-type" value="on" v-model="readingType" class="checkbox" />
-        </label>
-        <label class="checkbox-label">
-          <span class="checkbox-label__text">Kun</span>
-          <input type="checkbox" name="reading-type" value="kun" v-model="readingType" class="checkbox" />
-        </label>
-        <label class="checkbox-label">
-          <span class="checkbox-label__text">Nanori</span>
-          <input type="checkbox" name="reading-type" value="nanori" v-model="readingType" class="checkbox" />
-        </label>
+        <ul class="selection-group">
+          <li>
+            <label class="kn-selection-item">
+              <input
+                type="checkbox"
+                name="reading-type"
+                v-model="readingType"
+                value="on"
+                class="kn-selection-item__control"
+              />
+              <span class="kn-selection-item__label">On'yomi</span>
+            </label>
+          </li>
+          <li>
+            <label class="kn-selection-item">
+              <input
+                type="checkbox"
+                name="reading-type"
+                v-model="readingType"
+                value="kun"
+                class="kn-selection-item__control"
+              />
+              <span class="kn-selection-item__label">Kun'yomi</span>
+            </label>
+          </li>
+          <li>
+            <label class="kn-selection-item">
+              <input
+                type="checkbox"
+                name="reading-type"
+                v-model="readingType"
+                value="nanori"
+                class="kn-selection-item__control"
+              />
+              <span class="kn-selection-item__label">Nanori</span>
+            </label>
+          </li>
+        </ul>
       </div>
     </fieldset>
     <fieldset>
-      <legend>Search by Meaning</legend>
-      <label class="input-label">
-        <span class="input-label__text">Text</span>
-        <input type="text" v-model="meaning" />
-      </label>
+      <legend>Kanji Set</legend>
+      <ul class="selection-group">
+        <li>
+          <label class="kn-selection-item">
+            <input
+              type="checkbox"
+              name="kanji-set"
+              v-model="kanjiSet"
+              value="jouyou"
+              class="kn-selection-item__control"
+            />
+            <span class="kn-selection-item__label">Jōyō</span>
+          </label>
+        </li>
+        <li>
+          <label class="kn-selection-item">
+            <input
+              type="checkbox"
+              name="kanji-set"
+              v-model="kanjiSet"
+              value="jinmeiyou"
+              class="kn-selection-item__control"
+            />
+            <span class="kn-selection-item__label">Jinmeiyō</span>
+          </label>
+        </li>
+        <li>
+          <label class="kn-selection-item">
+            <input
+              type="checkbox"
+              name="kanji-set"
+              v-model="kanjiSet"
+              value="kyouiku"
+              class="kn-selection-item__control"
+            />
+            <span class="kn-selection-item__label">Kyōiku</span>
+          </label>
+        </li>
+        <li>
+          <label class="kn-selection-item">
+            <input
+              type="checkbox"
+              name="kanji-set"
+              v-model="kanjiSet"
+              value="jlpt"
+              class="kn-selection-item__control"
+            />
+            <span class="kn-selection-item__label">JLPT</span>
+          </label>
+        </li>
+        <li>
+          <label class="kn-selection-item">
+            <input
+              type="checkbox"
+              name="kanji-set"
+              v-model="kanjiSet"
+              value="hyougai"
+              class="kn-selection-item__control"
+            />
+            <span class="kn-selection-item__label">Hyōgai</span>
+          </label>
+        </li>
+      </ul>
     </fieldset>
     <fieldset>
       <legend>Sorting</legend>
-      <label class="input-label">
-        <span class="input-label__text">Primary Sort</span>
-        <select v-model="primarySortField">
+      <label class="kn-select">
+        <select class="kn-select__control" v-model="primarySortField">
           <option value="frequency">Popularity</option>
           <option value="grade">Grade</option>
           <option value="jlpt">JLPT</option>
           <option value="strokeCount">Stroke Count</option>
           <option value="unicode">Unicode</option>
         </select>
+        <span class="kn-select__label">Primary Sort</span>
       </label>
-      <div class="radio-container">
-        <label class="radio-label">
-          Ascending
-          <input type="radio" name="primary-sort-dir" value="asc" v-model="primarySortDirection" />
-        </label>
-        <label class="radio-label">
-          Descending
-          <input type="radio" name="primary-sort-dir" value="desc" v-model="primarySortDirection" />
-        </label>
-      </div>
-      <div v-if="primarySortField !== 'frequency' && primarySortField !== 'unicode'">
-        <label class="input-label">
-          <span class="input-label__text">Secondary Sort</span>
-          <select v-model="secondarySortField">
-            <option value="none">None</option>
-            <option value="frequency">Popularity</option>
-            <option value="grade" :disabled="primarySortField === 'grade'">Grade</option>
-            <option value="jlpt" :disabled="primarySortField === 'jlpt'">JLPT</option>
-            <option value="strokeCount" :disabled="primarySortField === 'strokeCount'">Stroke Count</option>
-            <option value="unicode">Unicode</option>
-          </select>
-        </label>
-        <div class="radio-container" v-if="secondarySortField !== 'none'">
-          <label class="radio-label">
-            Ascending
-            <input type="radio" name="secondary-sort-dir" value="asc" v-model="secondarySortDirection" />
+      <ol class="selection-group">
+        <li>
+          <label class="kn-selection-item kn-radio">
+            <input
+              type="radio"
+              name="primary-sort-dir"
+              value="asc"
+              class="kn-selection-item__control"
+              v-model="primarySortDirection"
+            />
+            <span class="kn-selection-item__label">Ascending</span>
           </label>
-          <label class="radio-label">
-            Descending
-            <input type="radio" name="secondary-sort-dir" value="desc" v-model="secondarySortDirection" />
+        </li>
+        <li>
+          <label class="kn-selection-item kn-radio">
+            <input
+              type="radio"
+              name="primary-sort-dir"
+              value="desc"
+              class="kn-selection-item__control"
+              v-model="primarySortDirection"
+            />
+            <span class="kn-selection-item__label">Descending</span>
           </label>
-        </div>
-      </div>
+        </li>
+      </ol>
+      <label class="kn-select">
+        <select
+          class="kn-select__control"
+          v-model="secondarySortField"
+          :disabled="primarySortField === 'frequency' || primarySortField === 'unicode'"
+        >
+          <option value="none">None</option>
+          <option value="frequency">Popularity</option>
+          <option value="grade" :disabled="primarySortField === 'grade'">Grade</option>
+          <option value="jlpt" :disabled="primarySortField === 'jlpt'">JLPT</option>
+          <option value="strokeCount" :disabled="primarySortField === 'strokeCount'">Stroke Count</option>
+          <option value="unicode">Unicode</option>
+        </select>
+        <span class="kn-select__label">Secondary Sort</span>
+      </label>
+      <ol class="selection-group">
+        <li>
+          <label class="kn-selection-item kn-radio">
+            <input
+              type="radio"
+              name="secondary-sort-dir"
+              value="asc"
+              class="kn-selection-item__control"
+              v-model="secondarySortDirection"
+              :disabled="
+                primarySortField === 'frequency' || primarySortField === 'unicode' || secondarySortField === 'none'
+              "
+            />
+            <span class="kn-selection-item__label">Ascending</span>
+          </label>
+        </li>
+        <li>
+          <label class="kn-selection-item kn-radio">
+            <input
+              type="radio"
+              name="secondary-sort-dir"
+              value="desc"
+              class="kn-selection-item__control"
+              v-model="secondarySortDirection"
+              :disabled="
+                primarySortField === 'frequency' || primarySortField === 'unicode' || secondarySortField === 'none'
+              "
+            />
+            <span class="kn-selection-item__label">Descending</span>
+          </label>
+        </li>
+      </ol>
     </fieldset>
-    <button type="submit">Search</button>
+    <button type="button" class="kn-btn kn-danger">Clear</button>
+    <button type="submit" class="kn-btn kn-primary">Search</button>
   </form>
 </template>
 
-<style lang="scss" scoped>
-  .checkbox-label {
-    display: inline-flex;
-    flex-direction: column;
-    align-items: center;
-  }
+<style lang="scss">
+  .selection-group {
+    display: flex;
+    flex-direction: row;
 
-  .checkbox-label:not(:first-of-type) {
-    margin-left: 16px;
-  }
-
-  .radio-label:not(:first-of-type) {
-    margin-left: 8px;
-  }
-
-  .input-label__text {
-    display: block;
+    & > li:not(:first-of-type) {
+      margin-left: 1em;
+    }
   }
 </style>
 

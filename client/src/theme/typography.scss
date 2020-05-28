@@ -15,16 +15,6 @@ h4 {
   font-size: 1.3em;
 }
 
-h5 {
-  font-size: 1.1em;
-  font-style: italic;
-}
-
-h6 {
-  font-size: 1em;
-  font-style: italic;
-}
-
 strong {
   font-weight: bold;
   text-decoration: underline;
@@ -72,7 +62,7 @@ figure {
 }
 
 hr {
-  color: var(--kn-foreground-accent-dark);
+  border: 1px solid var(--kn-foreground-dark);
   margin: 0.5em 0;
 }
 
@@ -86,5 +76,3 @@ fieldset {
     padding: 0 0.75em;
   }
 }
-
-

@@ -1,12 +1,9 @@
 .kn-btn {
-  @include shiftText--neutral(140ms);
   border-radius: 3px;
   background-color: var(--kn-foreground);
   color: var(--kn-background);
   padding: 0.5em 1em;
-
-  // TODO: Better way to handle this? Have to include font-style and settings again
-  transition-property: background-color, font-style, font-variation-settings;
+  transition-property: background-color;
 
   &:hover,
   &:focus {
@@ -27,7 +24,6 @@
     background-color: var(--kn-disabled-dark);
     color: var(--kn-disabled-light);
     pointer-events: none;
-    @include shiftText--active(14deg, 14);
   }
 }
 
@@ -37,7 +33,7 @@
   border-style: solid;
   border-width: 3px;
   color: var(--kn-foreground);
-  transition-property: border-color, font-style, font-variation-settings;
+  transition-property: border-color;
 
   @each $variation in $semanticColors {
     &.#{$variation} {

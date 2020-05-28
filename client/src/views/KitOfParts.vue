@@ -1,34 +1,40 @@
 <template>
   <div :class="sizeAll">
-    <ul class="showcase__options">
-      <li>
-        <select v-model="sizeAll">
-          <option value="kn-xsmall">Extra Small</option>
-          <option value="kn-small">Small</option>
-          <option value="kn-medium">Medium</option>
-          <option value="kn-large">Large</option>
-          <option value="kn-xlarge">Extra Large</option>
-        </select>
-      </li>
-      <li>
-        <button
-          type="button"
-          :class="['kn-btn', { 'kn-danger': !disableAll }, { 'kn-primary': disableAll }]"
-          @click="disableAll = !disableAll"
-        >
-          {{ disableAll ? 'Enable' : 'Disable' }} Examples
-        </button>
-      </li>
-    </ul>
-    <fieldset class="kn-fieldset showcase showcase__typography" :disabled="disableAll">
-      <legend class="kn-fieldset__legend">Typography</legend>
+    <fieldset class="showcase showcase__options">
+      <legend>Options</legend>
+      <ul>
+        <li>
+          <label class="kn-select">
+            <select class="kn-select__control" v-model="sizeAll">
+              <option value="kn-xsmall">Extra Small</option>
+              <option value="kn-small">Small</option>
+              <option value="kn-medium">Medium</option>
+              <option value="kn-large">Large</option>
+              <option value="kn-xlarge">Extra Large</option>
+            </select>
+            <span class="kn-select__label">Font Size</span>
+          </label>
+        </li>
+        <li>
+          <button
+            type="button"
+            :class="['kn-btn', { 'kn-danger': !disableAll }, { 'kn-primary': disableAll }]"
+            @click="disableAll = !disableAll"
+          >
+            {{ disableAll ? 'Enable' : 'Disable' }} Examples
+          </button>
+        </li>
+      </ul>
+    </fieldset>
+    <fieldset class="showcase showcase__typography showcase--vertical" :disabled="disableAll">
+      <legend>Typography</legend>
       <ol>
         <li><h1>Header One</h1></li>
         <li><h2>Header Two</h2></li>
         <li><h3>Header Three</h3></li>
         <li><h4>Header Four</h4></li>
-        <li><h5>Header Five</h5></li>
-        <li><h6>Header Six</h6></li>
+      </ol>
+      <ul>
         <li><p>Paragraph</p></li>
         <li><strong>Strong</strong></li>
         <li><em>Emphasis</em></li>
@@ -71,10 +77,10 @@
 }</code></pre>
           </figure>
         </li>
-      </ol>
+      </ul>
     </fieldset>
-    <fieldset class="kn-fieldset showcase showcase__buttons" :disabled="disableAll">
-      <legend class="kn-fieldset__legend">Buttons {{ disableAll ? '(Disabled)' : '' }}</legend>
+    <fieldset class="showcase showcase__buttons" :disabled="disableAll">
+      <legend>Buttons {{ disableAll ? '(Disabled)' : '' }}</legend>
       <ol>
         <li><button type="button" class="kn-btn">Default</button></li>
         <li><button type="button" class="kn-btn kn-primary">Primary</button></li>
@@ -85,8 +91,8 @@
         <li><button type="button" class="kn-btn kn-danger">Danger</button></li>
       </ol>
     </fieldset>
-    <fieldset class="kn-fieldset showcase showcase__buttons" :disabled="disableAll">
-      <legend class="kn-fieldset__legend">Buttons - Ghosts {{ disableAll ? '(Disabled)' : '' }}</legend>
+    <fieldset class="showcase showcase__buttons" :disabled="disableAll">
+      <legend>Buttons - Ghosts {{ disableAll ? '(Disabled)' : '' }}</legend>
       <ol>
         <li><button type="button" class="kn-btn kn-ghost">Default</button></li>
         <li><button type="button" class="kn-btn kn-ghost kn-primary">Primary</button></li>
@@ -97,8 +103,8 @@
         <li><button type="button" class="kn-btn kn-ghost kn-danger">Danger</button></li>
       </ol>
     </fieldset>
-    <fieldset class="kn-fieldset showcase showcase__checkbox-group" :disabled="disableAll">
-      <legend class="kn-fieldset__legend">Checkbox Group {{ disableAll ? '(Disabled)' : '' }}</legend>
+    <fieldset class="showcase showcase__checkbox-group" :disabled="disableAll">
+      <legend>Checkbox Group {{ disableAll ? '(Disabled)' : '' }}</legend>
       <ol>
         <li>
           <label class="kn-selection-item">
@@ -144,8 +150,8 @@
         </li>
       </ol>
     </fieldset>
-    <fieldset class="kn-fieldset showcase showcase__radio-group" :disabled="disableAll">
-      <legend class="kn-fieldset__legend">Radio Group {{ disableAll ? '(Disabled)' : '' }}</legend>
+    <fieldset class="showcase showcase__radio-group" :disabled="disableAll">
+      <legend>Radio Group {{ disableAll ? '(Disabled)' : '' }}</legend>
       <ol>
         <li>
           <label class="kn-selection-item kn-radio">
@@ -191,49 +197,124 @@
         </li>
       </ol>
     </fieldset>
-    <fieldset class="kn-fieldset showcase showcase__input-text" :disabled="disableAll">
-      <legend class="kn-fieldset__legend">Input - Text {{ disableAll ? '(Disabled)' : '' }}</legend>
+    <fieldset class="showcase showcase__input-text showcase--vertical" :disabled="disableAll">
+      <legend>Input - Text {{ disableAll ? '(Disabled)' : '' }}</legend>
       <ol>
         <li>
           <label class="kn-input">
             <input type="text" class="kn-input__control" placeholder="Placeholder" />
-            <span class="kn-input__label ">Default</span>
+            <span class="kn-input__label">Default</span>
           </label>
         </li>
         <li>
           <label class="kn-input kn-primary">
             <input type="text" class="kn-input__control" placeholder="Placeholder" />
-            <span class="kn-input__label ">Primary</span>
+            <span class="kn-input__label">Primary</span>
           </label>
         </li>
         <li>
           <label class="kn-input kn-secondary">
             <input type="text" class="kn-input__control" placeholder="Placeholder" />
-            <span class="kn-input__label ">Secondary</span>
+            <span class="kn-input__label">Secondary</span>
           </label>
         </li>
         <li>
           <label class="kn-input kn-neutral">
             <input type="text" class="kn-input__control" placeholder="Placeholder" />
-            <span class="kn-input__label ">Neutral</span>
+            <span class="kn-input__label">Neutral</span>
           </label>
         </li>
         <li>
           <label class="kn-input kn-success">
             <input type="text" class="kn-input__control" placeholder="Placeholder" />
-            <span class="kn-input__label ">Success</span>
+            <span class="kn-input__label">Success</span>
           </label>
         </li>
         <li>
           <label class="kn-input kn-warning">
             <input type="text" class="kn-input__control" placeholder="Placeholder" />
-            <span class="kn-input__label ">Warning</span>
+            <span class="kn-input__label">Warning</span>
           </label>
         </li>
         <li>
           <label class="kn-input kn-danger">
             <input type="text" class="kn-input__control" placeholder="Placeholder" />
-            <span class="kn-input__label ">Danger</span>
+            <span class="kn-input__label">Danger</span>
+          </label>
+        </li>
+      </ol>
+    </fieldset>
+    <fieldset class="showcase showcase__select showcase--vertical" :disabled="disableAll">
+      <legend>Selects {{ disableAll ? '(Disabled)' : '' }}</legend>
+      <ol>
+        <li>
+          <label class="kn-select">
+            <select class="kn-select__control">
+              <option>Some Option</option>
+              <option disabled>Disabled Option</option>
+              <option>Other Option</option>
+            </select>
+            <span class="kn-select__label">Default</span>
+          </label>
+        </li>
+        <li>
+          <label class="kn-select kn-primary">
+            <select class="kn-select__control">
+              <option>Some Option</option>
+              <option disabled>Disabled Option</option>
+              <option>Other Option</option>
+            </select>
+            <span class="kn-select__label">Primary</span>
+          </label>
+        </li>
+        <li>
+          <label class="kn-select kn-secondary">
+            <select class="kn-select__control">
+              <option>Some Option</option>
+              <option disabled>Disabled Option</option>
+              <option>Other Option</option>
+            </select>
+            <span class="kn-select__label">Secondary</span>
+          </label>
+        </li>
+        <li>
+          <label class="kn-select kn-neutral">
+            <select class="kn-select__control">
+              <option>Some Option</option>
+              <option disabled>Disabled Option</option>
+              <option>Other Option</option>
+            </select>
+            <span class="kn-select__label">Neutral</span>
+          </label>
+        </li>
+        <li>
+          <label class="kn-select kn-success">
+            <select class="kn-select__control">
+              <option>Some Option</option>
+              <option disabled>Disabled Option</option>
+              <option>Other Option</option>
+            </select>
+            <span class="kn-select__label">Success</span>
+          </label>
+        </li>
+        <li>
+          <label class="kn-select kn-warning">
+            <select class="kn-select__control">
+              <option>Some Option</option>
+              <option disabled>Disabled Option</option>
+              <option>Other Option</option>
+            </select>
+            <span class="kn-select__label">Warning</span>
+          </label>
+        </li>
+        <li>
+          <label class="kn-select kn-danger">
+            <select class="kn-select__control">
+              <option>Some Option</option>
+              <option disabled>Disabled Option</option>
+              <option>Other Option</option>
+            </select>
+            <span class="kn-select__label">Danger</span>
           </label>
         </li>
       </ol>
@@ -246,32 +327,32 @@
     margin-top: 24px;
   }
 
-  .showcase > ol {
-    display: flex;
-    justify-content: space-evenly;
+  .showcase__options {
+    transition: background-color 140ms ease-in-out;
+    background-color: var(--kn-background);
+    position: sticky;
+    top: 0;
   }
 
-  .showcase__options {
+  .showcase__options > ul {
     display: flex;
     align-items: center;
     justify-content: flex-end;
-  }
-
-  .showcase__options > li:not(:first-of-type) {
-    margin-left: 12px;
-  }
-
-  .showcase__typography > ol {
-    flex-direction: column;
 
     & > li:not(:first-of-type) {
-      margin-top: 12px;
+      margin-left: 12px;
     }
   }
 
-  .showcase__input-text > ol {
-    flex-direction: column;
+  .showcase > ol {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .showcase--vertical > ol,
+  .showcase--vertical > ul {
     align-items: flex-start;
+    flex-direction: column;
 
     & > li:not(:first-of-type) {
       margin-top: 12px;
