@@ -3,6 +3,7 @@
     <fieldset>
       <legend>Appearance Settings</legend>
       <DarkSwitch></DarkSwitch>
+      <FontSizeSwitch></FontSizeSwitch>
     </fieldset>
     <div id="nav">
       <router-link to="/">Home</router-link>
@@ -24,7 +25,6 @@
 
   #app {
     box-sizing: border-box;
-    font-size: 14px;
     padding: 24px;
   }
 </style>
@@ -32,10 +32,12 @@
 <script lang="ts">
   import { Component, Vue } from 'vue-property-decorator'
   import DarkSwitch from './components/darkSwitch.vue'
+  import FontSizeSwitch from './components/fontSizeSwitch.vue'
 
   @Component({
     components: {
-      DarkSwitch
+      DarkSwitch,
+      FontSizeSwitch
     }
   })
   export default class App extends Vue {}

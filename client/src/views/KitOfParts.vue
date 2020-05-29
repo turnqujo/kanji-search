@@ -1,20 +1,8 @@
 <template>
-  <div :class="sizeAll">
+  <div>
     <fieldset class="showcase showcase__options">
       <legend>Options</legend>
       <ul>
-        <li>
-          <label class="kn-select">
-            <select class="kn-select__control" v-model="sizeAll">
-              <option value="kn-xsmall">Extra Small</option>
-              <option value="kn-small">Small</option>
-              <option value="kn-medium">Medium</option>
-              <option value="kn-large">Large</option>
-              <option value="kn-xlarge">Extra Large</option>
-            </select>
-            <span class="kn-select__label">Font Size</span>
-          </label>
-        </li>
         <li>
           <button
             type="button"
@@ -363,11 +351,8 @@
 <script lang="ts">
   import { Component, Vue } from 'vue-property-decorator'
 
-  type fontSizes = 'kn-xsmall' | 'kn-small' | 'kn-medium' | 'kn-large' | 'kn-xlarge'
-
   @Component({})
   export default class KitOfParts extends Vue {
-    sizeAll: fontSizes = 'kn-medium'
     disableAll = false
   }
 </script>

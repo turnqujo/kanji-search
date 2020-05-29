@@ -1,4 +1,3 @@
-Must Do
 - Component structure (smaller, focused components)
 - Component testing
 - Integration / acceptance testing
@@ -8,6 +7,11 @@ Must Do
 - Define styling for the navbar
 - Cookie / local storage permission popup?
 - Loading / working states
+- Kanji form state in URL as params, allow for browser search integration
+- Clean up the test webworker class, address TODOs
+- Performance test and improve webworkers
+- Add more controls to the kanji form, e.g. grade, jlpt, stroke limiters
+- Collapsible fieldsets
 
 Appearance & Accessibility Settings
 x Finish theme switch control
@@ -16,12 +20,4 @@ x Finish theme switch control
 - Animations toggle
   - Move transition duration values into vars, place in :root
   - Create "no-animation" mode which sets durations to 0ms
-- Font Size selection: break out into component, make global
-
-Should Do
-- Kanji form state in URL as params, allow for browser search integration
-- Clean up the test webworker class, address TODOs
-- Performance test and improve webworkers
-
-Could do
-- Add more controls to the kanji form, e.g. grade, jlpt, stroke limiters
+x Font Size selection: break out into component, make global
