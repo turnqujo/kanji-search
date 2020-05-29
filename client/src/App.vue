@@ -1,6 +1,9 @@
 <template>
   <div id="app">
-    <button type="button" @click="switchTheme">Theme</button>
+    <fieldset>
+      <legend>Appearance Settings</legend>
+      <DarkSwitch></DarkSwitch>
+    </fieldset>
     <div id="nav">
       <router-link to="/">Home</router-link>
       <router-link to="/kit-of-parts">Kit of Parts</router-link>
@@ -28,18 +31,12 @@
 
 <script lang="ts">
   import { Component, Vue } from 'vue-property-decorator'
-  import setRootTheme from './theme/themeShiv'
+  import DarkSwitch from './components/darkSwitch.vue'
 
-  // Default to a dark theme
-  setRootTheme(true)
-
-  @Component({})
-  export default class App extends Vue {
-    isDark = true
-
-    switchTheme() {
-      this.isDark = !this.isDark
-      setRootTheme(this.isDark)
+  @Component({
+    components: {
+      DarkSwitch
     }
-  }
+  })
+  export default class App extends Vue {}
 </script>

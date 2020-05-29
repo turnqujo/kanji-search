@@ -31,53 +31,8 @@ $semanticColors: kn-primary kn-secondary kn-neutral kn-success kn-warning kn-dan
   --kn-purple: #9d8cff;
   --kn-purple-light: #d8d1ff;
   --kn-purple-dark: #3f3866;
-}
 
-.theme--dark {
-  --kn-background: var(--kn-black);
-
-  --kn-foreground: var(--kn-white);
-  --kn-foreground-light: var(--kn-white);
-  --kn-foreground-dark: var(--kn-gray-dark);
-
-  --kn-foreground-accent: var(--kn-mint);
-  --kn-foreground-accent-light: var(--kn-mint-light);
-  --kn-foreground-accent-dark: var(--kn-mint-dark);
-
-  --kn-primary: var(--kn-blue);
-  --kn-primary-light: var(--kn-blue-light);
-  --kn-primary-dark: var(--kn-blue-dark);
-
-  --kn-secondary: var(--kn-purple);
-  --kn-secondary-light: var(--kn-purple-light);
-  --kn-secondary-dark: var(--kn-purple-dark);
-
-  --kn-neutral: var(--kn-gray);
-  --kn-neutral-light: var(--kn-gray-light);
-  --kn-neutral-dark: var(--kn-gray-dark);
-
-  --kn-success: var(--kn-green);
-  --kn-success-light: var(--kn-green-light);
-  --kn-success-dark: var(--kn-green-dark);
-
-  --kn-warning: var(--kn-orange);
-  --kn-warning-light: var(--kn-orange-light);
-  --kn-warning-dark: var(--kn-orange-dark);
-
-  --kn-danger: var(--kn-red);
-  --kn-danger-light: var(--kn-red-light);
-  --kn-danger-dark: var(--kn-red-dark);
-
-  --kn-disabled: var(--kn-gray);
-  --kn-disabled-light: var(--kn-gray-light);
-  --kn-disabled-dark: var(--kn-gray-dark);
-
-  transition: background-color 140ms ease-in-out;
-  background-color: var(--kn-background);
-  color: var(--kn-foreground);
-}
-
-.theme--light {
+  // Light Theme
   --kn-background: var(--kn-white);
 
   --kn-foreground: var(--kn-black);
@@ -118,4 +73,44 @@ $semanticColors: kn-primary kn-secondary kn-neutral kn-success kn-warning kn-dan
   transition: background-color 140ms ease-in-out;
   background-color: var(--kn-background);
   color: var(--kn-foreground);
+}
+
+:root[dark] {
+  --kn-background: var(--kn-black);
+
+  --kn-foreground: var(--kn-white);
+  --kn-foreground-light: var(--kn-white);
+  --kn-foreground-dark: var(--kn-gray-dark);
+
+  --kn-foreground-accent: var(--kn-mint);
+  --kn-foreground-accent-light: var(--kn-mint-light);
+  --kn-foreground-accent-dark: var(--kn-mint-dark);
+
+  --kn-primary: var(--kn-blue);
+  --kn-primary-light: var(--kn-blue-light);
+  --kn-primary-dark: var(--kn-blue-dark);
+
+  --kn-secondary: var(--kn-purple);
+  --kn-secondary-light: var(--kn-purple-light);
+  --kn-secondary-dark: var(--kn-purple-dark);
+
+  --kn-neutral: var(--kn-gray);
+  --kn-neutral-light: var(--kn-gray-light);
+  --kn-neutral-dark: var(--kn-gray-dark);
+
+  --kn-success: var(--kn-green);
+  --kn-success-light: var(--kn-green-light);
+  --kn-success-dark: var(--kn-green-dark);
+
+  --kn-warning: var(--kn-orange);
+  --kn-warning-light: var(--kn-orange-light);
+  --kn-warning-dark: var(--kn-orange-dark);
+
+  --kn-danger: var(--kn-red);
+  --kn-danger-light: var(--kn-red-light);
+  --kn-danger-dark: var(--kn-red-dark);
+
+  --kn-disabled: var(--kn-gray);
+  --kn-disabled-light: var(--kn-gray-light);
+  --kn-disabled-dark: var(--kn-gray-dark);
 }

@@ -1,8 +1,8 @@
 .kn-selection-item {
   align-items: center;
   display: flex;
-  flex-direction: column-reverse;
   user-select: none;
+  position: relative;
 
   @each $variation in $semanticColors {
     &.#{$variation} {
@@ -12,12 +12,18 @@
 
   &__label {
     cursor: pointer;
-    margin-right: 0.25em;
+    border-bottom: 1px solid currentColor;
+    padding-left: calc(0.8em + 2px + 0.4em); // input width, border, padding
+    padding-bottom: 2px;
+    transition-duration: 140ms;
+    transition-property: color, border-color;
+    transition-timing-function: ease-in-out;
   }
 
-  &__control:active + &__label,
-  &__control:focus + &__label {
-    text-decoration: underline;
+  &__control:active:not(:disabled) + &__label,
+  &__control:focus:not(:disabled) + &__label {
+    // TODO: change to standard '>' decoration to the left of elements
+    border-bottom-style: dashed;
   }
 
   &__control:disabled,
@@ -33,20 +39,24 @@
   &__control {
     border-radius: 3px;
     border: 2px solid currentColor;
-    color: inherit;
     cursor: pointer;
+    height: 0.8em;
+    left: 0;
+    margin: 0 0 3px 0; // border + padding
     outline: none;
-    padding: 0.4em;
+    position: absolute;
     transition-duration: 140ms;
     transition-property: background-color, color, border-color;
     transition-timing-function: ease-in-out;
+    width: 0.8em;
 
     &:checked {
       background-color: currentColor;
     }
 
     &:disabled {
-      border-color: var(--kn-disabled-dark);
+      color: var(--kn-disabled);
+      border-color: var(--kn-disabled);
     }
   }
 

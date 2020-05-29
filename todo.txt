@@ -1,0 +1,27 @@
+Must Do
+- Component structure (smaller, focused components)
+- Component testing
+- Integration / acceptance testing
+- Better mechanics for applying webworkers in the kanji form component
+- Use Array Buffers for transferring data to and from webworker threads
+- Add substring / exact search toggle for meaning
+- Define styling for the navbar
+- Cookie / local storage permission popup?
+- Loading / working states
+
+Appearance & Accessibility Settings
+x Finish theme switch control
+  x Split into new component
+  x Store theme setting in localstorage
+- Animations toggle
+  - Move transition duration values into vars, place in :root
+  - Create "no-animation" mode which sets durations to 0ms
+- Font Size selection: break out into component, make global
+
+Should Do
+- Kanji form state in URL as params, allow for browser search integration
+- Clean up the test webworker class, address TODOs
+- Performance test and improve webworkers
+
+Could do
+- Add more controls to the kanji form, e.g. grade, jlpt, stroke limiters
