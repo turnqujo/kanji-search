@@ -20,23 +20,31 @@
 
   @Component({})
   export default class FontSizeSwitch extends Vue {
-    pFontSize: FontSizes = 'medium'
+    static storageKey = 'kn-font-size-preference'
+    pFontSize: FontSizes | null = null
 
     get fontSize() {
       return this.pFontSize
     }
-    set fontSize(newSize: FontSizes) {
+    set fontSize(newSize: FontSizes | null) {
+      if (newSize === null) {
+        return
+      }
+
       this.pFontSize = newSize
       document.querySelector(':root')?.setAttribute('font-size', newSize)
-      localStorage.setItem('kn-font-size-preference', newSize)
+      localStorage.setItem(FontSizeSwitch.storageKey, newSize)
     }
 
     mounted() {
-      const storedPreference = localStorage.getItem('kn-font-size-preference') as FontSizes
+      const storedPreference = localStorage.getItem(FontSizeSwitch.storageKey) as FontSizes
       if (['xsmall', 'small', 'medium', 'large', 'xlarge'].indexOf(storedPreference) > -1) {
         document.querySelector(':root')?.setAttribute('font-size', storedPreference)
         this.fontSize = storedPreference
+        return
       }
+
+      this.fontSize = 'medium'
     }
   }
 </script>

@@ -1,23 +1,39 @@
-- Component structure (smaller, focused components)
-- Component testing
-- Integration / acceptance testing
-- Better mechanics for applying webworkers in the kanji form component
-- Use Array Buffers for transferring data to and from webworker threads
-- Add substring / exact search toggle for meaning
+* Features, Tasks *
 - Define styling for the navbar
-- Cookie / local storage permission popup?
-- Loading / working states
-- Kanji form state in URL as params, allow for browser search integration
+- Add substring / exact search toggle for meaning
+- Refactor SCSS to use more variables; standardize things like element spacing
+- Set up service worker, make app offline-capable
+- Rework the Kanji cards into an actual table; move sort options into table headers
+- Use Array Buffers for transferring data to and from webworker threads
+- Add standard "focused" icon to focusable elements, remove existing styling
+
+* Testing (Pre-MVP) *
+- Component unit testing
+- Cross-browser compatability: Chrome, Firefox, Edge, Safari, Opera; last two versions
+- Device compatability: Linux, Windows, Mac OS, iOS, Android; most-used & recent versions
+- E2E / workflow testing
+- Performance testing, especially for webworkers
+
+* Refactors, Improvements *
+- Cleaner code for applying webworker tasks in the kanji form component
 - Clean up the test webworker class, address TODOs
-- Performance test and improve webworkers
+
+* Post-MVP *
 - Add more controls to the kanji form, e.g. grade, jlpt, stroke limiters
 - Collapsible fieldsets
+- Component structure (smaller, focused components; styled components?)
+- Break up typography file (styled components?)
+- Loading / working states
+- Kanji form state in URL as params, allow for browser search integration
+- If performance is good enough, change the search form to work on change instead of on submit
 
+* Completed Work *
 Appearance & Accessibility Settings
 x Finish theme switch control
   x Split into new component
   x Store theme setting in localstorage
-- Animations toggle
-  - Move transition duration values into vars, place in :root
-  - Create "no-animation" mode which sets durations to 0ms
+x Animations toggle
+  x Move transition duration values into vars, place in :root
+  x Create "no-animation" mode which sets durations to 0ms
 x Font Size selection: break out into component, make global
+x Create new view for user settings, include these

@@ -29,7 +29,7 @@ b {
 }
 
 code {
-  color: var(--kn-foreground-accent);
+  color: var(--kn-foreground-accent-light);
   line-height: 1.5em;
 }
 
@@ -67,7 +67,7 @@ hr {
 }
 
 fieldset {
-  border: 1px solid var(--kn-foreground-dark);
+  border: 1px solid var(--kn-foreground-accent-dark);
   border-radius: 3px;
   padding: 0.5em 1em;
 

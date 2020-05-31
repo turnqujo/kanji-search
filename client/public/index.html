@@ -6,9 +6,27 @@
       :root[dark] { background-color: #090909; }
     </style>
     <script>
-      if (localStorage.getItem('kn-theme-preference') === 'dark') {
-        document.querySelector(':root').setAttribute('dark', true)
-      }
+      ;(function(rootEle) {
+        if (!rootEle) {
+          return
+        }
+
+        if (localStorage.getItem('kn-theme-preference') === 'dark') {
+          rootEle.setAttribute('dark', true)
+        }
+
+        const fontSizePreference = localStorage.getItem('kn-font-size-preference')
+        if (['xsmall', 'small', 'medium', 'large', 'xlarge'].indexOf(fontSizePreference) > -1) {
+          rootEle.setAttribute('font-size', fontSizePreference)
+        }
+
+        const animationPreference = localStorage.getItem('kn-animation-preference')
+        if (['enabled', 'disabled'].indexOf(animationPreference) > -1) {
+          rootEle.setAttribute('transitions', animationPreference)
+        } else {
+          rootEle.setAttribute('transitions', 'enabled')
+        }
+      })(document.querySelector(':root'))
     </script>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">

@@ -71,6 +71,7 @@
 }
 
 .kn-select {
+  display: inline-flex;
   position: relative;
 
   @each $variation in $semanticColors {

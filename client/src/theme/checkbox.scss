@@ -11,13 +11,11 @@
   }
 
   &__label {
+    @include standardTransition(color, border-color);
     cursor: pointer;
     border-bottom: 1px solid currentColor;
     padding-left: calc(0.8em + 2px + 0.4em); // input width, border, padding
     padding-bottom: 2px;
-    transition-duration: 140ms;
-    transition-property: color, border-color;
-    transition-timing-function: ease-in-out;
   }
 
   &__control:active:not(:disabled) + &__label,
@@ -37,6 +35,7 @@
   }
 
   &__control {
+    @include standardTransition(background-color, color, border-color);
     border-radius: 3px;
     border: 2px solid currentColor;
     cursor: pointer;
@@ -45,9 +44,6 @@
     margin: 0 0 3px 0; // border + padding
     outline: none;
     position: absolute;
-    transition-duration: 140ms;
-    transition-property: background-color, color, border-color;
-    transition-timing-function: ease-in-out;
     width: 0.8em;
 
     &:checked {

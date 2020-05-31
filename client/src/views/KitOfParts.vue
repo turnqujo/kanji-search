@@ -6,7 +6,7 @@
         <li>
           <button
             type="button"
-            :class="['kn-btn', { 'kn-danger': !disableAll }, { 'kn-primary': disableAll }]"
+            :class="['kn-btn', { 'kn-warning': !disableAll }, { 'kn-primary': disableAll }]"
             @click="disableAll = !disableAll"
           >
             {{ disableAll ? 'Enable' : 'Disable' }} Examples

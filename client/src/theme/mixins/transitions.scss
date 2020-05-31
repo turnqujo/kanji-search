@@ -1,0 +1,29 @@
+:root {
+  --kn-standard-duration: 140ms;
+  --kn-quick-duration: 80ms;
+  --kn-slow-duration: 300ms;
+}
+
+:root[no-transitions] {
+  --kn-standard-duration: 0;
+  --kn-quick-duration: 0;
+  --kn-slow-duration: 0;
+}
+
+@mixin standardTransition($properties...) {
+  transition-duration: var(--kn-standard-duration);
+  transition-property: $properties;
+  transition-timing-function: ease-in-out;
+}
+
+@mixin quickTransition($properties...) {
+  transition-duration: var(--kn-quick-duration);
+  transition-property: $properties;
+  transition-timing-function: ease-in-out;
+}
+
+@mixin slowTransition($properties...) {
+  transition-duration: var(--kn-slow-duration);
+  transition-property: $properties;
+  transition-timing-function: ease-in-out;
+}

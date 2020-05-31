@@ -14,17 +14,13 @@ const routes = [
     path: '/kit-of-parts',
     name: 'Kit of Parts',
     component: () => import('@/views/KitOfParts.vue')
+  },
+  {
+    path: '/settings',
+    name: 'User Settings',
+    component: () => import('@/views/Settings.vue')
   }
 ]
-
-// {
-//   path: '/about',
-//   name: 'About',
-// route level code-splitting
-// this generates a separate chunk (about.[hash].js) for this route
-// which is lazy-loaded when the route is visited.
-// component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-// }
 
 const router = new VueRouter({
   mode: 'history',

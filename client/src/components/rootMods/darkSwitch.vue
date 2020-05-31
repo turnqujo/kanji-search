@@ -46,21 +46,16 @@
   export default class DarkSwitch extends Vue {
     static themeStorageKey = 'kn-theme-preference'
 
-    private pAppearance: AppearanceMode = 'light'
+    private pAppearance: AppearanceMode | null = null
     get appearance() {
       return this.pAppearance
     }
-    set appearance(newAppearance: AppearanceMode) {
+    set appearance(newAppearance: AppearanceMode | null) {
       this.pAppearance = newAppearance
 
       const rootEle = document.querySelector(':root')
       if (newAppearance === 'dark') {
         this.setDarkTheme(rootEle)
-        return
-      }
-
-      if (newAppearance === 'light') {
-        this.setLightTheme(rootEle)
         return
       }
 
