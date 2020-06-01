@@ -1,10 +1,12 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link>
-      <router-link to="/kit-of-parts">Kit of Parts</router-link>
-      <router-link to="/settings">Settings</router-link>
-    </div>
+    <nav class="kn-navbar">
+      <ul class="kn-navbar__link-list">
+        <li class="kn-navbar__link"><router-link class="kn-anchor" to="/">Home</router-link></li>
+        <li class="kn-navbar__link"><router-link class="kn-anchor" to="/kit-of-parts">Kit of Parts</router-link></li>
+        <li class="kn-navbar__link"><router-link class="kn-anchor" to="/settings">Settings</router-link></li>
+      </ul>
+    </nav>
     <router-view />
   </div>
 </template>
@@ -20,11 +22,11 @@
   @import 'theme/buttons.scss';
   @import 'theme/checkbox.scss';
   @import 'theme/inputs.scss';
+  @import 'theme/navigation.scss';
 
   #app {
-    @include standardTransition(border, padding);
-    box-sizing: border-box;
-    padding: 24px;
+    @include standardTransition(border);
+    margin: 12px 24px;
   }
 </style>
 

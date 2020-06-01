@@ -1,0 +1,30 @@
+.kn-navbar {
+
+  &__link-list {
+    display: flex;
+    flex-direction: row;
+  }
+
+  &__link:not(:first-child) {
+    margin-left: 1em;
+  }
+
+  &__link > .kn-anchor {
+    border-bottom: 2px solid transparent;
+    font-size: 1.2em;
+  }
+
+  &__link > .kn-anchor.router-link-exact-active {
+    border-bottom: 2px solid var(--kn-foreground);
+  }
+}
+
+.kn-anchor {
+  color: var(--kn-foreground);
+  text-decoration: none;
+
+  &:active,
+  &:focus {
+    outline: none;
+  }
+}

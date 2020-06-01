@@ -39,8 +39,8 @@ $semanticColors: kn-primary kn-secondary kn-neutral kn-success kn-warning kn-dan
   --kn-foreground-light: var(--kn-gray);
   --kn-foreground-dark: var(--kn-gray-dark);
 
-  --kn-foreground-accent: var(--kn-orange-dark);
-  --kn-foreground-accent-dark: var(--kn-orange-dark);
+  --kn-accent: var(--kn-orange-dark);
+  --kn-accent-dark: var(--kn-orange-dark);
 
   --kn-primary: var(--kn-blue);
   --kn-primary-light: var(--kn-blue);
@@ -82,9 +82,9 @@ $semanticColors: kn-primary kn-secondary kn-neutral kn-success kn-warning kn-dan
   --kn-foreground-light: var(--kn-white);
   --kn-foreground-dark: var(--kn-gray-dark);
 
-  --kn-foreground-accent: var(--kn-mint);
-  --kn-foreground-accent-light: var(--kn-mint-light);
-  --kn-foreground-accent-dark: var(--kn-mint-dark);
+  --kn-accent: var(--kn-mint);
+  --kn-accent-light: var(--kn-mint-light);
+  --kn-accent-dark: var(--kn-mint-dark);
 
   --kn-primary: var(--kn-blue);
   --kn-primary-light: var(--kn-blue-light);

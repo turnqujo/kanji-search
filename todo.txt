@@ -1,5 +1,7 @@
+* Bugs *
+- Search by meaning, start only: searching for "kinou" shows all kanji
+
 * Features, Tasks *
-- Define styling for the navbar
 - Add substring / exact search toggle for meaning
 - Refactor SCSS to use more variables; standardize things like element spacing
 - Set up service worker, make app offline-capable
@@ -28,7 +30,6 @@
 - If performance is good enough, change the search form to work on change instead of on submit
 
 * Completed Work *
-Appearance & Accessibility Settings
 x Finish theme switch control
   x Split into new component
   x Store theme setting in localstorage
@@ -37,3 +38,4 @@ x Animations toggle
   x Create "no-animation" mode which sets durations to 0ms
 x Font Size selection: break out into component, make global
 x Create new view for user settings, include these
+x Define styling for the navbar
