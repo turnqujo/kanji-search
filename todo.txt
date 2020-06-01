@@ -2,7 +2,6 @@
 - Search by meaning, start only: searching for "kinou" shows all kanji
 
 * Features, Tasks *
-- Add substring / exact search toggle for meaning
 - Refactor SCSS to use more variables; standardize things like element spacing
 - Set up service worker, make app offline-capable
 - Rework the Kanji cards into an actual table; move sort options into table headers
@@ -27,7 +26,8 @@
 - Break up typography file (styled components?)
 - Loading / working states
 - Kanji form state in URL as params, allow for browser search integration
-- If performance is good enough, change the search form to work on change instead of on submit
+- If performance is good enough, change the search form to work on change instead of on submite
+- Generate PDF of results for printing
 
 * Completed Work *
 x Finish theme switch control
@@ -39,3 +39,4 @@ x Animations toggle
 x Font Size selection: break out into component, make global
 x Create new view for user settings, include these
 x Define styling for the navbar
+x Add substring / exact search toggle for meaning

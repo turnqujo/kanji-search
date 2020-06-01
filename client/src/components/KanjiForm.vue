@@ -6,6 +6,14 @@
         <input type="text" class="kn-input__control" placeholder="Sun, dog, etc." v-model="meaning" />
         <span class="kn-input__label">Text</span>
       </label>
+      <label class="kn-select">
+        <select class="kn-select__control" v-model="meaningMatchOption">
+          <option value="exact">Exactly</option>
+          <option value="start">Start only</option>
+          <option value="anywhere">Anywhere</option>
+        </select>
+        <span class="kn-select__label">Matches</span>
+      </label>
     </fieldset>
     <fieldset>
       <legend>Search by Reading</legend>
@@ -250,6 +258,7 @@
     readingConverted: ConversionItem[]
     readingType: ReadingType
     meaning: string
+    meaningMatchOption: MatchOption
     primarySort: SortOptions
     secondarySort: SortOptions
   }
@@ -268,6 +277,7 @@
     private readingType: ReadingType = ['on', 'kun', 'nanori']
     private meaning = ''
     private meaningError = false
+    private meaningMatchOption: MatchOption = 'start'
     private primarySortField: SortBy = 'frequency'
     private primarySortDirection: OrderBy = 'asc'
     private secondarySortField: SortBy | 'none' = 'none'
@@ -308,6 +318,7 @@
         readingConverted: this.readingConverted,
         readingType: this.readingType,
         meaning: this.meaning,
+        meaningMatchOption: this.meaningMatchOption,
         primarySort: {
           field: this.primarySortField,
           direction: this.primarySortDirection

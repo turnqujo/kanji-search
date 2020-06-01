@@ -41,7 +41,7 @@
 
       let readingMeaningFiltered = []
       if (values.readingConverted.length === 0 && !!values.meaning) {
-        readingMeaningFiltered = await filterKanjiByMeaning(unfilteredKanji, values.meaning)
+        readingMeaningFiltered = await filterKanjiByMeaning(unfilteredKanji, values.meaning, values.meaningMatchOption)
       } else if (values.readingConverted.length > 0 && !values.meaning) {
         readingMeaningFiltered = await getKanjiByConversion(
           unfilteredKanji,
