@@ -1,8 +1,6 @@
 <template>
   <div class="kana-keyboard">
-    <button type="button" @click="onToggleKeyboard">
-      <i class="toggle-icon far fa-keyboard" />
-    </button>
+    <button type="button" @click="onToggleKeyboard"><span class="toggle-icon">&#9881;</span></button>
     <div class="popup" v-if="open">
       <div class="kana-table" v-on-click-outside="onToggleKeyboard">
         <select @change="onModeChange">
@@ -34,17 +32,17 @@
   }
 
   .toggle-icon {
-    font-size: 28px;
-    margin-left: 4px;
+    font-size: 3em;
   }
 
   .popup {
     position: absolute;
+    z-index: 10;
   }
 
   .kana-table {
-    background-color: white;
     display: inline-block;
+    background-color: var(--kn-foreground);
   }
 
   .kana-table-row {
@@ -52,12 +50,13 @@
   }
 
   .kana-table-item {
-    font-size: 18px;
-    border: solid gray 1px;
     border-radius: 2px;
+    border: solid var(--kn-background) 1px;
+    color: var(--kn-background);
+    line-height: 1em;
     margin: 2px;
     text-align: center;
-    width: 2em;
+    width: 3.5em;
 
     & > button {
       padding: 8px;
@@ -68,8 +67,12 @@
 
 <script lang="ts">
   import { Component, Vue } from 'vue-property-decorator'
-  import { gojuonOrdered, gojuonDakuten, gojuonHandakuten } from '../data/gojuon-ordered-kana'
-  import { chiisaiKana } from '../data/chiisai-kana'
+  import {
+    fetchGojuonHandakuten,
+    fetchGojuonOrderedKana,
+    fetchGojuonDakuten,
+    fetchChiisaiKana
+  } from '../data/gojuon-ordered-kana'
   import { ConversionItem } from '../data/conversion-table'
   import onClickOutside from '../directives/OnClickOutside.vue'
 
@@ -84,8 +87,19 @@
   export default class KanaKeyboard extends Vue {
     mode: ModeType = 'hiragana'
     modifier: Modifier = 'unmodified'
-    kanaSet: (ConversionItem | null)[][] = gojuonOrdered
+    kanaSet: (ConversionItem | null)[][] = []
+    gojuonOrdered: (ConversionItem | null)[][] = []
+    gojuonDakuten: (ConversionItem | null)[][] = []
+    gojuonHandakuten: (ConversionItem | null)[][] = []
+    chiisaiKana: (ConversionItem | null)[][] = []
     open = false
+
+    async mounted() {
+      this.gojuonOrdered = await fetchGojuonOrderedKana()
+      this.gojuonDakuten = await fetchGojuonDakuten()
+      this.gojuonHandakuten = await fetchGojuonHandakuten()
+      this.chiisaiKana = await fetchChiisaiKana()
+    }
 
     onModeChange(e: Event) {
       const selectElement = e.target as HTMLSelectElement
@@ -98,16 +112,16 @@
 
       switch (this.modifier) {
         case 'unmodified':
-          this.kanaSet = gojuonOrdered
+          this.kanaSet = this.gojuonOrdered
           break
         case 'chiisai':
-          this.kanaSet = chiisaiKana
+          this.kanaSet = this.chiisaiKana
           break
         case 'dakuten':
-          this.kanaSet = gojuonDakuten
+          this.kanaSet = this.gojuonDakuten
           break
         case 'handakuten':
-          this.kanaSet = gojuonHandakuten
+          this.kanaSet = this.gojuonHandakuten
           break
       }
     }
@@ -120,7 +134,7 @@
         // Reset to defaults
         this.mode = 'hiragana'
         this.modifier = 'unmodified'
-        this.kanaSet = gojuonOrdered
+        this.kanaSet = this.gojuonOrdered
       }
     }
 

@@ -5,18 +5,27 @@ import router from './router'
 import { Kanji } from './models/kanji'
 
 // @ts-ignore TODO: This is actually loading fine
-import allKanji from './data/allKanji.json'
+// import allKanji from './data/allKanji.json'
 
 Vue.config.productionTip = false
 
-// TODO: This is not the best place for this
-async function init() {
-  await new Promise((resolve, reject) => {
+// TODO: This is not the best place for these
+function fetchAllKanji(): Promise<any> {
+  return fetch('http://localhost:3000/allKanji.json', {
+    mode: 'cors',
+    method: 'GET'
+  })
+    .then((resp) => resp.json())
+    .catch((e) => console.error(e))
+}
+
+function init(allKanji: Kanji[]) {
+  new Promise((resolve, reject) => {
     indexedDB.deleteDatabase('kanjiStore')
 
     const openRequest = indexedDB.open('kanjiStore')
 
-    openRequest.onupgradeneeded = () => {
+    openRequest.onupgradeneeded = async () => {
       const kanjiStore = openRequest.result.createObjectStore('kanji', {
         keyPath: 'char'
       })
@@ -41,12 +50,13 @@ async function init() {
       resolve(true)
     }
   })
-
-  new Vue({
-    router,
-    render: (h) => h(App)
-  }).$mount('#app')
 }
 
-// TODO: not awaiting this?
-init()
+fetchAllKanji()
+  .then((allKanji) => init(allKanji))
+  .finally(function() {
+    new Vue({
+      router,
+      render: (h) => h(App)
+    }).$mount('#app')
+  })

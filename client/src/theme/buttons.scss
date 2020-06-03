@@ -39,8 +39,6 @@
     &.#{$variation} {
       border-color: var(--#{$variation});
       color: var(--#{$variation});
-
-      // TODO: Override, here for specificity
       background-color: transparent;
     }
 

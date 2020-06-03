@@ -9,13 +9,7 @@
   </div>
 </template>
 
-<style lang="scss">
-  .home {
-    display: flex;
-    flex-direction: column;
-    margin-top: 24px;
-  }
-</style>
+<style lang="scss"></style>
 
 <script lang="ts">
   import { Component, Vue } from 'vue-property-decorator'

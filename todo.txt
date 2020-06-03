@@ -1,35 +1,4 @@
-* Bugs *
-- Search by meaning, start only: searching for "kinou" shows all kanji
-
 * Features, Tasks *
-- Refactor SCSS to use more variables; standardize things like element spacing
-- Set up service worker, make app offline-capable
-- Rework the Kanji cards into an actual table; move sort options into table headers
-- Use Array Buffers for transferring data to and from webworker threads
-- Add standard "focused" icon to focusable elements, remove existing styling
-
-* Testing (Pre-MVP) *
-- Component unit testing
-- Cross-browser compatability: Chrome, Firefox, Edge, Safari, Opera; last two versions
-- Device compatability: Linux, Windows, Mac OS, iOS, Android; most-used & recent versions
-- E2E / workflow testing
-- Performance testing, especially for webworkers
-
-* Refactors, Improvements *
-- Cleaner code for applying webworker tasks in the kanji form component
-- Clean up the test webworker class, address TODOs
-
-* Post-MVP *
-- Add more controls to the kanji form, e.g. grade, jlpt, stroke limiters
-- Collapsible fieldsets
-- Component structure (smaller, focused components; styled components?)
-- Break up typography file (styled components?)
-- Loading / working states
-- Kanji form state in URL as params, allow for browser search integration
-- If performance is good enough, change the search form to work on change instead of on submite
-- Generate PDF of results for printing
-
-* Completed Work *
 x Finish theme switch control
   x Split into new component
   x Store theme setting in localstorage
@@ -40,3 +9,35 @@ x Font Size selection: break out into component, make global
 x Create new view for user settings, include these
 x Define styling for the navbar
 x Add substring / exact search toggle for meaning
+x Set up service worker, make app offline-capable (will need HTTPS)
+x Better layout for the Kanji Form
+- Hook up the "Clear" button on the Kanji Form
+
+* Refactors, Improvements *
+x Stop kanji, conversion, etc. sets from being included in webpack modules
+- Cleaner code for applying webworker tasks in the kanji form component
+- Clean up the test webworker class, address TODOs
+- Refactor SCSS to use more variables; standardize things like element spacing
+- Rework the Kanji cards into an actual table; move sort options into table headers
+- Use Array Buffers for transferring data to and from webworker threads
+
+* Testing (Pre-MVP) *
+- Component unit testing
+- Cross-browser compatability: Chrome, Firefox, Edge, Safari, Opera; last two versions
+- Device compatability: Linux, Windows, Mac OS, iOS, Android; most-used & recent versions
+- E2E / workflow testing
+- Performance testing, especially for webworkers
+
+* Bugs *
+- Sorting by JLPT, Grade, etc. should filter out results which do not have that metric.
+
+* Post-MVP *
+- Search by Kanji directly
+- Add more controls to the kanji form, e.g. grade, jlpt, stroke limiters
+- Collapsible fieldsets
+- Component structure (smaller, focused components; styled components?)
+- Break up typography file (styled components?)
+- Loading / working states
+- Kanji form state in URL as params, allow for browser search integration
+- If performance is good enough, change the search form to work on change instead of on submit
+- Generate PDF of results for printing

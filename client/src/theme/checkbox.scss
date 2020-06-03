@@ -20,7 +20,6 @@
 
   &__control:active:not(:disabled) + &__label,
   &__control:focus:not(:disabled) + &__label {
-    // TODO: change to standard '>' decoration to the left of elements
     border-bottom-style: dashed;
   }
 

@@ -7,14 +7,14 @@
         <li class="kn-navbar__link"><router-link class="kn-anchor" to="/settings">Settings</router-link></li>
       </ul>
     </nav>
-    <router-view />
+    <div class="kn-content">
+      <router-view />
+    </div>
   </div>
 </template>
 
 <style lang="scss">
-  @import '../node_modules/@fortawesome/fontawesome-free/css/all.css';
   @import 'theme/reset.css';
-
   @import 'theme/mixins/transitions.scss';
   @import 'theme/colors.scss';
   @import 'theme/sizes.scss';
@@ -25,8 +25,11 @@
   @import 'theme/navigation.scss';
 
   #app {
-    @include standardTransition(border);
-    margin: 12px 24px;
+    padding: 24px;
+  }
+
+  .kn-content {
+    margin-top: 2em;
   }
 </style>
 
