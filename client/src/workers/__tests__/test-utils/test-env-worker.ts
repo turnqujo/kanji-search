@@ -1,57 +1,23 @@
-// @ts-ignore
+// @ts-ignore - TODO: can't find 'fs' even though it imports
 import fs from 'fs'
 import ts from 'typescript'
 
-/**
- * TODO: Could this be better done as a custom Jest Environment?
- * See here: https://jestjs.io/docs/en/configuration#testenvironment-string
- */
-
-// TODO: Implement AbstractWorker, better listener handling
-// TODO: Write tests for this class
-// TODO: Typings
 // TODO: Potential performance enhancements; see: https://stackoverflow.com/a/30370720
-class TestEnvWorker<T, R> {
-  private _onmessage: any
-  get onmessage(): any {
-    return this._onmessage
-  }
-  set onmessage(cb: any) {
-    this._onmessage = cb
-  }
-
-  private _onerror: any
-  get onerror(): any {
-    return this._onerror
-  }
-  set onerror(cb: any) {
-    this._onerror = cb
-  }
+export default class TestEnvWorker<T, R> implements AbstractWorker {
+  // These are like a "bridge" between the test worker and the actual worker's context
+  onmessage: any
+  onerror: any
+  private listeners: Record<string, Function[]> = {}
 
   private workerContext: any = {
-    onmessage: null
+    onmessage: null,
+    listeners: {}
   }
 
   constructor(src: string) {
-    /**
-     * TODO: This process could be simpler if the paths defined in webworker import statements
-     *       are adjusted to be relative to this file's position instead of the original worker's
-     *       location. It's all a massive hack either way, though.
-     *
-     * NOTE: webworkers and their included scripts cannot be modules yet anyway (not clear when),
-     *       so the fix above might not actually be viable.
-     */
     let webWorkerScript = fs.readFileSync(src, 'utf8')
     if (webWorkerScript.indexOf('importScripts') >= 0) {
-      /**
-       * TODO: This regex should be updated to handle these situations:
-       * - importScripts with parameters broken onto newlines
-       * - ignoring importScripts in multi-line comment blocks, e.g.:
-       * /*
-       *  Note how the importScripts text is at the first column
-       * importScripts('')
-       * * /
-       */
+      // TODO: This can't handle every permutation of how importScripts could be written
       const extractedScripts = /(?<=importScripts\().*(?=\))/gm.exec(webWorkerScript)
 
       webWorkerScript = webWorkerScript.replace(/(?=^importScripts\().*(?=\r\n|\r|\n)/gm, '')
@@ -70,44 +36,74 @@ class TestEnvWorker<T, R> {
       }
     }
 
-    // NOTE: Strip out imports; we don't need them since we already shoved them in manually
+    // Strip out imports; we don't need them since we already shoved them in manually
     webWorkerScript = webWorkerScript.replace(/(?=^import \{).*(?<=")/gm, '')
 
+    // This record is keeping track of listeners registered by the webworker
+    const listeners: Record<string, Function[]> = {}
+    let addEventListener = function(type: string, cb: any) {
+      if (!Array.isArray(listeners[type])) {
+        listeners[type] = []
+      }
+
+      listeners[type].push(cb)
+    }
+
+    // Purposefully empty for the webworker code to reference and set
+    let onmessage: any
+    let onerror: any
+
+    // This function will be used by the webworker to post to the test context
+    const postMessage = (data: R) => {
+      if (this.onmessage) {
+        this.onmessage({ data })
+      }
+
+      if(Array.isArray(this.listeners['message'])) {
+        this.listeners.message.forEach(cb => cb({ data }))
+      }
+    }
+
+    // Compile and run the webworker in this context
     const compiled = ts.transpile(webWorkerScript, {
       module: ts.ModuleKind.CommonJS,
       sourceMap: false,
       lib: ['webworker']
     })
-
-    let onmessage: any // Set by webworker code
-
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    let onerror: any // set by webworker code
     eval(compiled)
 
-    // NOTE: This will override any custom `onerror` handler defined in the webworker code
-    // eslint-disable-next-line prefer-const
+    // This will override any custom `onerror` handler defined by the webworker
     onerror = (error: string | Event) => {
       if (this.onerror) {
         this.onerror(error)
       }
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const postMessage = (data: R) => {
-      if (this.onmessage) {
-        this.onmessage({ data })
-      }
-    }
-
+    // Save to the worker context, so they can be used elsewhere within this class
     this.workerContext.onmessage = onmessage
+    this.workerContext.listeners = listeners
   }
 
-  public postMessage(message: T) {
+  public addEventListener(type: string, listener: EventListener) {
+    if (!Array.isArray(this.listeners[type])) {
+      this.listeners[type] = []
+    }
+
+    this.listeners[type].push(listener)
+  }
+
+  removeEventListener(type: string, listener: EventListener) {
+    // TODO: Add this?
+    throw new Error("Not implemented.")
+  }
+
+  public postMessage(data: T) {
     if (this.workerContext.onmessage) {
-      this.workerContext.onmessage({ data: message })
+      this.workerContext.onmessage({ data })
+    }
+
+    if (Array.isArray(this.workerContext.listeners['message'])) {
+      this.workerContext.listeners.message.forEach((cb: any) => cb({ data }))
     }
   }
 }
-
-export default TestEnvWorker

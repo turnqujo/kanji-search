@@ -1,5 +1,8 @@
-import conversionTable, { ConversionItem } from '../../data/conversion-table'
+import { ConversionItem } from '../../data/conversion-table'
 import TestEnvWorker from './test-utils/test-env-worker'
+
+// @ts-ignore - importing successfully, but shows error
+import conversionTable from '../../../../shared/static/conversionTable.json'
 
 interface Props {
   text: string

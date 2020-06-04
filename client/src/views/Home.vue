@@ -27,9 +27,6 @@
   export default class HomeComponent extends Vue {
     kanjiSet: Kanji[] = []
 
-    /**
-     * TODO: This is obviously a trash way to handle this
-     */
     async onFormSubmit(values: SubmitProps) {
       const unfilteredKanji = await getKanji(values.kanjiSet)
 
@@ -44,7 +41,6 @@
           values.readingType
         )
       } else if (values.readingConverted.length > 0 && !!values.meaning) {
-        // TODO: Add some control to order these, or query & join both?
         const meaningFiltered = await filterKanjiByMeaning(unfilteredKanji, values.meaning)
         readingMeaningFiltered = await getKanjiByConversion(
           meaningFiltered,
@@ -57,7 +53,7 @@
       }
 
       const sorted = await sortKanji(
-        readingMeaningFiltered.slice(),
+        readingMeaningFiltered,
         values.primarySort,
         values.secondarySort.field === null ? null : values.secondarySort
       )

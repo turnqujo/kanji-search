@@ -10,7 +10,7 @@ export function filterKanjiByMeaning(
   return new Promise<Kanji[]>((resolve) => {
     filterKanjiByMeaningWorker.onmessage = (e: MessageEvent) => resolve(e.data)
     filterKanjiByMeaningWorker.postMessage({
-      kanjiSet,
+      kanjiSet: kanjiSet.slice(),
       searchTerm,
       matchOption
     })

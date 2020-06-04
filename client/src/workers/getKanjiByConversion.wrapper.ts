@@ -23,7 +23,7 @@ export function getKanjiByConversion(
     getKanjiByConversionWorker.postMessage(
       {
         conversionItems,
-        kanjiSet,
+        kanjiSet: kanjiSet.slice(),
         matchOption,
         readingType
       },

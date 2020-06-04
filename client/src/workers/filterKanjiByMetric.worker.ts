@@ -1,4 +1,4 @@
-onmessage = (e: MessageEvent) => {
+addEventListener('message', (e: MessageEvent) => {
   const { kanji, metricType, metric } = e.data as {
     kanji: Kanji[]
     metricType: LimitField
@@ -22,4 +22,4 @@ onmessage = (e: MessageEvent) => {
       return subjectMetric >= minVal && subjectMetric <= maxVal
     })
   )
-}
+})
