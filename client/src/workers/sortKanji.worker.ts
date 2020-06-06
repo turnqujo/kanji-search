@@ -22,7 +22,7 @@ function customSort(list: Kanji[], { field, direction }: SortOptions) {
     case 'unicode':
       return list.sort((x, y) => (x.char < y.char ? leftSort : rightSort))
     default:
-      throw new Error('Unknown sort by option')
+      throw new Error('Unknown sort by option.')
   }
 }
 
@@ -39,11 +39,11 @@ function getSortableValue(kanji: Kanji, field: SortBy) {
     case 'unicode':
       return parseInt(kanji.char, 16)
     default:
-      throw new Error('Unknown sort by option, cannot determine sorted value')
+      throw new Error('Unknown sort by option, cannot determine sorted value.')
   }
 }
 
-onmessage = (e: MessageEvent) => {
+addEventListener('message', (e: MessageEvent) => {
   const { kanjiSet, primary, secondary } = e.data as {
     kanjiSet: Kanji[]
     primary: SortOptions
@@ -60,7 +60,7 @@ onmessage = (e: MessageEvent) => {
 
   const primarySorted = customSort(kanjiSet.slice(), primary)
 
-  if (secondary === null || primary.field === 'unicode') {
+  if (secondary === null || primary.field === 'unicode' || primary.field === 'frequency') {
     postMessage(primarySorted)
     return
   }
@@ -82,4 +82,4 @@ onmessage = (e: MessageEvent) => {
     .flat()
 
   postMessage(sortedSegments)
-}
+})

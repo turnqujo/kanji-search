@@ -1,28 +1,28 @@
-onmessage = (e: MessageEvent) => {
+addEventListener('message', (e: MessageEvent) => {
   const { kanjiSet, conversionItems, matchOption, readingType } = e.data as {
     kanjiSet: Kanji[]
     conversionItems: ConversionItem[]
-    matchOption: 'start' | 'anywhere' | 'exact'
-    readingType: ('on' | 'kun' | 'nanori')[]
+    matchOption: MatchOption
+    readingType: ReadingType[]
   }
 
-  if (!Array.isArray(conversionItems)) {
-    throw new Error('Conversion Items is malformed.')
+  if (!Array.isArray(conversionItems) || conversionItems.length === 0) {
+    throw new Error('Conversion table is malformed or missing.')
   }
 
   if (!Array.isArray(kanjiSet)) {
-    throw new Error('Kanji Set is malformed.')
+    throw new Error('Kanji Set is malformed or missing.')
   }
 
   if (!matchOption) {
-    throw new Error('Match Option is malformed.')
+    throw new Error('Match Option is malformed or missing.')
   }
 
-  if (!Array.isArray(readingType)) {
-    throw new Error('Reading Type is malformed.')
+  if (!Array.isArray(readingType) || readingType.length === 0) {
+    throw new Error('Reading Type is malformed or missing.')
   }
 
-  if (conversionItems.length === 0 || kanjiSet.length === 0) {
+  if (kanjiSet.length === 0) {
     postMessage([])
     return
   }
@@ -53,9 +53,9 @@ onmessage = (e: MessageEvent) => {
           case 'anywhere':
             return reading.indexOf(asHiragana) >= 0 || reading.indexOf(asKatakana) >= 0
           default:
-            throw new Error('Unknown match option')
+            throw new Error('Unknown match option given.')
         }
       })
     })
   )
-}
+})

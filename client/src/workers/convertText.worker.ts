@@ -22,10 +22,12 @@ function convertText(text: string, conversionTable: ConversionItem[]): Conversio
   for (let selectionLength = 4; selectionLength >= 1; selectionLength--) {
     const foundConversion = findConversionItem(text.slice(0, selectionLength), conversionTable)
     if (foundConversion === null) {
+      // NOTE: text section has no known conversion; just skip it
       continue
     }
 
     if (!foundConversion.original) {
+      // NOTE: This shouldn't happen, since it should be explicitly set by findConversionItem
       throw new Error('`foundConversion` has unexpectedly empty "original" property.')
     }
     const conversionLength = Number(foundConversion[foundConversion.original].length)
@@ -38,7 +40,7 @@ function convertText(text: string, conversionTable: ConversionItem[]): Conversio
   throw new Error('Could not find conversion for input.')
 }
 
-onmessage = (e: MessageEvent) => {
+addEventListener('message', (e: MessageEvent) => {
   const { text, conversionTable } = e.data as {
     text: string // NOTE: Can be romaji / hiragana / katakana / mixed
     conversionTable: ConversionItem[]
@@ -54,4 +56,4 @@ onmessage = (e: MessageEvent) => {
   }
 
   postMessage(convertText(text.toLocaleLowerCase(), conversionTable))
-}
+})

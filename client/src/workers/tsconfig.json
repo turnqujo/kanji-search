@@ -1,6 +1,6 @@
 {
   "extends": "../../tsconfig.json",
-  "include": ["./*.worker.ts", "./utility-scripts/*.ts"],
+  "include": ["./*.worker.ts", "./utility-scripts/*.ts", "workerTypes.d.ts"],
   "exclude": ["./__tests__/*"],
   "compilerOptions": {
     "allowJs": true,
@@ -17,6 +17,7 @@
     "removeComments": true,
     "sourceMap": false,
     "strict": true,
-    "target": "ES6"
+    "target": "ES6",
+    "types": ["./workerTypes.d.ts"]
   }
 }

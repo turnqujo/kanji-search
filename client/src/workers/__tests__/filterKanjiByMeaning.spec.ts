@@ -1,6 +1,5 @@
 import TestEnvWorker from './test-utils/test-env-worker'
-import { Kanji } from '../../models/kanji'
-import { MatchOption } from '@/models'
+import { Kanji, MatchOption } from '../../models'
 
 const kanjiA: Kanji = {
   char: 'a',
@@ -109,5 +108,13 @@ describe('The Filter Kanji by Meaning Webworker', () => {
   it('Should support searching for meanings starting with the given text.', async () => {
     const response = await getResponse({ kanjiSet, searchTerm: 'öL', matchOption: 'start' })
     expect(response).toEqual([kanjiC])
+  })
+
+  it('Should throw an error if given an unknown match option.', async () => {
+    expect.assertions(1)
+
+    await getResponse({ kanjiSet, searchTerm: 'öL', matchOption: 'unknown' as MatchOption }).catch((e) => {
+      expect(e.message).toBe('Unknown match option.')
+    })
   })
 })

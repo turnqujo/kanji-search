@@ -96,4 +96,25 @@ describe('The Convert Text Worker.', () => {
       { katakana: 'ン', hiragana: 'ん', romaji: 'n', original: 'romaji' }
     ])
   })
+
+  it('Should throw an error if given a malformed or missing conversion table.', async () => {
+    expect.assertions(2)
+    const expectedMessage = 'Conversion table is malformed or missing.'
+
+    await getResponse({ text: 'あ', conversionTable: [] }).catch((e) => {
+      expect(e.message).toBe(expectedMessage)
+    })
+
+    await getResponse({ text: 'あ', conversionTable: null as unknown as ConversionItem[] }).catch((e) => {
+      expect(e.message).toBe(expectedMessage)
+    })
+  })
+
+  it('Should throw an error if given text which cannot be converted.', async () => {
+    expect.assertions(1)
+
+    await getResponse({ text: 'lol no way this converts', conversionTable }).catch((e) => {
+      expect(e.message).toBe('Could not find conversion for input.')
+    })
+  })
 })

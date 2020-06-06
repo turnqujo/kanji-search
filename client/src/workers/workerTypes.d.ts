@@ -12,7 +12,7 @@ interface ConversionItem {
   original?: 'katakana' | 'hiragana' | 'romaji'
 }
 
-type KanjiSet = ('jouyou' | 'jinmeiyou' | 'hyougai' | 'kyouiku' | 'jlpt')[]
+type KanjiSet = 'jouyou' | 'jinmeiyou' | 'hyougai' | 'kyouiku' | 'jlpt'
 
 interface Kanji {
   char: string
@@ -26,7 +26,7 @@ interface Kanji {
   frequency: number | string
   jlpt: number | string | null
   grade: number | string | null
-  set: KanjiSet
+  set: KanjiSet[]
 }
 
 type SortBy = 'strokeCount' | 'frequency' | 'grade' | 'jlpt' | 'unicode'
@@ -43,3 +43,7 @@ interface MinMax {
 }
 
 type LimitField = 'jlpt' | 'grade' | 'stroke' | 'frequency'
+
+type MatchOption = 'start' | 'anywhere' | 'exact'
+
+type ReadingType = 'on' | 'kun' | 'nanori'

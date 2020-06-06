@@ -7,8 +7,12 @@ export function filterKanjiByMetric(
   metricType: 'jlpt' | 'grade' | 'stroke',
   metric: string
 ): Promise<Kanji[]> {
-  return new Promise<Kanji[]>((resolve) => {
+  return new Promise<Kanji[]>((resolve, reject) => {
     filterKanjiByMetricWorker.onmessage = (e: MessageEvent) => resolve(e.data)
+    filterKanjiByMetricWorker.onerror = (error: ErrorEvent) => {
+      error.preventDefault()
+      reject(error.message)
+    }
     filterKanjiByMetricWorker.postMessage({
       kanji,
       metricType,

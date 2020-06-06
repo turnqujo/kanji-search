@@ -1,8 +1,8 @@
-onmessage = (e: MessageEvent) => {
+addEventListener('message', (e: MessageEvent) => {
   const { kanjiSet, searchTerm, matchOption = 'anywhere' } = e.data as {
-    kanjiSet: any[]
+    kanjiSet: Kanji[]
     searchTerm: string
-    matchOption: 'start' | 'anywhere' | 'exact'
+    matchOption: MatchOption
   }
 
   let comparisonFunc: (a: string, b: string) => boolean
@@ -17,10 +17,10 @@ onmessage = (e: MessageEvent) => {
       comparisonFunc = (a: string, b: string) => a.toLocaleLowerCase().startsWith(b.toLocaleLowerCase())
       break
     default:
-      throw new Error('Unknown match option')
+      throw new Error('Unknown match option.')
   }
 
   postMessage(
     kanjiSet.filter((kanji) => !!kanji.meanings.find((meaning: string) => comparisonFunc(meaning, searchTerm)))
   )
-}
+})

@@ -1,8 +1,8 @@
 importScripts('utility-scripts/dbUtil.js')
 
-onmessage = (e: MessageEvent) => {
+addEventListener('message', (e: MessageEvent) => {
   const { kanjiSet } = e.data as {
-    kanjiSet: KanjiSet
+    kanjiSet: KanjiSet[]
   }
 
   openDB('kanjiStore').then((db) => {
@@ -24,5 +24,6 @@ onmessage = (e: MessageEvent) => {
         db.close()
         throw error
       })
+      .finally(() => db.close())
   })
-}
+})

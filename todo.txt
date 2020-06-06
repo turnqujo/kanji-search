@@ -18,7 +18,6 @@ x Stop kanji, conversion, etc. sets from being included in webpack modules
 x Cleaner code for applying webworker tasks in the kanji form component
 x Clean up the test webworker class, address TODOs
 - Refactor SCSS to use more variables; standardize things like element spacing
-- Rework the Kanji cards into an actual table; move sort options into table headers (desktop only?)
 - Use Array Buffers for transferring data to and from webworker threads
 
 * Testing (Pre-MVP) *
@@ -43,3 +42,4 @@ x Clean up the test webworker class, address TODOs
 - Kanji form state in URL as params, allow for browser search integration
 - If performance is good enough, change the search form to work on change instead of on submit
 - Generate PDF of results for printing
+- Rework the Kanji cards into an actual table; move sort options into table headers (desktop only?)

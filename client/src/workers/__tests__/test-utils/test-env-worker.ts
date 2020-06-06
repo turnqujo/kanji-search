@@ -4,17 +4,27 @@ import ts from 'typescript'
 
 // TODO: Potential performance enhancements; see: https://stackoverflow.com/a/30370720
 export default class TestEnvWorker<T, R> implements AbstractWorker {
-  // These are like a "bridge" between the test worker and the actual worker's context
+  /**
+   * These are like a "bridge" between the test worker and the actual worker's context.
+   * They are intended to be set by test code; for example:
+   *   const worker = new TestEnvWorker<Props, ConversionItem[]>('src/workers/convertText.worker.ts')
+   *   worker.onmessage = (res: any) => resolve(res.data)
+   *   worker.onerror = (e: string | Event) => reject(e)
+   */
   onmessage: any
   onerror: any
-  private listeners: Record<string, Function[]> = {}
 
+  private listeners: Record<string, Function[]> = {}
   private workerContext: any = {
     onmessage: null,
     listeners: {}
   }
 
   constructor(src: string) {
+    if (process.env.NODE_ENV === 'production') {
+      throw new Error('The TestEnvWorker class should NOT be used directly in an application. It is purely for tests.')
+    }
+
     let webWorkerScript = fs.readFileSync(src, 'utf8')
     if (webWorkerScript.indexOf('importScripts') >= 0) {
       // TODO: This can't handle every permutation of how importScripts could be written
@@ -41,7 +51,9 @@ export default class TestEnvWorker<T, R> implements AbstractWorker {
 
     // This record is keeping track of listeners registered by the webworker
     const listeners: Record<string, Function[]> = {}
-    let addEventListener = function(type: string, cb: any) {
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const addEventListener = function(type: string, cb: any) {
       if (!Array.isArray(listeners[type])) {
         listeners[type] = []
       }
@@ -51,16 +63,19 @@ export default class TestEnvWorker<T, R> implements AbstractWorker {
 
     // Purposefully empty for the webworker code to reference and set
     let onmessage: any
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     let onerror: any
 
     // This function will be used by the webworker to post to the test context
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const postMessage = (data: R) => {
       if (this.onmessage) {
         this.onmessage({ data })
       }
 
-      if(Array.isArray(this.listeners['message'])) {
-        this.listeners.message.forEach(cb => cb({ data }))
+      if (Array.isArray(this.listeners['message'])) {
+        this.listeners.message.forEach((cb) => cb({ data }))
       }
     }
 
@@ -70,20 +85,16 @@ export default class TestEnvWorker<T, R> implements AbstractWorker {
       sourceMap: false,
       lib: ['webworker']
     })
-    eval(compiled)
 
-    // This will override any custom `onerror` handler defined by the webworker
-    onerror = (error: string | Event) => {
-      if (this.onerror) {
-        this.onerror(error)
-      }
-    }
+    // This class assumes the compiled code could not possibly have any user-generated content
+    eval(compiled)
 
     // Save to the worker context, so they can be used elsewhere within this class
     this.workerContext.onmessage = onmessage
     this.workerContext.listeners = listeners
   }
 
+  // Add an event listener to the Test Env Worker, bridging to the wrapped class
   public addEventListener(type: string, listener: EventListener) {
     if (!Array.isArray(this.listeners[type])) {
       this.listeners[type] = []
@@ -93,17 +104,36 @@ export default class TestEnvWorker<T, R> implements AbstractWorker {
   }
 
   removeEventListener(type: string, listener: EventListener) {
-    // TODO: Add this?
-    throw new Error("Not implemented.")
+    if (!Array.isArray(this.listeners[type])) {
+      return
+    }
+
+    const doomedIndex = this.listeners[type].indexOf((x: any) => x === listener)
+    if (doomedIndex === -1) {
+      return
+    }
+
+    this.listeners[type].splice(doomedIndex, 1)
   }
 
   public postMessage(data: T) {
-    if (this.workerContext.onmessage) {
-      this.workerContext.onmessage({ data })
-    }
+    try {
+      if (this.workerContext.onmessage) {
+        this.workerContext.onmessage({ data })
+      }
 
-    if (Array.isArray(this.workerContext.listeners['message'])) {
-      this.workerContext.listeners.message.forEach((cb: any) => cb({ data }))
+      if (Array.isArray(this.workerContext.listeners['message'])) {
+        this.workerContext.listeners.message.forEach((cb: any) => cb({ data }))
+      }
+    } catch (e) {
+      // Pass error up to testing code from worker context
+      if (this.onerror) {
+        this.onerror(e)
+      }
+
+      if (Array.isArray(this.listeners['error'])) {
+        this.listeners.error.forEach((cb: any) => cb(e))
+      }
     }
   }
 }

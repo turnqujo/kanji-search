@@ -1,5 +1,5 @@
 import TestEnvWorker from './test-utils/test-env-worker'
-import { Kanji, SortOptions } from '../../models'
+import { Kanji, SortOptions, SortBy } from '../../models'
 
 const nahaKanji: Kanji = {
   char: '亜',
@@ -270,5 +270,85 @@ describe('The Sort Kanji Webworker', () => {
     })
 
     expect(response).toEqual([shiKanji, onnaKanji, nahanoKanji, nahaKanji])
+  })
+
+  it('Should throw an error if the primary sort is missing or incomplete.', async () => {
+    expect.assertions(2)
+    const expectedError = 'Primary sort field unexpectedly empty.'
+
+    await getResponse({
+      kanjiSet: kanjiSet,
+      // Primary field is missing
+      secondary: {
+        field: 'frequency',
+        direction: 'asc'
+      }
+    } as Props).catch((e) => {
+      expect(e.message).toBe(expectedError)
+    })
+
+    await getResponse({
+      kanjiSet: kanjiSet,
+      primary: {
+        // Field is missing
+        direction: 'asc'
+      },
+      secondary: {
+        field: 'frequency',
+        direction: 'asc'
+      }
+    } as Props).catch((e) => {
+      expect(e.message).toBe(expectedError)
+    })
+  })
+
+  it('Should throw an error if the primary sort is missing or incomplete.', async () => {
+    expect.assertions(1)
+
+    await getResponse({
+      kanjiSet: kanjiSet,
+      secondary: {
+        field: 'frequency',
+        direction: 'asc'
+      }
+    } as Props).catch((e) => {
+      expect(e.message).toBe('Primary sort field unexpectedly empty.')
+    })
+  })
+
+  it('Should throw an error if the primary sort field is not recognized.', async () => {
+    expect.assertions(1)
+
+    await getResponse({
+      kanjiSet: kanjiSet,
+      primary: {
+        field: 'unknown' as SortBy,
+        direction: 'asc'
+      },
+      secondary: {
+        field: 'frequency',
+        direction: 'asc'
+      }
+    }).catch((e) => {
+      expect(e.message).toBe('Unknown sort by option.')
+    })
+  })
+
+  it('Should throw an error if the secondary sort field is not recognized.', async () => {
+    expect.assertions(1)
+
+    await getResponse({
+      kanjiSet: kanjiSet,
+      primary: {
+        field: 'grade',
+        direction: 'asc'
+      },
+      secondary: {
+        field: 'unknown' as SortBy,
+        direction: 'asc'
+      }
+    }).catch((e) => {
+      expect(e.message).toBe('Unknown sort by option.')
+    })
   })
 })
