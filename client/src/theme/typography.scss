@@ -39,41 +39,40 @@ code::selection {
 }
 
 pre {
-  border: 1px solid var(--kn-foreground-dark);
-  border-radius: 3px;
-  padding: 0.5em 1em;
+  @include standardBorder();
+  padding: var(--kn-infra-spacing);
 }
 
 figure {
+  @include standardBorder();
   align-items: center;
-  border-radius: 3px;
-  border: 1px solid var(--kn-foreground-dark);
   display: inline-flex;
   flex-direction: column;
-  padding: 0.5em 1em;
+  padding: var(--kn-infra-spacing);
+
+  & > figcaption {
+    --caption-margin: 0.5em;
+  }
 
   & > figcaption:first-child {
-    margin-bottom: 0.5em;
+    margin-bottom: var(--caption-margin);
   }
 
   & > figcaption:not(:first-child) {
-    margin-top: 0.5em;
+    margin-top: var(--caption-margin);
   }
 }
 
 hr {
-  border: 1px solid var(--kn-foreground-dark);
+  @include standardBorder();
   margin: 0.5em 0;
 }
 
 fieldset {
-  border: 1px solid var(--kn-foreground-dark);
-  border-radius: 3px;
-  padding: 0.5em 1em;
+  @include standardBorder();
+  padding: var(--kn-infra-spacing);
 
   & > legend {
     color: var(--kn-accent);
-    padding: 0 0.75em;
-    font-size: 1.2em;
   }
 }

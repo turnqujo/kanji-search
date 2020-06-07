@@ -4,7 +4,6 @@
  *    they are not modules. Repeating them here works, though, but isn't a good
  *    solution.
  */
-
 interface ConversionItem {
   hiragana: string
   katakana: string

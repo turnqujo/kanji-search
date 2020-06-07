@@ -17,7 +17,6 @@
     "removeComments": true,
     "sourceMap": false,
     "strict": true,
-    "target": "ES6",
-    "types": ["./workerTypes.d.ts"]
+    "target": "ES6"
   }
 }

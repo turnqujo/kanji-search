@@ -1,5 +1,5 @@
-function getNumber(val: number | string | null): number {
-  return val === null ? Infinity : Number(val)
+function isNumber(subject: number | string | null): boolean {
+  return subject !== null && !isNaN(Number(subject))
 }
 
 function customSort(list: Kanji[], { field, direction }: SortOptions) {
@@ -8,17 +8,25 @@ function customSort(list: Kanji[], { field, direction }: SortOptions) {
 
   switch (field) {
     case 'strokeCount':
-      return list.sort((x, y) => {
+      return list
+      .filter(x => Array.isArray(x.stroke) || !isNaN(Number(x.stroke)))
+      .sort((x, y) => {
         const leftStroke = Number(Array.isArray(x.stroke) ? Math.min(...x.stroke) : x.stroke)
         const rightStroke = Number(Array.isArray(y.stroke) ? Math.min(...y.stroke) : y.stroke)
         return leftStroke > rightStroke ? leftSort : rightSort
       })
     case 'frequency':
-      return list.sort((x, y) => (getNumber(x.frequency) > getNumber(y.frequency) ? leftSort : rightSort))
+      return list
+      .filter(x => isNumber(x.frequency))
+      .sort((x, y) => (Number(x.frequency) > Number(y.frequency) ? leftSort : rightSort))
     case 'grade':
-      return list.sort((x, y) => (getNumber(x.grade) > getNumber(y.grade) ? leftSort : rightSort))
+      return list
+      .filter(x => isNumber(x.grade))
+      .sort((x, y) => (Number(x.grade) > Number(y.grade) ? leftSort : rightSort))
     case 'jlpt':
-      return list.sort((x, y) => (getNumber(x.jlpt) > getNumber(y.jlpt) ? leftSort : rightSort))
+      return list
+      .filter(x => isNumber(x.jlpt))
+      .sort((x, y) => (Number(x.jlpt) > Number(y.jlpt) ? leftSort : rightSort))
     case 'unicode':
       return list.sort((x, y) => (x.char < y.char ? leftSort : rightSort))
     default:

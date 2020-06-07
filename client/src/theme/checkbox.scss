@@ -1,8 +1,11 @@
 .kn-selection-item {
+  --control-size: 0.8em;
+  --label-border-size: 1px;
+  --label-border-spacing: 0.25em;
   align-items: center;
   display: flex;
-  user-select: none;
   position: relative;
+  user-select: none;
 
   @each $variation in $semanticColors {
     &.#{$variation} {
@@ -12,10 +15,10 @@
 
   &__label {
     @include standardTransition(color, border-color);
+    border-bottom: var(--label-border-size) solid currentColor;
     cursor: pointer;
-    border-bottom: 1px solid currentColor;
-    padding-left: calc(0.8em + 2px + 0.4em); // input width, border, padding
-    padding-bottom: 2px;
+    padding-bottom: var(--label-border-spacing);
+    padding-left: calc(var(--control-size) + 0.5em);
   }
 
   &__control:active:not(:disabled) + &__label,
@@ -35,15 +38,14 @@
 
   &__control {
     @include standardTransition(background-color, color, border-color);
-    border-radius: 3px;
-    border: 2px solid currentColor;
+    @include standardBorder(currentColor);
     cursor: pointer;
-    height: 0.8em;
+    height: var(--control-size);
     left: 0;
-    margin: 0 0 3px 0; // border + padding
+    margin: 0 0 calc(var(--label-border-size) + var(--label-border-spacing)) 0;
     outline: none;
     position: absolute;
-    width: 0.8em;
+    width: var(--control-size);
 
     &:checked {
       background-color: currentColor;

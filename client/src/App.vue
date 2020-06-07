@@ -16,6 +16,8 @@
 <style lang="scss">
   @import 'theme/reset.css';
   @import 'theme/mixins/transitions.scss';
+  @import 'theme/mixins/borders.scss';
+  @import 'theme/standards.scss';
   @import 'theme/colors.scss';
   @import 'theme/sizes.scss';
   @import 'theme/typography.scss';

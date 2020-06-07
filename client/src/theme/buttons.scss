@@ -1,7 +1,7 @@
 .kn-btn {
   @include quickTransition(background-color);
-  border-radius: 3px;
   background-color: var(--kn-foreground);
+  border-radius: 3px;
   color: var(--kn-background);
   padding: 0.5em 1em;
 
@@ -30,16 +30,14 @@
 .kn-btn.kn-ghost {
   @include quickTransition(border-color);
   background-color: transparent;
-  border-style: outset;
   border-style: solid;
-  border-width: 3px;
   color: var(--kn-foreground);
 
   @each $variation in $semanticColors {
     &.#{$variation} {
+      background-color: transparent;
       border-color: var(--#{$variation});
       color: var(--#{$variation});
-      background-color: transparent;
     }
 
     &.#{$variation}:active {

@@ -1,8 +1,8 @@
 .kn-navbar {
-
   &__link-list {
     display: flex;
     flex-direction: row;
+    justify-content: flex-end;
   }
 
   &__link:not(:first-child) {
@@ -10,12 +10,12 @@
   }
 
   &__link > .kn-anchor {
-    border-bottom: 2px solid transparent;
+    border-bottom: 1px solid transparent;
     font-size: 1.2em;
   }
 
   &__link > .kn-anchor.router-link-exact-active {
-    border-bottom: 2px solid var(--kn-foreground);
+    border-bottom: 1px solid var(--kn-foreground);
   }
 }
 

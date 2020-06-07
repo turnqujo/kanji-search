@@ -1,4 +1,5 @@
 .kn-input, .kn-select {
+  --label-input-gap: 0.5em;
   display: flex;
   flex-direction: row-reverse;
   justify-content: flex-end;
@@ -50,7 +51,7 @@
     box-sizing: border-box;
     color: currentColor;
     height: 2em;
-    padding: 0 0.5em;
+    padding: 0 var(--label-input-gap);
   }
 
   &__control:disabled {
@@ -71,6 +72,7 @@
 }
 
 .kn-select {
+  --decorator-size: 1.5em;
   display: inline-flex;
   position: relative;
 
@@ -91,14 +93,14 @@
     top: 0;
     bottom: 0;
     color: var(--kn-foreground);
-    font-size: 1.5em;
+    font-size: var(--decorator-size);
     pointer-events: none;
   }
 
   &__control {
     appearance: none;
     cursor: pointer;
-    padding: 0 1.5em 0 0.5em;
+    padding: 0 var(--decorator-size) 0 var(--label-input-gap);
     font-size: inherit;
   }
 

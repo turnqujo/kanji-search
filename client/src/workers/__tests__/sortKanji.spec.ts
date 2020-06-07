@@ -199,7 +199,7 @@ describe('The Sort Kanji Webworker', () => {
     expect(response).toEqual([shiKanji, nahanoKanji, onnaKanji, nahaKanji])
   })
 
-  it('Should treat kanji without frequency rankings as having an infinite rank.', async () => {
+  it('Should filter out kanji without a frequency rating when sorted by frequency.', async () => {
     const unrankedKanji = {
       char: '帰',
       stroke: 1,
@@ -210,12 +210,12 @@ describe('The Sort Kanji Webworker', () => {
         nanori: []
       },
       jlpt: null,
-      grade: null,
+      grade: 1,
       set: [],
-      frequency: null // Infinity is not valid JSON
+      frequency: null
     }
 
-    const ascResponse = await getResponse({
+    const primaryResponse = await getResponse({
       kanjiSet: [...kanjiSet, unrankedKanji],
       primary: {
         field: 'frequency',
@@ -224,20 +224,21 @@ describe('The Sort Kanji Webworker', () => {
       secondary: null
     })
 
-    const expectedAscOrder = [shiKanji, nahanoKanji, onnaKanji, nahaKanji, unrankedKanji]
-    expect(ascResponse).toEqual(expectedAscOrder)
+    expect(primaryResponse).toEqual([shiKanji, nahanoKanji, onnaKanji, nahaKanji])
 
-    const descResponse = await getResponse({
+    const secondaryResponse = await getResponse({
       kanjiSet: [...kanjiSet, unrankedKanji],
       primary: {
-        field: 'frequency',
-        direction: 'desc'
+        field: 'grade',
+        direction: 'asc'
       },
-      secondary: null
+      secondary: {
+        field: 'frequency',
+        direction: 'asc'
+      }
     })
 
-    const expectedDescOrder = [unrankedKanji, nahaKanji, onnaKanji, nahanoKanji, shiKanji]
-    expect(descResponse).toEqual(expectedDescOrder)
+    expect(secondaryResponse).toEqual([nahanoKanji, nahaKanji, onnaKanji])
   })
 
   it('Should support sorting by a secondary criteria.', async () => {
@@ -253,7 +254,7 @@ describe('The Sort Kanji Webworker', () => {
       }
     })
 
-    expect(response).toEqual([nahanoKanji, nahaKanji, onnaKanji, shiKanji])
+    expect(response).toEqual([nahanoKanji, nahaKanji, onnaKanji])
   })
 
   it('Should not apply a second sort if sorting by unicode, since it will be unambiguous.', async () => {

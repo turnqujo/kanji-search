@@ -4,9 +4,6 @@ import './registerServiceWorker'
 import router from './router'
 import { Kanji } from './models/kanji'
 
-// @ts-ignore TODO: This is actually loading fine
-// import allKanji from './data/allKanji.json'
-
 Vue.config.productionTip = false
 
 // TODO: This is not the best place for these

@@ -17,7 +17,7 @@ x Better layout for the Kanji Form
 x Stop kanji, conversion, etc. sets from being included in webpack modules
 x Cleaner code for applying webworker tasks in the kanji form component
 x Clean up the test webworker class, address TODOs
-- Refactor SCSS to use more variables; standardize things like element spacing
+x Refactor SCSS to use more variables; standardize things like element spacing
 - Use Array Buffers for transferring data to and from webworker threads
 
 * Testing (Pre-MVP) *
@@ -28,12 +28,13 @@ x Clean up the test webworker class, address TODOs
 - Performance testing, especially for webworkers
 
 * Bugs *
-- Sorting by JLPT, Grade, etc. should filter out results which do not have that metric.
+x Sorting by JLPT, Grade, etc. should filter out results which do not have that metric.
 - Prod build is broken for some reason
 - The "All (x)" limit select option is becoming blank after searching for new kanji
 
 * Post-MVP *
 - Search by Kanji directly
+- Change the color variables to not use bootstrap-style semantic colors and instead have just accents
 - Add more controls to the kanji form, e.g. grade, jlpt, stroke limiters
 - Collapsible fieldsets
 - Component structure (smaller, focused components; styled components?)
@@ -43,3 +44,4 @@ x Clean up the test webworker class, address TODOs
 - If performance is good enough, change the search form to work on change instead of on submit
 - Generate PDF of results for printing
 - Rework the Kanji cards into an actual table; move sort options into table headers (desktop only?)
+- Add notification system for errors and updates
