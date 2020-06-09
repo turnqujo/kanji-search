@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <div class="kanji-form-container">
-      <kanji-form @submit="onFormSubmit"></kanji-form>
+      <kanji-form @submit="onFormSubmit" @form-reset="onFormReset"></kanji-form>
     </div>
     <div class="pick-list-container">
       <pick-list :kanji-set="kanjiSet"></pick-list>
@@ -15,7 +15,7 @@
   import { Component, Vue } from 'vue-property-decorator'
   import { Kanji } from '../models/kanji'
   import PickList from '../components/PickList.vue'
-  import KanjiForm, { SubmitProps } from '../components/KanjiForm.vue'
+  import KanjiForm, { KanjiFormState } from '../components/KanjiForm.vue'
   import { getKanji, filterKanjiByMeaning, sortKanji, getKanjiByConversion } from '../workers'
 
   @Component({
@@ -27,7 +27,7 @@
   export default class HomeComponent extends Vue {
     kanjiSet: Kanji[] = []
 
-    async onFormSubmit(values: SubmitProps) {
+    async onFormSubmit(values: KanjiFormState) {
       const unfilteredKanji = await getKanji(values.kanjiSet)
 
       let readingMeaningFiltered = []
@@ -59,6 +59,10 @@
       )
 
       this.kanjiSet = sorted
+    }
+
+    onFormReset() {
+      this.kanjiSet = []
     }
   }
 </script>

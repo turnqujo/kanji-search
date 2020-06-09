@@ -255,7 +255,7 @@
       <legend>Options</legend>
       <ol class="kanji-form__control-list kanji-form__control-list--spaced">
         <li>
-          <button type="button" class="kn-btn kn-danger">Clear</button>
+          <button type="button" class="kn-btn kn-danger" @click="setDefaultValues">Clear</button>
         </li>
         <li>
           <button type="submit" class="kn-btn kn-primary">Search</button>
@@ -291,14 +291,14 @@
   import fetchConversionTable, { ConversionItem } from '../data/conversion-table'
   import KanaKeyboard from './KanaKeyboard.vue'
 
-  export interface SubmitProps {
+  export interface KanjiFormState {
     kanjiSet: KanjiSet
-    readingMatchOption: MatchOption
-    readingConverted: ConversionItem[]
-    readingType: ReadingType
     meaning: string
     meaningMatchOption: MatchOption
     primarySort: SortOptions
+    readingConverted: ConversionItem[]
+    readingMatchOption: MatchOption
+    readingType: ReadingType
     secondarySort: SortOptions
   }
 
@@ -308,24 +308,43 @@
     }
   })
   export default class KanjiForm extends Vue {
-    private kanjiSet: KanjiSet = ['jouyou', 'jinmeiyou', 'hyougai', 'kyouiku', 'jlpt']
-    private readingMatchOption: MatchOption = 'start'
-    private reading = ''
-    private readingError = ''
-    private readingConverted: ConversionItem[] = []
-    private readingType: ReadingType = ['on', 'kun', 'nanori']
-    private meaning = ''
-    private meaningError = false
-    private meaningMatchOption: MatchOption = 'start'
-    private primarySortField: SortBy = 'frequency'
-    private primarySortDirection: OrderBy = 'asc'
-    private secondarySortField: SortBy | 'none' = 'none'
-    private secondarySortDirection: OrderBy = 'asc'
+    hasMeaningError = false
+    kanjiSet: KanjiSet = ['jouyou', 'jinmeiyou', 'hyougai', 'kyouiku', 'jlpt']
+    meaning = ''
+    meaningMatchOption: MatchOption = 'start'
+    primarySortDirection: OrderBy = 'asc'
+    primarySortField: SortBy = 'frequency'
+    reading = ''
+    readingConverted: ConversionItem[] = []
+    readingError = ''
+    readingMatchOption: MatchOption = 'start'
+    readingType: ReadingType = ['on', 'kun', 'nanori']
+    secondarySortDirection: OrderBy = 'asc'
+    secondarySortField: SortBy | 'none' = 'none'
 
     conversionTable: ConversionItem[] | null = null
 
     async mounted() {
       this.conversionTable = await fetchConversionTable()
+    }
+
+    // TODO: This could be handled much better (Vuex?), but works for now
+    setDefaultValues() {
+      this.kanjiSet = ['jouyou', 'jinmeiyou', 'hyougai', 'kyouiku', 'jlpt']
+      this.readingMatchOption = 'start'
+      this.reading = ''
+      this.readingError = ''
+      this.readingConverted = []
+      this.readingType = ['on', 'kun', 'nanori']
+      this.meaning = ''
+      this.hasMeaningError = false
+      this.meaningMatchOption = 'start'
+      this.primarySortField = 'frequency'
+      this.primarySortDirection = 'asc'
+      this.secondarySortField = 'none'
+      this.secondarySortDirection = 'asc'
+
+      this.$emit('form-reset')
     }
 
     async onReadingBlur() {
@@ -358,7 +377,7 @@
     }
 
     onSubmit() {
-      if (!!this.readingError || !!this.meaningError) {
+      if (!!this.readingError || !!this.hasMeaningError) {
         return
       }
 
@@ -377,7 +396,7 @@
           field: this.secondarySortField === 'none' ? null : this.secondarySortField,
           direction: this.secondarySortDirection
         }
-      } as SubmitProps)
+      } as KanjiFormState)
     }
   }
 </script>
