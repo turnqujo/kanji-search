@@ -44,6 +44,7 @@
     "geckodriver": "^1.19.1",
     "isomorphic-fetch": "^2.2.1",
     "jest": "^25.1.0",
+    "jest-fetch-mock": "^3.0.3",
     "lint-staged": "^9.5.0",
     "node-sass": "^4.12.0",
     "prettier": "^1.19.1",

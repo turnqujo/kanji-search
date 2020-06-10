@@ -1,14 +1,15 @@
 module.exports = {
   automock: false,
-  roots: ['<rootDir>/src'],
+  preset: 'ts-jest',
   testMatch: ['**/?(*.)+(spec|test).ts'],
   moduleFileExtensions: ['js', 'ts', 'vue', 'json'],
-  modulePaths: [
-    "<rootDir>"
-  ],
+  moduleNameMapper: {
+    '^@/(.*)$': '<rootDir>/src/$1'
+  },
   transform: {
+    '^.+\\.(js|jsx)$': 'babel-jest',
     '^.+\\.(ts|tsx)$': 'ts-jest',
     '^.+\\.vue$': 'vue-jest'
   },
-  setupFiles: ['isomorphic-fetch', 'fake-indexeddb/auto']
+  setupFiles: ['isomorphic-fetch', 'fake-indexeddb/auto', './jestSetup.js']
 }

@@ -26,13 +26,14 @@
       <ul class="kanji-form__control-list">
         <li>
           <label class="kn-input">
-            <span v-if="readingError !== ''">{{ readingError }}</span>
+            <span v-if="readingError !== ''" data-tid="reading-error">{{ readingError }}</span>
             <input
               type="text"
               class="kn-input__control"
               placeholder="Kana or Romaji"
               v-model="reading"
               @blur="onReadingBlur"
+              data-tid="reading-input"
             />
             <span class="kn-input__label">Text</span>
           </label>
@@ -255,7 +256,9 @@
       <legend>Options</legend>
       <ol class="kanji-form__control-list kanji-form__control-list--spaced">
         <li>
-          <button type="button" class="kn-btn kn-danger" @click="setDefaultValues">Clear</button>
+          <button type="button" data-tid="clear-button" class="kn-btn kn-danger" @click="setDefaultValues">
+            Clear
+          </button>
         </li>
         <li>
           <button type="submit" class="kn-btn kn-primary">Search</button>
@@ -291,7 +294,7 @@
   import fetchConversionTable, { ConversionItem } from '../data/conversion-table'
   import KanaKeyboard from './KanaKeyboard.vue'
 
-  export interface KanjiFormState {
+  export interface KanjiFormSubmit {
     kanjiSet: KanjiSet
     meaning: string
     meaningMatchOption: MatchOption
@@ -324,33 +327,28 @@
 
     conversionTable: ConversionItem[] | null = null
 
-    async mounted() {
-      this.conversionTable = await fetchConversionTable()
-    }
-
     // TODO: This could be handled much better (Vuex?), but works for now
     setDefaultValues() {
-      this.kanjiSet = ['jouyou', 'jinmeiyou', 'hyougai', 'kyouiku', 'jlpt']
-      this.readingMatchOption = 'start'
-      this.reading = ''
-      this.readingError = ''
-      this.readingConverted = []
-      this.readingType = ['on', 'kun', 'nanori']
-      this.meaning = ''
       this.hasMeaningError = false
+      this.kanjiSet = ['jouyou', 'jinmeiyou', 'hyougai', 'kyouiku', 'jlpt']
+      this.meaning = ''
       this.meaningMatchOption = 'start'
-      this.primarySortField = 'frequency'
       this.primarySortDirection = 'asc'
-      this.secondarySortField = 'none'
+      this.primarySortField = 'frequency'
+      this.reading = ''
+      this.readingConverted = []
+      this.readingError = ''
+      this.readingMatchOption = 'start'
+      this.readingType = ['on', 'kun', 'nanori']
       this.secondarySortDirection = 'asc'
+      this.secondarySortField = 'none'
 
       this.$emit('form-reset')
     }
 
     async onReadingBlur() {
       if (this.conversionTable === null) {
-        this.readingError = 'Could not fetch conversion table.'
-        return
+        this.conversionTable = await fetchConversionTable()
       }
 
       this.readingError = ''
@@ -360,7 +358,7 @@
       try {
         this.readingConverted = await convertText(this.reading, this.conversionTable)
       } catch (e) {
-        this.readingError = e
+        this.readingError = e.message ? e.message : e
       }
     }
 
@@ -396,7 +394,7 @@
           field: this.secondarySortField === 'none' ? null : this.secondarySortField,
           direction: this.secondarySortDirection
         }
-      } as KanjiFormState)
+      } as KanjiFormSubmit)
     }
   }
 </script>

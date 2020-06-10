@@ -105,7 +105,7 @@ describe('The Convert Text Worker.', () => {
       expect(e.message).toBe(expectedMessage)
     })
 
-    await getResponse({ text: 'あ', conversionTable: null as unknown as ConversionItem[] }).catch((e) => {
+    await getResponse({ text: 'あ', conversionTable: (null as unknown) as ConversionItem[] }).catch((e) => {
       expect(e.message).toBe(expectedMessage)
     })
   })

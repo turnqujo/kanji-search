@@ -138,12 +138,12 @@ describe('The Get Kanji by Conversion Webworker', () => {
     expect.assertions(2)
     const expectedMessage = 'Conversion table is malformed or missing.'
 
-    await getResponse({
+    await getResponse(({
       kanjiSet: [kikukeKanji, kakikukeKanji, kikukekoKanji],
       // conversionItems is missing
       matchOption: 'anywhere',
       readingType: ['kun']
-    } as unknown as Props).catch((e) => {
+    } as unknown) as Props).catch((e) => {
       expect(e.message).toBe(expectedMessage)
     })
 
@@ -160,12 +160,12 @@ describe('The Get Kanji by Conversion Webworker', () => {
   it('Should throw an error if missing a kanji set.', async () => {
     expect.assertions(1)
 
-    await getResponse({
+    await getResponse(({
       // kanjiSet is missing
       conversionItems: [{ katakana: 'キ', hiragana: 'き', romaji: 'ki' }],
       matchOption: 'anywhere',
       readingType: ['kun']
-    } as unknown as Props).catch((e) => {
+    } as unknown) as Props).catch((e) => {
       expect(e.message).toBe('Kanji Set is malformed or missing.')
     })
   })
@@ -173,12 +173,12 @@ describe('The Get Kanji by Conversion Webworker', () => {
   it('Should throw an error if missing a match option.', async () => {
     expect.assertions(1)
 
-    await getResponse({
+    await getResponse(({
       kanjiSet: [kikukeKanji, kakikukeKanji, kikukekoKanji],
       conversionItems: [{ katakana: 'キ', hiragana: 'き', romaji: 'ki' }],
       // matchOption is missing
       readingType: ['kun']
-    } as unknown as Props).catch((e) => {
+    } as unknown) as Props).catch((e) => {
       expect(e.message).toBe('Match Option is malformed or missing.')
     })
   })
@@ -186,12 +186,12 @@ describe('The Get Kanji by Conversion Webworker', () => {
   it('Should throw an error if the given match option is unknown.', async () => {
     expect.assertions(1)
 
-    await getResponse({
+    await getResponse(({
       kanjiSet: [kikukeKanji, kakikukeKanji, kikukekoKanji],
       conversionItems: [{ katakana: 'キ', hiragana: 'き', romaji: 'ki' }],
       matchOption: 'unknown',
       readingType: ['kun']
-    } as unknown as Props).catch((e) => {
+    } as unknown) as Props).catch((e) => {
       expect(e.message).toBe('Unknown match option given.')
     })
   })
@@ -200,12 +200,12 @@ describe('The Get Kanji by Conversion Webworker', () => {
     expect.assertions(2)
     const expectedMessage = 'Reading Type is malformed or missing.'
 
-    await getResponse({
+    await getResponse(({
       kanjiSet: [kikukeKanji, kakikukeKanji, kikukekoKanji],
       conversionItems: [{ katakana: 'キ', hiragana: 'き', romaji: 'ki' }],
       matchOption: 'anywhere'
       // readingType is missing
-    } as unknown as Props).catch((e) => {
+    } as unknown) as Props).catch((e) => {
       expect(e.message).toBe(expectedMessage)
     })
 

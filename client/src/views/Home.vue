@@ -15,7 +15,7 @@
   import { Component, Vue } from 'vue-property-decorator'
   import { Kanji } from '../models/kanji'
   import PickList from '../components/PickList.vue'
-  import KanjiForm, { KanjiFormState } from '../components/KanjiForm.vue'
+  import KanjiForm, { KanjiFormSubmit } from '../components/KanjiForm.vue'
   import { getKanji, filterKanjiByMeaning, sortKanji, getKanjiByConversion } from '../workers'
 
   @Component({
@@ -27,7 +27,7 @@
   export default class HomeComponent extends Vue {
     kanjiSet: Kanji[] = []
 
-    async onFormSubmit(values: KanjiFormState) {
+    async onFormSubmit(values: KanjiFormSubmit) {
       const unfilteredKanji = await getKanji(values.kanjiSet)
 
       let readingMeaningFiltered = []
