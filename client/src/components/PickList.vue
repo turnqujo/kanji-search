@@ -3,8 +3,8 @@
     <span>{{ kanjiSet.length.toLocaleString() }} Kanji Found</span>
     <div class="page-control__container">
       <span>Index: {{ pageIndex }}</span>
-      <button type="button" @click="onPreviousPage">Previous</button>
-      <button type="button" @click="onNextPage">Next</button>
+      <button type="button" @click="onPreviousPage" data-tid="previous">Previous</button>
+      <button type="button" @click="onNextPage" data-tid="next">Next</button>
       <label class="input-label">
         <span class="input-label__text">Kanji per Page</span>
         <select v-model="perPage">

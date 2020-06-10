@@ -16,10 +16,12 @@ describe('The Kanji Form component.', () => {
 
   it('Should display an error if the reading input is not valid.', async () => {
     // @ts-ignore KLUDGE / TODO: Yep, this is mutating the import lol
-    convertTextDependency.convertText = jest.fn(async () => { throw new Error('Test Error') })
+    convertTextDependency.convertText = jest.fn(async () => {
+      throw new Error('Test Error')
+    })
 
     const wrapper = shallowMount(KanjiForm)
-    wrapper.setData({reading: 'lol not kana!'})
+    wrapper.setData({ reading: 'lol not kana!' })
 
     const readingInput = wrapper.find('input[data-tid=reading-input]')
     if (!readingInput.exists()) {
@@ -28,7 +30,7 @@ describe('The Kanji Form component.', () => {
     await readingInput.trigger('blur')
 
     // KLUDGE / TODO: Couldn't figure out how to wait for the method to finish
-    await new Promise(resolve => setTimeout(resolve, 20))
+    await new Promise((resolve) => setTimeout(resolve, 20))
 
     expect((wrapper.vm as any).readingError).toBe('Test Error')
   })
@@ -72,9 +74,7 @@ describe('The Kanji Form component.', () => {
       meaningMatchOption: 'exact',
       primarySortDirection: 'desc',
       primarySortField: 'grade',
-      readingConverted: [
-        { katakana: 'a', hiragana: 'E', romaji: 'd' }
-      ],
+      readingConverted: [{ katakana: 'a', hiragana: 'E', romaji: 'd' }],
       readingMatchOption: 'anywhere',
       readingType: ['on', 'kun'],
       secondarySortDirection: 'desc',
@@ -86,7 +86,6 @@ describe('The Kanji Form component.', () => {
       return fail('Could not find clear button.')
     }
     clearButton.trigger('click')
-
 
     const submitButton = wrapper.find('button[type=submit]')
     if (!submitButton.exists()) {
