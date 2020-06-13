@@ -70,20 +70,19 @@
     onNextPage() {
       if (this.pageIndex + this.perPage >= this.kanjiSet.length) {
         return
-      } else {
-        this.pageIndex += this.perPage
       }
 
+      this.pageIndex += this.perPage
       this.updatePagedSet()
     }
 
     onPreviousPage() {
       if (this.pageIndex - this.perPage < 0) {
         this.pageIndex = 0
-      } else {
-        this.pageIndex -= this.perPage
+        return
       }
 
+      this.pageIndex -= this.perPage
       this.updatePagedSet()
     }
 

@@ -31,6 +31,10 @@
         return
       }
 
+      if (['xsmall', 'small', 'medium', 'large', 'xlarge'].indexOf(newSize) === -1) {
+        return
+      }
+
       this.pFontSize = newSize
       document.querySelector(':root')?.setAttribute('font-size', newSize)
       localStorage.setItem(FontSizeSwitch.storageKey, newSize)

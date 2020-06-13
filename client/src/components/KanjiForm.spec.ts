@@ -1,9 +1,9 @@
 import { shallowMount } from '@vue/test-utils'
-import KanjiForm from './KanjiForm.vue'
-import fetchMock from 'jest-fetch-mock'
-import conversionTable from '../../../shared/static/conversionTable.json'
 import * as convertTextDependency from '../workers'
+import conversionTable from '../../../shared/static/conversionTable.json'
+import fetchMock from 'jest-fetch-mock'
 import kanaKeyboard from './KanaKeyboard.vue'
+import KanjiForm from './KanjiForm.vue'
 
 describe('The Kanji Form component.', () => {
   beforeAll(() => {

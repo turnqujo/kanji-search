@@ -44,7 +44,7 @@
 
   @Component({})
   export default class DarkSwitch extends Vue {
-    static themeStorageKey = 'kn-theme-preference'
+    static storageKey = 'kn-theme-preference'
 
     private pAppearance: AppearanceMode | null = null
     get appearance() {
@@ -54,12 +54,7 @@
       this.pAppearance = newAppearance
 
       const rootEle = document.querySelector(':root')
-      if (newAppearance === 'dark') {
-        this.setDarkTheme(rootEle)
-        return
-      }
-
-      this.setLightTheme(rootEle)
+      newAppearance === 'dark' ? this.setDarkTheme(rootEle) : this.setLightTheme(rootEle)
     }
 
     mounted() {
@@ -74,12 +69,12 @@
 
     setLightTheme(ele: Element | null): void {
       ele?.removeAttribute('dark')
-      localStorage.setItem(DarkSwitch.themeStorageKey, 'light')
+      localStorage.setItem(DarkSwitch.storageKey, 'light')
     }
 
     setDarkTheme(ele: Element | null): void {
       ele?.setAttribute('dark', 'true')
-      localStorage.setItem(DarkSwitch.themeStorageKey, 'dark')
+      localStorage.setItem(DarkSwitch.storageKey, 'dark')
     }
   }
 </script>

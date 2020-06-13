@@ -68,12 +68,12 @@
     }
 
     enableAnimations(ele: Element | null): void {
-      ele?.removeAttribute('transitions')
+      ele?.classList.remove('transitions-disabled')
       localStorage.setItem(AnimationSwitch.storageKey, 'enabled')
     }
 
     disableAnimations(ele: Element | null): void {
-      ele?.setAttribute('transitions', 'disabled')
+      ele?.classList.add('transitions-disabled')
       localStorage.setItem(AnimationSwitch.storageKey, 'disabled')
     }
   }

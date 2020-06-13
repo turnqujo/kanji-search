@@ -1,14 +1,16 @@
 <template>
   <div class="kana-keyboard">
-    <button type="button" @click="onToggleKeyboard"><span class="toggle-icon">&#9881;</span></button>
+    <button type="button" @click="onToggleKeyboard" data-tid="toggle-keyboard">
+      <span class="toggle-icon">&#9881;</span>
+    </button>
     <div class="popup" v-if="open">
       <div class="kana-table" v-on-click-outside="onToggleKeyboard">
-        <select @change="onModeChange">
+        <select v-model="mode">
           <option value="hiragana">Hiragana</option>
           <option value="katakana">Katakana</option>
           <option value="romaji">Romaji</option>
         </select>
-        <select @change="onModifierChange">
+        <select v-model="modifier">
           <option value="unmodified">Unmodified</option>
           <option value="chiisai">Chiisai</option>
           <option value="dakuten">Dakuten</option>
@@ -16,7 +18,12 @@
         </select>
         <ul class="kana-table-row" v-for="(set, index) in kanaSet" :key="index">
           <li class="kana-table-item" v-for="(item, itemIndex) in set" :key="itemIndex">
-            <button type="button" v-if="item !== null" @click="() => onKanaClicked(item)">
+            <button
+              type="button"
+              v-if="item !== null"
+              @click="() => onKanaClicked(item)"
+              :data-tid="`kana-${item[mode]}`"
+            >
               {{ item[mode] }}
             </button>
           </li>
@@ -66,7 +73,7 @@
 </style>
 
 <script lang="ts">
-  import { Component, Vue } from 'vue-property-decorator'
+  import { Component, Vue, Watch } from 'vue-property-decorator'
   import {
     fetchGojuonHandakuten,
     fetchGojuonOrderedKana,
@@ -99,29 +106,24 @@
       this.gojuonDakuten = await fetchGojuonDakuten()
       this.gojuonHandakuten = await fetchGojuonHandakuten()
       this.chiisaiKana = await fetchChiisaiKana()
+
+      this.kanaSet = this.gojuonOrdered.slice()
     }
 
-    onModeChange(e: Event) {
-      const selectElement = e.target as HTMLSelectElement
-      this.mode = selectElement.value as ModeType
-    }
-
-    onModifierChange(e: Event) {
-      const selectElement = e.target as HTMLSelectElement
-      this.modifier = selectElement.value as Modifier
-
+    @Watch('modifier')
+    onModifierChange() {
       switch (this.modifier) {
         case 'unmodified':
-          this.kanaSet = this.gojuonOrdered
+          this.kanaSet = this.gojuonOrdered.slice()
           break
         case 'chiisai':
-          this.kanaSet = this.chiisaiKana
+          this.kanaSet = this.chiisaiKana.slice()
           break
         case 'dakuten':
-          this.kanaSet = this.gojuonDakuten
+          this.kanaSet = this.gojuonDakuten.slice()
           break
         case 'handakuten':
-          this.kanaSet = this.gojuonHandakuten
+          this.kanaSet = this.gojuonHandakuten.slice()
           break
       }
     }
@@ -134,7 +136,7 @@
         // Reset to defaults
         this.mode = 'hiragana'
         this.modifier = 'unmodified'
-        this.kanaSet = this.gojuonOrdered
+        this.kanaSet = this.gojuonOrdered.slice()
       }
     }
 

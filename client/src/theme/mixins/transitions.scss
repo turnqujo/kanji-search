@@ -4,7 +4,7 @@
   --kn-slow-duration: 300ms;
 }
 
-:root[transitions="disabled"] {
+:root.transitions-disabled {
   --kn-standard-duration: 0;
   --kn-quick-duration: 0;
   --kn-slow-duration: 0;

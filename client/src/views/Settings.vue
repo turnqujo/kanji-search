@@ -20,9 +20,9 @@
 
 <script lang="ts">
   import { Component, Vue } from 'vue-property-decorator'
-  import DarkSwitch from '@/components/rootMods/darkSwitch.vue'
-  import FontSizeSwitch from '@/components/rootMods/fontSizeSwitch.vue'
-  import AnimationSwitch from '@/components/rootMods/animationSwitch.vue'
+  import DarkSwitch from '@/components/rootMods/DarkSwitch.vue'
+  import FontSizeSwitch from '@/components/rootMods/FontSizeSwitch.vue'
+  import AnimationSwitch from '@/components/rootMods/AnimationSwitch.vue'
 
   @Component({
     components: {
