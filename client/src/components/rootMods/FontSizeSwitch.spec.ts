@@ -1,4 +1,4 @@
-import { shallowMount } from "@vue/test-utils"
+import { shallowMount } from '@vue/test-utils'
 import FontSizeSwitch from './FontSizeSwitch.vue'
 
 describe('The Font Size Switch component.', () => {
@@ -38,7 +38,7 @@ describe('The Font Size Switch component.', () => {
     expect(root.getAttribute(attributeName)).toBe('xsmall')
   })
 
-  it('Should store the user\'s preference in local storage.', () => {
+  it("Should store the user's preference in local storage.", () => {
     expect(localStorageSetting()).toBeNull()
 
     const wrapper = shallowMount(FontSizeSwitch)

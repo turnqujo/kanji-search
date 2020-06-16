@@ -1,6 +1,8 @@
 <template>
-  <div>
-    <span>{{ kanjiSet.length.toLocaleString() }} Kanji Found</span>
+  <div class="kn-results">
+    <span
+      ><span data-tid="result-count">{{ kanjiSet.length }}</span> Found</span
+    >
     <div class="page-control__container">
       <span>Index: {{ pageIndex }}</span>
       <button type="button" @click="onPreviousPage" data-tid="previous">Previous</button>
@@ -11,7 +13,7 @@
           <option value="10">10</option>
           <option value="50">50</option>
           <option value="100">100</option>
-          <option :value="kanjiSet.length">All ({{ kanjiSet.length.toLocaleString() }})</option>
+          <option :value="kanjiSet.length">All ({{ kanjiSet.length }})</option>
         </select>
       </label>
     </div>

@@ -1,6 +1,7 @@
 module.exports = {
   rules: {
     '@typescript-eslint/no-var-requires': 'off',
-    'no-unused-expressions': 'off'
+    'no-unused-expressions': 'off',
+    'no-undef': 'off'
   }
 }

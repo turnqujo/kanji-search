@@ -5,7 +5,13 @@
       <ul class="kanji-form__control-list">
         <li>
           <label class="kn-input">
-            <input type="text" class="kn-input__control" placeholder="Sun, dog, etc." v-model="meaning" />
+            <input
+              type="text"
+              class="kn-input__control"
+              placeholder="Sun, dog, etc."
+              v-model="meaning"
+              data-tid="meaning-text"
+            />
             <span class="kn-input__label">Text</span>
           </label>
         </li>

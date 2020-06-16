@@ -1,4 +1,4 @@
-import { shallowMount } from "@vue/test-utils"
+import { shallowMount } from '@vue/test-utils'
 import DarkSwitch from './DarkSwitch.vue'
 
 describe('The Dark Switch component.', () => {
@@ -36,7 +36,7 @@ describe('The Dark Switch component.', () => {
     expect(root.hasAttribute('dark')).toBeFalsy()
   })
 
-  it('Should store the user\'s preference in local storage.', () => {
+  it("Should store the user's preference in local storage.", () => {
     expect(localStorageSetting()).toBeNull()
 
     const wrapper = shallowMount(DarkSwitch)

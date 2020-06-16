@@ -35,6 +35,7 @@
   ],
   "exclude": [
     "node_modules",
-    "src/workers/**/*.ts"
+    "src/workers/**/*.ts",
+    "tests/e2e/**/*.js"
   ]
 }
