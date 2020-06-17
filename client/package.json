@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build && tsc -p src/workers/tsconfig.json",
+    "build": "tsc -p src/workers/tsconfig.json; vue-cli-service build",
     "test:e2e": "vue-cli-service test:e2e",
     "lint": "vue-cli-service lint",
     "test": "jest"
