@@ -6,7 +6,7 @@ export interface ConversionItem {
 }
 
 const fetchConversionTable = (): Promise<ConversionItem[]> =>
-  fetch('http://localhost:3000/conversionTable.json', {
+  fetch('data/conversionTable.json', {
     mode: 'cors',
     method: 'GET'
   }).then((resp) => resp.json())

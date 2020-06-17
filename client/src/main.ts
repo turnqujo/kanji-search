@@ -8,7 +8,7 @@ Vue.config.productionTip = false
 
 // TODO: This is not the best place for these
 function fetchAllKanji(): Promise<any> {
-  return fetch('http://localhost:3000/allKanji.json', {
+  return fetch('data/allKanji.json', {
     mode: 'cors',
     method: 'GET'
   })

@@ -9,7 +9,7 @@ function nullEmptyObjects(source: any[][]): (ConversionItem | null)[][] {
 }
 
 export function fetchGojuonOrderedKana(): Promise<(ConversionItem | null)[][]> {
-  return fetch('http://localhost:3000/gojuonOrderedKana.json', {
+  return fetch('data/gojuonOrderedKana.json', {
     mode: 'cors',
     method: 'GET'
   })
@@ -18,7 +18,7 @@ export function fetchGojuonOrderedKana(): Promise<(ConversionItem | null)[][]> {
 }
 
 export function fetchGojuonDakuten(): Promise<(ConversionItem | null)[][]> {
-  return fetch('http://localhost:3000/gojuonDakuten.json', {
+  return fetch('data/gojuonDakuten.json', {
     mode: 'cors',
     method: 'GET'
   })
@@ -27,7 +27,7 @@ export function fetchGojuonDakuten(): Promise<(ConversionItem | null)[][]> {
 }
 
 export function fetchGojuonHandakuten(): Promise<(ConversionItem | null)[][]> {
-  return fetch('http://localhost:3000/gojuonHandakuten.json', {
+  return fetch('data/gojuonHandakuten.json', {
     mode: 'cors',
     method: 'GET'
   })
@@ -36,7 +36,7 @@ export function fetchGojuonHandakuten(): Promise<(ConversionItem | null)[][]> {
 }
 
 export function fetchChiisaiKana(): Promise<(ConversionItem | null)[][]> {
-  return fetch('http://localhost:3000/chiisaiKana.json', {
+  return fetch('data/chiisaiKana.json', {
     mode: 'cors',
     method: 'GET'
   })

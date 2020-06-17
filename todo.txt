@@ -20,10 +20,10 @@ x Clean up the test webworker class, address TODOs
 x Refactor SCSS to use more variables; standardize things like element spacing
 
 * Testing (Pre-MVP) *
-- Component unit testing
+x Component unit testing
 - Cross-browser compatability: Chrome, Firefox, Safari; most used versions
 - Device compatability: Linux, Windows, Mac OS, iOS, Android; most-used & recent versions
-- E2E / workflow testing
+x E2E / workflow testing
 
 * Bugs *
 x Sorting by JLPT, Grade, etc. should filter out results which do not have that metric.

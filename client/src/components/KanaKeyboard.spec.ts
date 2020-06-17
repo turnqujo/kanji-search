@@ -2,10 +2,10 @@ import { shallowMount } from '@vue/test-utils'
 import KanaKeyboard from './KanaKeyboard.vue'
 import * as dependencies from '../data/gojuon-ordered-kana'
 
-import gojuonHandakuten from '../../../shared/static/gojuonHandakuten.json'
-import gojuonOrderedKana from '../../../shared/static/gojuonOrderedKana.json'
-import gojuonDakuten from '../../../shared/static/gojuonDakuten.json'
-import chiisaiKana from '../../../shared/static/chiisaiKana.json'
+import gojuonHandakuten from '../../public/data/gojuonHandakuten.json'
+import gojuonOrderedKana from '../../public/data/gojuonOrderedKana.json'
+import gojuonDakuten from '../../public/data/gojuonDakuten.json'
+import chiisaiKana from '../../public/data/chiisaiKana.json'
 
 describe('The Kana Keyboard component.', () => {
   beforeAll(() => {

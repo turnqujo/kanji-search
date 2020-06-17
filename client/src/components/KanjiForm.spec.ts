@@ -1,6 +1,6 @@
 import { shallowMount } from '@vue/test-utils'
 import * as convertTextDependency from '../workers'
-import conversionTable from '../../../shared/static/conversionTable.json'
+import conversionTable from '../../public/data/conversionTable.json'
 import fetchMock from 'jest-fetch-mock'
 import kanaKeyboard from './KanaKeyboard.vue'
 import KanjiForm from './KanjiForm.vue'
