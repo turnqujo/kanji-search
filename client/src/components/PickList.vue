@@ -54,7 +54,10 @@
 
     @Watch('kanjiSet')
     onKanjiSetChanged() {
+      // Reset these values to their defaults
       this.pageIndex = 0
+      this.perPage = 10
+
       this.updatePagedSet()
     }
 

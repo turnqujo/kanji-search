@@ -1,5 +1,6 @@
 import PickList from './PickList.vue'
 import { shallowMount } from '@vue/test-utils'
+import { builtinModules } from 'module'
 
 describe('The Pick List component.', () => {
   const fakeKanjiSet = [
@@ -108,5 +109,26 @@ describe('The Pick List component.', () => {
     // Shouldn't go negative
     await previousButton.trigger('click')
     expect(vm.pageIndex).toBe(0)
+  })
+
+  it('Should reset the per-page display setting when the given kanji set changes.', async () => {
+    const wrapper = shallowMount(PickList, { propsData: { kanjiSet: [] } })
+    const vm: any = wrapper.vm
+
+    // Having to set here to trigger the @Watch
+    await wrapper.setProps({
+      kanjiSet: fakeKanjiSet
+    })
+
+    expect(vm.perPage).toBe(10)
+
+    await wrapper.setData({ perPage: fakeKanjiSet.length })
+    expect(vm.perPage).toBe(fakeKanjiSet.length)
+
+    await wrapper.setProps({
+      kanjiSet: fakeKanjiSet.slice(0, 4)
+    })
+
+    expect(vm.perPage).toBe(10)
   })
 })
