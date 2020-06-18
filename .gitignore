@@ -3,7 +3,5 @@
 # Client
 client/public/workers
 
-# Shared
-
 # Any
 node_modules
