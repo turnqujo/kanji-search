@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <div class="kanji-form-container">
-      <kanji-form @submit="onFormSubmit" @form-reset="onFormReset"></kanji-form>
+      <kanji-form :conversionTable="conversionTable" @submit="onFormSubmit" @form-reset="onFormReset"></kanji-form>
     </div>
     <div class="pick-list-container">
       <pick-list :kanji-set="kanjiSet"></pick-list>
@@ -17,6 +17,7 @@
   import PickList from '../components/PickList.vue'
   import KanjiForm, { KanjiFormSubmit } from '../components/KanjiForm.vue'
   import { getKanji, filterKanjiByMeaning, sortKanji, getKanjiByConversion } from '../workers'
+  import fetchConversionTable, { ConversionItem } from '../data/conversion-table'
 
   @Component({
     components: {
@@ -26,6 +27,11 @@
   })
   export default class HomeComponent extends Vue {
     kanjiSet: Kanji[] = []
+    conversionTable: ConversionItem[] = []
+
+    async mounted() {
+      this.conversionTable = await fetchConversionTable()
+    }
 
     async onFormSubmit(values: KanjiFormSubmit) {
       const unfilteredKanji = await getKanji(values.kanjiSet)

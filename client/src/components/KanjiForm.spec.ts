@@ -1,42 +1,36 @@
 import { shallowMount } from '@vue/test-utils'
 import * as convertTextDependency from '../workers'
 import conversionTable from '../../public/data/conversionTable.json'
-import fetchMock from 'jest-fetch-mock'
 import kanaKeyboard from './KanaKeyboard.vue'
 import KanjiForm from './KanjiForm.vue'
 
 describe('The Kanji Form component.', () => {
-  beforeAll(() => {
-    fetchMock.doMock()
-
-    // TODO: More robust mocking
-    // Mocking the conversion table call; should be the first
-    fetchMock.mockResponse(async () => JSON.stringify(conversionTable))
-  })
-
   it('Should display an error if the reading input is not valid.', async () => {
-    // @ts-ignore KLUDGE / TODO: Yep, this is mutating the import lol
+    // @ts-ignore KLUDGE / TODO: Yep, this is mutating the import. Too bad!
     convertTextDependency.convertText = jest.fn(async () => {
       throw new Error('Test Error')
     })
 
-    const wrapper = shallowMount(KanjiForm, { data: () => ({ debounceTime: 0 }) })
+    const wrapper = shallowMount(KanjiForm, {
+      propsData: { debounceTime: 0, conversionTable }
+    })
     await wrapper.setData({ reading: 'lol not kana!' })
 
     const readingInput = wrapper.find('input[data-tid=reading-input]')
     if (!readingInput.exists()) {
       return fail('Could not find reading input.')
     }
-    await readingInput.trigger('blur')
 
     // KLUDGE / TODO: Couldn't figure out how to wait for the method to finish
-    await new Promise((resolve) => setTimeout(resolve, 20))
+    await new Promise((resolve) => setTimeout(resolve, 0))
 
     expect((wrapper.vm as any).readingError).toBe('Test Error')
   })
 
   it('Should accept picked kana from a child keyboard component.', async () => {
-    const wrapper = shallowMount(KanjiForm)
+    const wrapper = shallowMount(KanjiForm, {
+      propsData: { debounceTime: 0, conversionTable }
+    })
     const keyboardEle = wrapper.findComponent(kanaKeyboard)
     if (!keyboardEle.exists()) {
       return fail('Could not find Kana Keyboard.')
@@ -48,8 +42,10 @@ describe('The Kanji Form component.', () => {
     expect((wrapper.vm as any).reading).toBe('b')
   })
 
-  it('Should clear the form back to its original values when asked.', () => {
-    const wrapper = shallowMount(KanjiForm)
+  it('Should clear the form back to its original values when asked.', async () => {
+    const wrapper = shallowMount(KanjiForm, {
+      propsData: { debounceTime: 0, conversionTable }
+    })
     const vm = wrapper.vm as any
     const expectedSubmit = {
       kanjiSet: vm.kanjiSet,
@@ -91,7 +87,10 @@ describe('The Kanji Form component.', () => {
     if (!submitButton.exists()) {
       return fail('Could not find submit button.')
     }
-    submitButton.trigger('submit')
+    await submitButton.trigger('submit')
+
+    // KLUDGE / TODO: Couldn't figure out how to wait for the method to finish
+    await new Promise((resolve) => setTimeout(resolve, 0))
 
     const submittedValues = wrapper.emitted('submit')
     if (!submittedValues) {
