@@ -38,7 +38,6 @@
               class="kn-input__control"
               placeholder="Kana or Romaji"
               v-model="reading"
-              @blur="onReadingBlur"
               data-tid="reading-input"
             />
             <span class="kn-input__label">Text</span>
@@ -294,7 +293,7 @@
 </style>
 
 <script lang="ts">
-  import { Component, Vue } from 'vue-property-decorator'
+  import { Component, Vue, Watch } from 'vue-property-decorator'
   import { KanjiSet, ReadingType, MatchOption, SortBy, OrderBy, SortOptions } from '../models'
   import { convertText } from '../workers'
   import fetchConversionTable, { ConversionItem } from '../data/conversion-table'
@@ -326,12 +325,14 @@
     reading = ''
     readingConverted: ConversionItem[] = []
     readingError = ''
+    readingDebounceId: number | null = null
     readingMatchOption: MatchOption = 'start'
     readingType: ReadingType = ['on', 'kun', 'nanori']
     secondarySortDirection: OrderBy = 'asc'
     secondarySortField: SortBy | 'none' = 'none'
 
     conversionTable: ConversionItem[] | null = null
+    debounceTime = 500
 
     // TODO: This could be handled much better (Vuex?), but works for now
     setDefaultValues() {
@@ -344,6 +345,7 @@
       this.reading = ''
       this.readingConverted = []
       this.readingError = ''
+      this.readingDebounceId = null
       this.readingMatchOption = 'start'
       this.readingType = ['on', 'kun', 'nanori']
       this.secondarySortDirection = 'asc'
@@ -352,20 +354,32 @@
       this.$emit('form-reset')
     }
 
-    async onReadingBlur() {
+    @Watch('reading')
+    async onReadingChanged() {
       if (this.conversionTable === null) {
         this.conversionTable = await fetchConversionTable()
       }
 
-      this.readingError = ''
-      this.readingConverted = []
-
-      // TODO: Don't use try / catch for this; pass back errors
-      try {
-        this.readingConverted = await convertText(this.reading, this.conversionTable)
-      } catch (e) {
-        this.readingError = e.message ? e.message : e
+      if (this.readingDebounceId !== null) {
+        window.clearTimeout(this.readingDebounceId)
       }
+
+      this.readingDebounceId = window.setTimeout(
+        async ([conversionTable]: [ConversionItem[]]) => {
+          this.readingConverted = []
+          this.readingError = ''
+
+          try {
+            this.readingConverted = await convertText(this.reading, conversionTable)
+          } catch (e) {
+            this.readingError = e.message ? e.message : e
+          } finally {
+            this.readingDebounceId = null
+          }
+        },
+        this.debounceTime,
+        [this.conversionTable]
+      )
     }
 
     onPickedKana(kana: ConversionItem) {
