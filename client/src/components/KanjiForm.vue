@@ -293,10 +293,10 @@
 </style>
 
 <script lang="ts">
-  import { Component, Vue, Watch } from 'vue-property-decorator'
+  import { Component, Vue, Watch, Prop } from 'vue-property-decorator'
   import { KanjiSet, ReadingType, MatchOption, SortBy, OrderBy, SortOptions } from '../models'
   import { convertText } from '../workers'
-  import fetchConversionTable, { ConversionItem } from '../data/conversion-table'
+  import { ConversionItem } from '../data/conversion-table'
   import KanaKeyboard from './KanaKeyboard.vue'
 
   export interface KanjiFormSubmit {
@@ -316,6 +316,12 @@
     }
   })
   export default class KanjiForm extends Vue {
+    @Prop({ default: 300 })
+    debounceTime!: number
+
+    @Prop({ default: [] })
+    conversionTable!: ConversionItem[]
+
     hasMeaningError = false
     kanjiSet: KanjiSet = ['jouyou', 'jinmeiyou', 'hyougai', 'kyouiku', 'jlpt']
     meaning = ''
@@ -325,17 +331,26 @@
     reading = ''
     readingConverted: ConversionItem[] = []
     readingError = ''
-    readingDebounceId: number | null = null
     readingMatchOption: MatchOption = 'start'
     readingType: ReadingType = ['on', 'kun', 'nanori']
     secondarySortDirection: OrderBy = 'asc'
     secondarySortField: SortBy | 'none' = 'none'
 
-    conversionTable: ConversionItem[] | null = null
-    debounceTime = 500
+    readingDebounceId: number | null = null
+    submitDebounceId: number | null = null
 
     // TODO: This could be handled much better (Vuex?), but works for now
     setDefaultValues() {
+      if (this.readingDebounceId !== null) {
+        window.clearTimeout(this.readingDebounceId)
+        this.readingDebounceId = null
+      }
+
+      if (this.submitDebounceId !== null) {
+        window.clearTimeout(this.submitDebounceId)
+        this.submitDebounceId = null
+      }
+
       this.hasMeaningError = false
       this.kanjiSet = ['jouyou', 'jinmeiyou', 'hyougai', 'kyouiku', 'jlpt']
       this.meaning = ''
@@ -355,31 +370,25 @@
     }
 
     @Watch('reading')
-    async onReadingChanged() {
-      if (this.conversionTable === null) {
-        this.conversionTable = await fetchConversionTable()
-      }
-
+    onReadingChanged() {
       if (this.readingDebounceId !== null) {
         window.clearTimeout(this.readingDebounceId)
+        this.readingDebounceId = null
       }
 
       this.readingDebounceId = window.setTimeout(
-        async ([conversionTable]: [ConversionItem[]]) => {
-          this.readingConverted = []
-          this.readingError = ''
-
-          try {
-            this.readingConverted = await convertText(this.reading, conversionTable)
-          } catch (e) {
-            this.readingError = e.message ? e.message : e
-          } finally {
-            this.readingDebounceId = null
-          }
-        },
-        this.debounceTime,
-        [this.conversionTable]
+        () => this.convertReadingStatefully(this.reading, this.conversionTable),
+        this.debounceTime
       )
+    }
+
+    async convertReadingStatefully(reading: string, conversionTable: ConversionItem[]): Promise<void> {
+      try {
+        this.readingConverted = await convertText(this.reading, conversionTable)
+        this.readingError = ''
+      } catch (e) {
+        this.readingError = e.message ? e.message : e
+      }
     }
 
     onPickedKana(kana: ConversionItem) {
@@ -395,26 +404,41 @@
     }
 
     onSubmit() {
-      if (!!this.readingError || !!this.hasMeaningError) {
-        return
+      if (this.submitDebounceId !== null) {
+        window.clearTimeout(this.submitDebounceId)
+        this.submitDebounceId = null
       }
 
-      this.$emit('submit', {
-        kanjiSet: this.kanjiSet,
-        readingMatchOption: this.readingMatchOption,
-        readingConverted: this.readingConverted,
-        readingType: this.readingType,
-        meaning: this.meaning,
-        meaningMatchOption: this.meaningMatchOption,
-        primarySort: {
-          field: this.primarySortField,
-          direction: this.primarySortDirection
-        },
-        secondarySort: {
-          field: this.secondarySortField === 'none' ? null : this.secondarySortField,
-          direction: this.secondarySortDirection
+      this.submitDebounceId = window.setTimeout(async () => {
+        // If a debounce is currently waiting, cancel it and compute the reading early
+        if (this.readingDebounceId !== null) {
+          window.clearTimeout(this.readingDebounceId)
+          this.readingDebounceId = null
+
+          await this.convertReadingStatefully(this.reading, this.conversionTable)
         }
-      } as KanjiFormSubmit)
+
+        if (!!this.readingError || !!this.hasMeaningError) {
+          return
+        }
+
+        this.$emit('submit', {
+          kanjiSet: this.kanjiSet,
+          readingMatchOption: this.readingMatchOption,
+          readingConverted: this.readingConverted,
+          readingType: this.readingType,
+          meaning: this.meaning,
+          meaningMatchOption: this.meaningMatchOption,
+          primarySort: {
+            field: this.primarySortField,
+            direction: this.primarySortDirection
+          },
+          secondarySort: {
+            field: this.secondarySortField === 'none' ? null : this.secondarySortField,
+            direction: this.secondarySortDirection
+          }
+        } as KanjiFormSubmit)
+      }, this.debounceTime)
     }
   }
 </script>
