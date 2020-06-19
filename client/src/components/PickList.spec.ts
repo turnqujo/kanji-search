@@ -1,6 +1,5 @@
 import PickList from './PickList.vue'
 import { shallowMount } from '@vue/test-utils'
-import { builtinModules } from 'module'
 
 describe('The Pick List component.', () => {
   const fakeKanjiSet = [

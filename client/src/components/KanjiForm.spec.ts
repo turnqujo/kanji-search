@@ -20,8 +20,8 @@ describe('The Kanji Form component.', () => {
       throw new Error('Test Error')
     })
 
-    const wrapper = shallowMount(KanjiForm)
-    wrapper.setData({ reading: 'lol not kana!' })
+    const wrapper = shallowMount(KanjiForm, { data: () => ({ debounceTime: 0 }) })
+    await wrapper.setData({ reading: 'lol not kana!' })
 
     const readingInput = wrapper.find('input[data-tid=reading-input]')
     if (!readingInput.exists()) {
