@@ -1,0 +1,5 @@
+.kn-container {
+  @include standardTransition(border-color);
+  @include standardBorder();
+  padding: var(--kn-infra-spacing);
+}

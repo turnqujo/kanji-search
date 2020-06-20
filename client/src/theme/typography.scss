@@ -29,50 +29,86 @@ b {
 }
 
 code {
-  color: var(--kn-accent-light);
-  line-height: 1.5em;
+  // color: var(--kn-alpha);
+  font-weight: 600;
 }
 
 code::selection {
-  background-color: var(--kn-accent);
+  background-color: var(--kn-alpha);
   color: var(--kn-background);
 }
 
 pre {
-  @include standardBorder();
-  padding: var(--kn-infra-spacing);
+  text-align: left;
 }
 
 figure {
-  @include standardBorder();
-  align-items: center;
-  display: inline-flex;
-  flex-direction: column;
+  --shared-radius: 4px;
+  border: 2px solid var(--kn-main--aux);
+  border-radius: var(--shared-radius);
+  display: inline-block;
   padding: var(--kn-infra-spacing);
+  text-align: center;
 
   & > figcaption {
     --caption-margin: 0.5em;
+    font-weight: bold;
+    text-align: left;
+
+    &:first-child {
+      margin-bottom: var(--caption-margin);
+      border-bottom: 2px solid var(--kn-main--aux);
+      padding-bottom: 2px;
+    }
+
+    &:not(:first-child) {
+      margin-top: var(--caption-margin);
+      border-top: 2px solid var(--kn-main--aux);
+      padding-top: 2px;
+    }
   }
 
-  & > figcaption:first-child {
-    margin-bottom: var(--caption-margin);
-  }
-
-  & > figcaption:not(:first-child) {
-    margin-top: var(--caption-margin);
+  & > .figcontent {
+    @include standardTransition(background-color);
+    background-color: var(--kn-background);
+    border-radius: var(--shared-radius);
+    color: var(--kn-foreground);
+    padding: var(--kn-infra-spacing);
   }
 }
 
 hr {
-  @include standardBorder();
-  margin: 0.5em 0;
+  @include standardTransition(color);
+  color: var(--kn-main--aux);
 }
 
 fieldset {
-  @include standardBorder();
-  padding: var(--kn-infra-spacing);
+  @include standardTransition(border-color);
+  --border-width: 3px;
+  --border-length: 1em;
+  --inner-padding: 1em;
+  --legend-padding: 0.5em;
+
+  border: var(--border-width) solid var(--kn-main--aux);
+  border-radius: 2px;
+  padding: 0.5em var(--inner-padding) 0.5em var(--inner-padding);
+  position: relative;
+
+  &::after {
+    // This pseudo-element is intended to cover the bottom border so that it matches the top.
+    @include standardTransition(background-color);
+    background-color: var(--kn-background);
+    bottom: calc(var(--border-width) * -1);
+    content: '';
+    height: var(--border-width);
+    left: var(--border-length);
+    position: absolute;
+    right: var(--border-length);
+  }
 
   & > legend {
-    color: var(--kn-accent);
+    font-weight: bold;
+    padding-left: var(--legend-padding);
+    width: calc(100% - var(--border-length) - var(--legend-padding) + var(--inner-padding));
   }
 }

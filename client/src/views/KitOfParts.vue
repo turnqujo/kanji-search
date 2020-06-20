@@ -4,6 +4,9 @@
       <legend>Options</legend>
       <ul>
         <li>
+          <DarkSwitch></DarkSwitch>
+        </li>
+        <li>
           <button
             type="button"
             :class="['kn-btn', { 'kn-warning': !disableAll }, { 'kn-primary': disableAll }]"
@@ -45,24 +48,30 @@
         </li>
         <li>
           <figure>
-            <img src="img/icons/apple-touch-icon-60x60.png" />
+            <div class="figcontent">
+              <img src="img/icons/apple-touch-icon-60x60.png" />
+            </div>
             <figcaption>Caption Below</figcaption>
           </figure>
         </li>
         <li>
           <figure>
             <figcaption>Caption Above</figcaption>
-            <img src="img/icons/apple-touch-icon-60x60.png" />
+            <div class="figcontent">
+              <img src="img/icons/apple-touch-icon-60x60.png" />
+            </div>
           </figure>
         </li>
         <li>
           <figure>
             <figcaption><b>Code Figure</b></figcaption>
-            <pre><code>function codeExample(arg) {
+            <div class="figcontent">
+              <pre><code>function codeExample(arg) {
   return arg === 42
     ? 'Positive!'
     : 'Negative.'
 }</code></pre>
+            </div>
           </figure>
         </li>
       </ul>
@@ -71,24 +80,18 @@
       <legend>Buttons {{ disableAll ? '(Disabled)' : '' }}</legend>
       <ol>
         <li><button type="button" class="kn-btn">Default</button></li>
-        <li><button type="button" class="kn-btn kn-primary">Primary</button></li>
-        <li><button type="button" class="kn-btn kn-secondary">Secondary</button></li>
+        <li><button type="button" class="kn-btn kn-positive">Positive</button></li>
         <li><button type="button" class="kn-btn kn-neutral">Neutral</button></li>
-        <li><button type="button" class="kn-btn kn-success">Success</button></li>
-        <li><button type="button" class="kn-btn kn-warning">Warning</button></li>
-        <li><button type="button" class="kn-btn kn-danger">Danger</button></li>
+        <li><button type="button" class="kn-btn kn-negative">Negative</button></li>
       </ol>
     </fieldset>
     <fieldset class="showcase showcase__buttons" :disabled="disableAll">
       <legend>Buttons - Ghosts {{ disableAll ? '(Disabled)' : '' }}</legend>
       <ol>
         <li><button type="button" class="kn-btn kn-ghost">Default</button></li>
-        <li><button type="button" class="kn-btn kn-ghost kn-primary">Primary</button></li>
-        <li><button type="button" class="kn-btn kn-ghost kn-secondary">Secondary</button></li>
+        <li><button type="button" class="kn-btn kn-ghost kn-positive">Positive</button></li>
         <li><button type="button" class="kn-btn kn-ghost kn-neutral">Neutral</button></li>
-        <li><button type="button" class="kn-btn kn-ghost kn-success">Success</button></li>
-        <li><button type="button" class="kn-btn kn-ghost kn-warning">Warning</button></li>
-        <li><button type="button" class="kn-btn kn-ghost kn-danger">Danger</button></li>
+        <li><button type="button" class="kn-btn kn-ghost kn-negative">Negative</button></li>
       </ol>
     </fieldset>
     <fieldset class="showcase showcase__checkbox-group" :disabled="disableAll">
@@ -315,20 +318,15 @@
     margin-top: 24px;
   }
 
-  .showcase__options {
-    transition: background-color 140ms ease-in-out;
-    background-color: var(--kn-background);
-    position: sticky;
-    top: 0;
-  }
-
   .showcase__options > ul {
     display: flex;
     align-items: center;
     justify-content: flex-end;
 
     & > li:not(:first-of-type) {
-      margin-left: 12px;
+      margin-left: 6px;
+      border-left: 2px solid var(--kn-main);
+      padding-left: 6px;
     }
   }
 
@@ -350,8 +348,13 @@
 
 <script lang="ts">
   import { Component, Vue } from 'vue-property-decorator'
+  import DarkSwitch from '../components/rootMods/DarkSwitch.vue'
 
-  @Component({})
+  @Component({
+    components: {
+      DarkSwitch
+    }
+  })
   export default class KitOfParts extends Vue {
     disableAll = false
   }

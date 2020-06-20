@@ -1,8 +1,8 @@
 .kn-btn {
-  @include quickTransition(background-color);
-  background-color: var(--kn-foreground);
+  @include quickTransition(background-color, color);
+  background-color: var(--kn-main--aux);
   border-radius: 3px;
-  color: var(--kn-background);
+  color: var(--kn-foreground);
   padding: 0.5em 1em;
 
   &:hover,
@@ -10,19 +10,24 @@
     text-decoration: underline;
   }
 
+  &:active {
+    background-color: var(--kn-main);
+  }
+
   @each $variation in $semanticColors {
     &.#{$variation} {
-      background-color: var(--#{$variation});
+      background-color: var(--#{$variation}--aux);
     }
 
     &.#{$variation}:active {
-      background-color: var(--#{$variation}-light);
+      background-color: var(--#{$variation});
     }
   }
 
   &:disabled {
-    background-color: var(--kn-disabled-dark);
-    color: var(--kn-disabled-light);
+    background-color: var(--kn-background--aux);
+    color: var(--kn-foreground--aux);
+    font-style: italic;
     pointer-events: none;
   }
 }

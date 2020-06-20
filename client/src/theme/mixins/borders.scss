@@ -1,4 +1,4 @@
-@mixin standardBorder($color: var(--kn-foreground-dark)) {
-  border-radius: 3px;
-  border: 1px solid $color;
+@mixin standardBorder($color: var(--kn-alpha)) {
+  border-radius: 4px;
+  border: 2px solid $color;
 }
