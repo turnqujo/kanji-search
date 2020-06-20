@@ -6,7 +6,7 @@ import KanjiForm from './KanjiForm.vue'
 
 describe('The Kanji Form component.', () => {
   it('Should display an error if the reading input is not valid.', async () => {
-    // @ts-ignore KLUDGE / TODO: Yep, this is mutating the import. Too bad!
+    // @ts-ignore TODO: Yep, this is mutating the import. Too bad!
     convertTextDependency.convertText = jest.fn(async () => {
       throw new Error('Test Error')
     })
@@ -21,7 +21,7 @@ describe('The Kanji Form component.', () => {
       return fail('Could not find reading input.')
     }
 
-    // KLUDGE / TODO: Couldn't figure out how to wait for the method to finish
+    // TODO: Couldn't figure out how to wait for the method to finish
     await new Promise((resolve) => setTimeout(resolve, 0))
 
     expect((wrapper.vm as any).readingError).toBe('Test Error')
@@ -89,7 +89,7 @@ describe('The Kanji Form component.', () => {
     }
     await submitButton.trigger('submit')
 
-    // KLUDGE / TODO: Couldn't figure out how to wait for the method to finish
+    // TODO: Couldn't figure out how to wait for the method to finish
     await new Promise((resolve) => setTimeout(resolve, 0))
 
     const submittedValues = wrapper.emitted('submit')

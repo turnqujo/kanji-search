@@ -33,13 +33,13 @@
         <li>
           <label class="kn-input">
             <span v-if="readingError !== ''" data-tid="reading-error">{{ readingError }}</span>
-            <input
+            <!-- <input
               type="text"
               class="kn-input__control"
               placeholder="Kana or Romaji"
               v-model="reading"
               data-tid="reading-input"
-            />
+            /> -->
             <span class="kn-input__label">Text</span>
           </label>
         </li>
