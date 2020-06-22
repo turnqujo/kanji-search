@@ -9,7 +9,7 @@
   </div>
 </template>
 
-<style lang="scss"></style>
+<style lang="scss" scoped></style>
 
 <script lang="ts">
   import { Component, Vue } from 'vue-property-decorator'

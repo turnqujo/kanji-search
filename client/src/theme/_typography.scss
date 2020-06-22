@@ -1,0 +1,43 @@
+h1 {
+  font-size: 2.2em;
+  font-weight: bold;
+}
+
+h2 {
+  font-size: 2em;
+}
+
+h3 {
+  font-size: 1.4em;
+}
+
+h4 {
+  font-size: 1.3em;
+}
+
+strong {
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+em {
+  font-style: italic;
+}
+
+b {
+  font-weight: bold;
+}
+
+code {
+  color: var(--kn-beta);
+  font-weight: 600;
+}
+
+code::selection {
+  background-color: var(--kn-beta);
+  color: var(--kn-background);
+}
+
+pre {
+  text-align: left;
+}

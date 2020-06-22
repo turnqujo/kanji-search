@@ -1,0 +1,107 @@
+.kn-selection-item {
+  align-items: center;
+  color: var(--kn-default);
+  display: flex;
+  flex-direction: row-reverse;
+  font-weight: bold;
+  user-select: none;
+
+  @each $variation in $semanticColors {
+    &.#{$variation} {
+      color: var(--#{$variation});
+    }
+
+    &.#{$variation} &__control:not(:disabled) {
+      border-color: var(--#{$variation});
+    }
+
+    &.#{$variation} &__control[type=checkbox]:not(:disabled):checked::after {
+      color: var(--#{$variation});
+    }
+
+    &.#{$variation} &__control[type=radio]:not(:disabled):checked {
+      background-color: var(--#{$variation});
+    }
+  }
+
+  &__label {
+    @include standardTransition(color, border-color);
+  }
+
+  &__control:not(:disabled),
+  &__control:not(:disabled) + &__label {
+    cursor: pointer;
+  }
+
+  &__control:disabled,
+  &__control:disabled + &__label {
+    pointer-events: none;
+  }
+
+  &__control:disabled + &__label {
+    color: var(--kn-disabled);
+    font-style: italic;
+  }
+
+  &__control:active:not(:disabled) + &__label,
+  &__control:focus:not(:disabled) + &__label {
+    text-decoration: underline;
+  }
+
+  &__control {
+    --control-size: 1em;
+    appearance: none;
+    border-radius: 4px;
+    border: 1px solid var(--kn-default);
+    cursor: pointer;
+    height: var(--control-size);
+    margin: 0 0 0 0.5em;
+    outline: none;
+    width: var(--control-size);
+
+    &:disabled {
+      @include standardTransition(color, border-color);
+      color: var(--kn-disabled);
+      border-color: var(--kn-disabled);
+    }
+  }
+
+  &__control[type=checkbox] {
+    &::after {
+      @include quickTransition(color);
+      color: transparent;
+      content: "";
+    }
+
+    &:checked::after {
+      color: var(--kn-default);
+      content: "X";
+      display: block;
+      font-weight: bold;
+      line-height: var(--control-size);
+      text-align: center;
+    }
+
+    &:disabled:checked::after {
+      color: var(--kn-disabled);
+    }
+  }
+
+  &__control[type=radio] {
+    border-radius: 100%;
+
+    &::after,
+    &:checked::after {
+      content: "";
+    }
+
+    &:checked {
+      @include quickTransition(background-color);
+      background-color: var(--kn-default);
+    }
+
+    &:disabled:checked {
+      background-color: var(--kn-disabled);
+    }
+  }
+}

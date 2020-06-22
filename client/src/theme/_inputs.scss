@@ -1,0 +1,108 @@
+.kn-input, .kn-select {
+  --label-input-gap: 0.5em;
+  --control-height: 2em;
+  display: inline-flex;
+  flex-direction: row-reverse;
+
+  @each $variation in $semanticColors {
+    &.#{$variation} &__label {
+      background-color: var(--#{$variation});
+    }
+
+    &.#{$variation} &__control:not(:disabled) {
+      color: var(--#{$variation});
+    }
+
+    &.#{$variation} &__control:not(:disabled)::selection {
+      color: var(--kn-background);
+      background-color: var(--#{$variation});
+    }
+  }
+
+  &__label {
+    @include quickTransition(background-color, color);
+    background-color: var(--kn-default);
+    cursor: pointer;
+    user-select: none;
+    padding: 0 0.5em;
+    line-height: var(--control-height);
+  }
+
+  &__control:disabled + &__label {
+    background-color: var(--kn-disabled);
+    color: var(--kn-disabled--aux);
+    font-style: italic;
+    pointer-events: none;
+  }
+
+  &__control:not(:disabled) + &__label {
+    color: var(--kn-background);
+  }
+
+  &__control:not(:disabled)::selection {
+    color: var(--kn-background);
+    background-color: var(--kn-default);
+  }
+
+  &__control {
+    @include quickTransition(background-color, color);
+    background-color: transparent;
+    border-bottom: 1px solid currentColor;
+    border-left: none;
+    border-radius: 0;
+    border-right: none;
+    border-top: none;
+    box-sizing: border-box;
+    color: var(--kn-default);
+    height: var(--control-height);
+    padding: 0 var(--label-input-gap);
+  }
+
+  &__control::placeholder {
+    @include quickTransition(color);
+  }
+
+  &__control:disabled {
+    border-color: var(--kn-disabled);
+    color: var(--kn-disabled--aux);
+    pointer-events: none;
+  }
+}
+
+.kn-select {
+  --decorator-size: 0.5em;
+  position: relative;
+
+  @each $variation in $semanticColors {
+    &.#{$variation} &__label:before {
+      border-top-color: var(--#{$variation});
+    }
+  }
+
+  &__label::before {
+    @include quickTransition(border-top-color);
+    border-left: var(--decorator-size) solid transparent;
+    border-right: var(--decorator-size) solid transparent;
+    border-top: var(--decorator-size) solid var(--kn-default);
+    bottom: 0;
+    content: '';
+    height: 0;
+    pointer-events: none;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+  }
+
+  &__control {
+    appearance: none;
+    cursor: pointer;
+    padding: 0 calc(var(--decorator-size) * 2) 0 var(--label-input-gap);
+    font-size: inherit;
+  }
+
+  &__control:disabled + &__label::before {
+    border-top-color: var(--kn-disabled);
+  }
+}

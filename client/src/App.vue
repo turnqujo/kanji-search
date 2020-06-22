@@ -16,18 +16,7 @@
 </template>
 
 <style lang="scss">
-  @import 'theme/reset.css';
-  @import 'theme/mixins/transitions.scss';
-  @import 'theme/mixins/borders.scss';
-  @import 'theme/mixins/containers.scss';
-  @import 'theme/standards.scss';
-  @import 'theme/colors.scss';
-  @import 'theme/sizes.scss';
-  @import 'theme/typography.scss';
-  @import 'theme/buttons.scss';
-  @import 'theme/checkbox.scss';
-  @import 'theme/inputs.scss';
-  @import 'theme/navigation.scss';
+  @import 'theme/index.scss';
 
   #app {
     padding: 24px;

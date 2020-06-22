@@ -1,0 +1,96 @@
+$semanticColors: kn-positive kn-neutral kn-negative;
+
+:root {
+  --kn-white: #F6F6F6;
+  --kn-black: #090909;
+
+  --kn-gray: #bababa;
+  --kn-gray--light: #F6F6F6;
+  --kn-gray--dark: #828282;
+
+  --kn-mint: #4ECDC4;
+  --kn-mint--light: #66FFCC;
+  --kn-mint--dark: #368F89;
+
+  --kn-blue: #66C3F4;
+  --kn-blue--light: #ade3ff;
+  --kn-blue--dark: #4788AA;
+
+  --kn-purple: #D0AEE0;
+  --kn-purple--light: #d8d1ff;
+  --kn-purple--dark: #56296B;
+
+  --kn-orange: #FFA64D;
+  --kn-orange--light: #ffd4a8;
+  --kn-orange--dark: #B27435;
+
+  &, .kn-theme--light {
+    --kn-background: var(--kn-white);
+    --kn-background--aux: var(--kn-gray);
+
+    --kn-foreground: var(--kn-black);
+    --kn-foreground--aux: var(--kn-gray);
+
+    --kn-main: var(--kn-mint--dark);
+    --kn-main--aux: var(--kn-mint);
+
+    --kn-alpha: var(--kn-blue--dark);
+    --kn-alpha--aux: var(--kn-blue);
+
+    --kn-beta: var(--kn-purple--dark);
+    --kn-beta--aux: var(--kn-purple);
+
+    --kn-default: var(--kn-gray--dark);
+    --kn-default--aux: var(--kn-gray);
+
+    --kn-disabled: var(--kn-gray--dark);
+    --kn-disabled--aux: var(--kn-gray--light);
+
+    --kn-positive: var(--kn-blue--dark);
+    --kn-positive--aux: var(--kn-blue);
+
+    --kn-neutral: var(--kn-mint--dark);
+    --kn-neutral--aux: var(--kn-mint);
+
+    --kn-negative: var(--kn-orange--dark);
+    --kn-negative--aux: var(--kn-orange);
+  }
+
+  &[dark], .kn-theme--dark {
+    --kn-background: var(--kn-black);
+    --kn-background--aux: var(--kn-gray--dark);
+
+    --kn-foreground: var(--kn-white);
+    --kn-foreground--aux: var(--kn-gray);
+
+    --kn-main: var(--kn-mint);
+    --kn-main--aux: var(--kn-mint--light);
+
+    --kn-alpha: var(--kn-blue);
+    --kn-alpha--aux: var(--kn-blue--light);
+
+    --kn-beta: var(--kn-purple);
+    --kn-beta--aux: var(--kn-purple--light);
+
+    --kn-default: var(--kn-gray);
+    --kn-default--aux: var(--kn-gray--light);
+
+    --kn-disabled: var(--kn-gray--dark);
+    --kn-disabled--aux: var(--kn-white);
+
+    --kn-positive: var(--kn-blue);
+    --kn-positive--aux: var(--kn-blue--light);
+
+    --kn-neutral: var(--kn-mint);
+    --kn-neutral--aux: var(--kn-mint--light);
+
+    --kn-negative: var(--kn-orange);
+    --kn-negative--aux: var(--kn-orange--light);
+  }
+
+  @include standardTransition(background-color, color);
+  &, &[dark], .kn-theme--light, .kn-theme--dark {
+    background-color: var(--kn-background);
+    color: var(--kn-foreground);
+  }
+}
