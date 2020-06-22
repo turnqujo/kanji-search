@@ -27,7 +27,7 @@
   </ul>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
   .selection-container {
     display: flex;
 

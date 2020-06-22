@@ -1,7 +1,7 @@
 <template>
   <form @submit.prevent="onSubmit" class="kanji-form">
-    <fieldset class="kanji-form__section kanji-form__section--meaning">
-      <legend>Search by Meaning</legend>
+    <fieldset class="kn-fieldset">
+      <legend class="kn-fieldset__legend">Search by Meaning</legend>
       <ul class="kanji-form__control-list">
         <li>
           <label class="kn-input">
@@ -27,8 +27,8 @@
         </li>
       </ul>
     </fieldset>
-    <fieldset class="kanji-form__section kanji-form__section--readings">
-      <legend>Search by Reading</legend>
+    <fieldset class="kn-fieldset">
+      <legend class="kn-fieldset__legend">Search by Reading</legend>
       <ul class="kanji-form__control-list">
         <li>
           <label class="kn-input">
@@ -96,8 +96,8 @@
         </li>
       </ul>
     </fieldset>
-    <fieldset class="kanji-form__section kanji-form__section--sets">
-      <legend>Kanji Set</legend>
+    <fieldset class="kn-fieldset">
+      <legend class="kn-fieldset__legend">Kanji Set</legend>
       <ul class="kanji-form__control-list kanji-form__control-list--spaced">
         <li>
           <label class="kn-selection-item">
@@ -161,8 +161,8 @@
         </li>
       </ul>
     </fieldset>
-    <fieldset class="kanji-form__section kanji-form__section--sorting">
-      <legend>Sorting</legend>
+    <fieldset class="kn-fieldset">
+      <legend class="kn-fieldset__legend">Sorting</legend>
       <ol class="kanji-form__control-list kanji-form__control-list--spaced">
         <li>
           <label class="kn-select">
@@ -257,25 +257,24 @@
         </li>
       </ol>
     </fieldset>
-    <fieldset class="kanji-form__section kanji-form__section--form-options">
-      <legend>Options</legend>
+    <fieldset class="kn-fieldset">
+      <legend class="kn-fieldset__legend">Options</legend>
       <ol class="kanji-form__control-list kanji-form__control-list--spaced">
         <li>
-          <button type="button" data-tid="clear-button" class="kn-btn kn-danger" @click="setDefaultValues">
+          <button type="button" data-tid="clear-button" class="kn-btn kn-negative" @click="setDefaultValues">
             Clear
           </button>
         </li>
         <li>
-          <button type="submit" class="kn-btn kn-primary">Search</button>
+          <button type="submit" class="kn-btn kn-positive">Search</button>
         </li>
       </ol>
     </fieldset>
   </form>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
   .kanji-form {
-    &__section:not(:first-child),
     &__control-list:not(:first-of-type) {
       margin-top: 1em;
     }
@@ -283,11 +282,14 @@
     &__control-list {
       align-items: center;
       display: flex;
-      flex-direction: row;
     }
 
     &__control-list--spaced > li:not(:first-of-type) {
       margin-left: 1.5em;
+    }
+
+    .kn-fieldset:not(:first-of-type) {
+      margin-top: 1em;
     }
   }
 </style>

@@ -1,19 +1,16 @@
 <template>
-  <div class="settings__container">
-    <fieldset class="settings__appearance">
-      <legend>Appearance Settings</legend>
-      <ul>
-        <li><DarkSwitch></DarkSwitch></li>
-        <li><FontSizeSwitch></FontSizeSwitch></li>
-        <li><AnimationSwitch></AnimationSwitch></li>
-      </ul>
-    </fieldset>
-  </div>
+  <fieldset class="kn-fieldset">
+    <legend class="kn-fieldset__legend">Appearance Settings</legend>
+    <ul>
+      <li><DarkSwitch></DarkSwitch></li>
+      <li><FontSizeSwitch></FontSizeSwitch></li>
+      <li><AnimationSwitch></AnimationSwitch></li>
+    </ul>
+  </fieldset>
 </template>
 
-<style lang="scss">
-  .settings__container,
-  .settings__appearance > ul > li:not(:first-of-type) {
+<style lang="scss" scoped>
+  .kn-fieldset > ul > li:not(:first-of-type) {
     margin-top: 1em;
   }
 </style>

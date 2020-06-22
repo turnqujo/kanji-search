@@ -25,7 +25,7 @@
   </div>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
   .kanji-card__container {
     margin: 16px 32px;
   }

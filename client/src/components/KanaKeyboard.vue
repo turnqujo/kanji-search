@@ -5,17 +5,23 @@
     </button>
     <div class="popup" v-if="open">
       <div class="kana-table" v-on-click-outside="onToggleKeyboard">
-        <select v-model="mode">
-          <option value="hiragana">Hiragana</option>
-          <option value="katakana">Katakana</option>
-          <option value="romaji">Romaji</option>
-        </select>
-        <select v-model="modifier">
-          <option value="unmodified">Unmodified</option>
-          <option value="chiisai">Chiisai</option>
-          <option value="dakuten">Dakuten</option>
-          <option value="handakuten">Handakuten</option>
-        </select>
+        <label class="kn-select">
+          <select class="kn-select__control" v-model="mode">
+            <option value="hiragana">Hiragana</option>
+            <option value="katakana">Katakana</option>
+            <option value="romaji">Romaji</option>
+          </select>
+          <span class="kn-select__label">Kana</span>
+        </label>
+        <label class="kn-select">
+          <select class="kn-select__control" v-model="modifier">
+            <option value="unmodified">Unmodified</option>
+            <option value="chiisai">Chiisai</option>
+            <option value="dakuten">Dakuten</option>
+            <option value="handakuten">Handakuten</option>
+          </select>
+          <span class="kn-select__label">Modifier</span>
+        </label>
         <ul class="kana-table-row" v-for="(set, index) in kanaSet" :key="index">
           <li class="kana-table-item" v-for="(item, itemIndex) in set" :key="itemIndex">
             <button
@@ -49,7 +55,9 @@
 
   .kana-table {
     display: inline-block;
-    background-color: var(--kn-foreground);
+    background-color: var(--kn-background);
+    border: 1px solid var(--kn-foreground);
+    padding: 0.5em;
   }
 
   .kana-table-row {
@@ -57,9 +65,11 @@
   }
 
   .kana-table-item {
+    background-color: var(--kn-background);
     border-radius: 2px;
-    border: solid var(--kn-background) 1px;
-    color: var(--kn-background);
+    border: 1px solid var(--kn-foreground--aux);
+    color: var(--kn-foreground);
+    font-size: 1.2em;
     line-height: 1em;
     margin: 2px;
     text-align: center;

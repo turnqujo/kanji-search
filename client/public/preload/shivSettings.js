@@ -23,4 +23,4 @@
   if (animationPreference === 'disabled') {
     rootEle.classList.add('transitions-disabled')
   }
-})(document.querySelector(':root'))
+})(document.querySelector(':root'));

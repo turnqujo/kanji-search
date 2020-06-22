@@ -1,0 +1,35 @@
+.kn-figure {
+  --border-color: var(--kn-background--aux);
+  --border-thickness: 1px;
+  border-radius: 4px;
+  border: var(--border-thickness) solid var(--border-color);
+  display: inline-flex;
+  flex-direction: column;
+  padding: var(--kn-infra-spacing);
+  text-align: center;
+
+  &--reversed {
+    flex-direction: column-reverse;
+  }
+
+  &__caption {
+    --caption-padding: 4px;
+    font-weight: bold;
+    padding: 0 0.5em;
+    text-align: left;
+  }
+
+  &:not(.kn-figure--reversed) > &__caption {
+    border-bottom: var(--border-thickness) solid var(--border-color);
+    padding-bottom: var(--caption-padding);
+  }
+
+  &--reversed > &__caption {
+    border-top: var(--border-thickness) solid var(--border-color);
+    padding-top: var(--caption-padding);
+  }
+
+  &__content {
+    padding: var(--kn-infra-spacing);
+  }
+}
