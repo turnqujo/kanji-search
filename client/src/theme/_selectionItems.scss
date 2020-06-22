@@ -15,11 +15,7 @@
       border-color: var(--#{$variation});
     }
 
-    &.#{$variation} &__control[type=checkbox]:not(:disabled):checked::after {
-      color: var(--#{$variation});
-    }
-
-    &.#{$variation} &__control[type=radio]:not(:disabled):checked {
+    &.#{$variation} &__control:not(:disabled):checked {
       background-color: var(--#{$variation});
     }
   }
@@ -49,55 +45,30 @@
   }
 
   &__control {
-    --control-size: 1em;
+    --control-height: 16px;
+    --control-width: 16px;
     --border-width: 1px;
+    @include quickTransition(background-color);
     appearance: none;
     border-radius: 2px;
     border: var(--border-width) solid var(--kn-default);
     cursor: pointer;
-    height: var(--control-size);
+    height: var(--control-height);
     margin: 0 0 0 0.5em;
     outline: none;
-    width: var(--control-size);
+    width: var(--control-width);
+
+    &[type=radio] {
+      border-radius: 100%;
+    }
 
     &:disabled {
       @include standardTransition(color, border-color);
       color: var(--kn-disabled);
       border-color: var(--kn-disabled);
     }
-  }
-
-  &__control[type=checkbox] {
-    &::after {
-      @include quickTransition(color);
-      color: transparent;
-      content: "";
-    }
-
-    &:checked::after {
-      color: var(--kn-default);
-      content: "x";
-      display: flex;
-      justify-content: center;
-      line-height: calc(var(--control-size) - (2 * var(--border-width)));
-      font-weight: bold;
-    }
-
-    &:disabled:checked::after {
-      color: var(--kn-disabled);
-    }
-  }
-
-  &__control[type=radio] {
-    border-radius: 100%;
-
-    &::after,
-    &:checked::after {
-      content: "";
-    }
 
     &:checked {
-      @include quickTransition(background-color);
       background-color: var(--kn-default);
     }
 
