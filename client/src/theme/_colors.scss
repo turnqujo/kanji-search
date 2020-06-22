@@ -22,7 +22,11 @@ $semanticColors: kn-positive kn-neutral kn-negative;
 
   --kn-orange: #FFA64D;
   --kn-orange--light: #ffd4a8;
-  --kn-orange--dark: #B27435;
+  --kn-orange--dark: #E59545;
+
+  @include standardTransition(background-color, color);
+  background-color: var(--kn-background);
+  color: var(--kn-foreground);
 
   &, .kn-theme--light {
     --kn-background: var(--kn-white);
@@ -40,8 +44,8 @@ $semanticColors: kn-positive kn-neutral kn-negative;
     --kn-beta: var(--kn-purple--dark);
     --kn-beta--aux: var(--kn-purple);
 
-    --kn-default: var(--kn-gray--dark);
-    --kn-default--aux: var(--kn-gray);
+    --kn-default: var(--kn-black);
+    --kn-default--aux: var(--kn-gray--dark);
 
     --kn-disabled: var(--kn-gray--dark);
     --kn-disabled--aux: var(--kn-gray--light);
@@ -72,7 +76,7 @@ $semanticColors: kn-positive kn-neutral kn-negative;
     --kn-beta: var(--kn-purple);
     --kn-beta--aux: var(--kn-purple--light);
 
-    --kn-default: var(--kn-gray);
+    --kn-default: var(--kn-white);
     --kn-default--aux: var(--kn-gray--light);
 
     --kn-disabled: var(--kn-gray--dark);
@@ -86,11 +90,5 @@ $semanticColors: kn-positive kn-neutral kn-negative;
 
     --kn-negative: var(--kn-orange);
     --kn-negative--aux: var(--kn-orange--light);
-  }
-
-  @include standardTransition(background-color, color);
-  &, &[dark], .kn-theme--light, .kn-theme--dark {
-    background-color: var(--kn-background);
-    color: var(--kn-foreground);
   }
 }

@@ -9,7 +9,7 @@
         <li>
           <button
             type="button"
-            :class="['kn-btn', { 'kn-warning': !disableAll }, { 'kn-primary': disableAll }]"
+            :class="['kn-btn', { 'kn-negative': !disableAll }, { 'kn-positive': disableAll }]"
             @click="disableAll = !disableAll"
           >
             {{ disableAll ? 'Enable' : 'Disable' }} Examples
@@ -246,8 +246,8 @@
   }
 
   .kop__options > ul {
-    justify-content: end;
     align-items: center;
+    justify-content: flex-end;
 
     & > li:not(:first-of-type) {
       margin-left: 1em;

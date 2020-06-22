@@ -29,13 +29,17 @@ b {
 }
 
 code {
-  color: var(--kn-beta);
-  font-weight: 600;
+  background-color: var(--kn-main);
+  border-radius: 2px;
+  color: var(--kn-background);
+  display: inline-block;
+  line-height: 1.2em;
+  padding: 0.25em 0.5em;
 }
 
 code::selection {
-  background-color: var(--kn-beta);
-  color: var(--kn-background);
+  background-color: var(--kn-background);
+  color: var(--kn-main);
 }
 
 pre {

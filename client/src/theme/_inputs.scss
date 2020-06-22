@@ -3,6 +3,7 @@
   --control-height: 2em;
   display: inline-flex;
   flex-direction: row-reverse;
+  margin-right: 0.5em;
 
   @each $variation in $semanticColors {
     &.#{$variation} &__label {

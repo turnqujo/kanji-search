@@ -261,12 +261,12 @@
       <legend class="kn-fieldset__legend">Options</legend>
       <ol class="kanji-form__control-list kanji-form__control-list--spaced">
         <li>
-          <button type="button" data-tid="clear-button" class="kn-btn kn-danger" @click="setDefaultValues">
+          <button type="button" data-tid="clear-button" class="kn-btn kn-negative" @click="setDefaultValues">
             Clear
           </button>
         </li>
         <li>
-          <button type="submit" class="kn-btn kn-primary">Search</button>
+          <button type="submit" class="kn-btn kn-positive">Search</button>
         </li>
       </ol>
     </fieldset>
@@ -282,11 +282,14 @@
     &__control-list {
       align-items: center;
       display: flex;
-      justify-content: flex-start;
     }
 
     &__control-list--spaced > li:not(:first-of-type) {
       margin-left: 1.5em;
+    }
+
+    .kn-fieldset:not(:first-of-type) {
+      margin-top: 1em;
     }
   }
 </style>
