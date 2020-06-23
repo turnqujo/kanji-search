@@ -1,0 +1,33 @@
+.kn-icon {
+  --default-font-size: 2em;
+  fill: var(--kn-foreground);
+  font-size: var(--default-font-size);
+  height: 1em;
+  width: 1em;
+
+  @each $variation in $semanticColors {
+    &.#{$variation} {
+      fill: var(--#{$variation});
+    }
+  }
+
+  &.kn-xsmall {
+    font-size: 1em;
+  }
+
+  &.kn-small {
+    font-size: 1.5em;
+  }
+
+  &.kn-medium {
+    font-size: var(--default-font-size);
+  }
+
+  &.kn-large {
+    font-size: 3em;
+  }
+
+  &.kn-xlarge {
+    font-size: 4em;
+  }
+}

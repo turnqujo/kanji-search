@@ -108,7 +108,7 @@
               value="jouyou"
               class="kn-selection-item__control"
             />
-            <span class="kn-selection-item__label">Jōyō</span>
+            <span class="kn-selection-item__label">General Use</span>
           </label>
         </li>
         <li>
@@ -120,7 +120,7 @@
               value="jinmeiyou"
               class="kn-selection-item__control"
             />
-            <span class="kn-selection-item__label">Jinmeiyō</span>
+            <span class="kn-selection-item__label">Name Kanji</span>
           </label>
         </li>
         <li>
@@ -132,7 +132,7 @@
               value="kyouiku"
               class="kn-selection-item__control"
             />
-            <span class="kn-selection-item__label">Kyōiku</span>
+            <span class="kn-selection-item__label">Gradeschool Kanji</span>
           </label>
         </li>
         <li>
@@ -156,7 +156,7 @@
               value="hyougai"
               class="kn-selection-item__control"
             />
-            <span class="kn-selection-item__label">Hyōgai</span>
+            <span class="kn-selection-item__label">Unlisted Kanji</span>
           </label>
         </li>
       </ul>
@@ -177,9 +177,9 @@
           </label>
         </li>
         <li>
-          <ol>
+          <ol class="kanji-form__sort-dir-container">
             <li>
-              <label class="kn-selection-item kn-radio">
+              <label class="kn-selection-item">
                 <input
                   type="radio"
                   name="primary-sort-dir"
@@ -191,7 +191,7 @@
               </label>
             </li>
             <li>
-              <label class="kn-selection-item kn-radio">
+              <label class="kn-selection-item">
                 <input
                   type="radio"
                   name="primary-sort-dir"
@@ -222,9 +222,9 @@
           </label>
         </li>
         <li>
-          <ol>
+          <ol class="kanji-form__sort-dir-container">
             <li>
-              <label class="kn-selection-item kn-radio">
+              <label class="kn-selection-item">
                 <input
                   type="radio"
                   name="secondary-sort-dir"
@@ -239,7 +239,7 @@
               </label>
             </li>
             <li>
-              <label class="kn-selection-item kn-radio">
+              <label class="kn-selection-item">
                 <input
                   type="radio"
                   name="secondary-sort-dir"
@@ -275,6 +275,10 @@
 
 <style lang="scss" scoped>
   .kanji-form {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
     &__control-list:not(:first-of-type) {
       margin-top: 1em;
     }
@@ -290,6 +294,14 @@
 
     .kn-fieldset:not(:first-of-type) {
       margin-top: 1em;
+    }
+
+    &__sort-dir-container {
+      display: flex;
+
+      & > li:not(:first-of-type) {
+        margin-left: 0.5em;
+      }
     }
   }
 </style>
@@ -325,7 +337,7 @@
     conversionTable!: ConversionItem[]
 
     hasMeaningError = false
-    kanjiSet: KanjiSet = ['jouyou', 'jinmeiyou', 'hyougai', 'kyouiku', 'jlpt']
+    kanjiSet: KanjiSet = ['jouyou', 'jinmeiyou', 'kyouiku', 'jlpt']
     meaning = ''
     meaningMatchOption: MatchOption = 'start'
     primarySortDirection: OrderBy = 'asc'
@@ -354,7 +366,7 @@
       }
 
       this.hasMeaningError = false
-      this.kanjiSet = ['jouyou', 'jinmeiyou', 'hyougai', 'kyouiku', 'jlpt']
+      this.kanjiSet = ['jouyou', 'jinmeiyou', 'kyouiku', 'jlpt']
       this.meaning = ''
       this.meaningMatchOption = 'start'
       this.primarySortDirection = 'asc'
