@@ -1,8 +1,8 @@
-$semanticColors: kn-positive kn-neutral kn-negative;
+$semanticColors: kn-positive kn-negative;
 
 :root {
   --kn-white: #F6F6F6;
-  --kn-black: #090909;
+  --kn-black: #1f1f1f;
 
   --kn-gray: #bababa;
   --kn-gray--light: #F6F6F6;
@@ -15,10 +15,6 @@ $semanticColors: kn-positive kn-neutral kn-negative;
   --kn-blue: #66C3F4;
   --kn-blue--light: #ade3ff;
   --kn-blue--dark: #4788AA;
-
-  --kn-purple: #D0AEE0;
-  --kn-purple--light: #d8d1ff;
-  --kn-purple--dark: #56296B;
 
   --kn-orange: #FFA64D;
   --kn-orange--light: #ffd4a8;
@@ -41,20 +37,14 @@ $semanticColors: kn-positive kn-neutral kn-negative;
     --kn-alpha: var(--kn-blue--dark);
     --kn-alpha--aux: var(--kn-blue);
 
-    --kn-beta: var(--kn-purple--dark);
-    --kn-beta--aux: var(--kn-purple);
+    --kn-default: var(--kn-gray--dark);
+    --kn-default--aux: var(--kn-gray);
 
-    --kn-default: var(--kn-black);
-    --kn-default--aux: var(--kn-gray--dark);
-
-    --kn-disabled: var(--kn-gray--dark);
+    --kn-disabled: var(--kn-gray);
     --kn-disabled--aux: var(--kn-gray--light);
 
     --kn-positive: var(--kn-blue--dark);
     --kn-positive--aux: var(--kn-blue);
-
-    --kn-neutral: var(--kn-mint--dark);
-    --kn-neutral--aux: var(--kn-mint);
 
     --kn-negative: var(--kn-orange--dark);
     --kn-negative--aux: var(--kn-orange);
@@ -73,10 +63,7 @@ $semanticColors: kn-positive kn-neutral kn-negative;
     --kn-alpha: var(--kn-blue);
     --kn-alpha--aux: var(--kn-blue--light);
 
-    --kn-beta: var(--kn-purple);
-    --kn-beta--aux: var(--kn-purple--light);
-
-    --kn-default: var(--kn-gray);
+    --kn-default: var(--kn-gray--light);
     --kn-default--aux: var(--kn-white);
 
     --kn-disabled: var(--kn-gray--dark);
@@ -84,9 +71,6 @@ $semanticColors: kn-positive kn-neutral kn-negative;
 
     --kn-positive: var(--kn-blue);
     --kn-positive--aux: var(--kn-blue--light);
-
-    --kn-neutral: var(--kn-mint);
-    --kn-neutral--aux: var(--kn-mint--light);
 
     --kn-negative: var(--kn-orange);
     --kn-negative--aux: var(--kn-orange--light);

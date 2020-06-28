@@ -3,18 +3,17 @@
     <div class="kanji-form-container">
       <kanji-form :conversionTable="conversionTable" @submit="onFormSubmit" @form-reset="onFormReset"></kanji-form>
     </div>
-    <div class="kanji-table-container">
-      <div class="" v-if="kanjiSet.length <= 0 && !firstSearch">
-        <h2>No kanji found</h2>
-      </div>
-      <KanjiTable :kanjiSet="kanjiSet" v-if="kanjiSet.length > 0"></KanjiTable>
+    <div class="kanji-results-container">
+      <kanji-results :kanji-set="kanjiSet"></kanji-results>
     </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
-  .kanji-table-container {
+  .kanji-results-container {
+    border-top: 1px solid var(--kn-foreground--aux);
     margin-top: 1em;
+    padding-top: 1em;
   }
 </style>
 
@@ -24,26 +23,23 @@
   import { Kanji } from '../models/kanji'
   import fetchConversionTable, { ConversionItem } from '../data/conversion-table'
   import KanjiForm, { KanjiFormSubmit } from '../components/KanjiForm.vue'
-  import KanjiTable from '../components/kanjiTable.vue'
+  import KanjiResults from '../components/kanjiResults/kanjiResults.vue'
 
   @Component({
     components: {
-      KanjiTable,
+      KanjiResults,
       KanjiForm
     }
   })
   export default class HomeComponent extends Vue {
     kanjiSet: Kanji[] = []
     conversionTable: ConversionItem[] = []
-    firstSearch = true
 
     async mounted() {
       this.conversionTable = await fetchConversionTable()
     }
 
     async onFormSubmit(values: KanjiFormSubmit) {
-      this.firstSearch = false
-
       const unfilteredKanji = await getKanji(values.kanjiSet)
 
       let readingMeaningFiltered = []
@@ -79,7 +75,6 @@
 
     onFormReset() {
       this.kanjiSet = []
-      this.firstSearch = true
     }
   }
 </script>
