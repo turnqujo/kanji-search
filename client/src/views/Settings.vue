@@ -2,7 +2,6 @@
   <fieldset class="kn-fieldset">
     <legend class="kn-fieldset__legend">Appearance Settings</legend>
     <ul>
-      <li><DarkSwitch></DarkSwitch></li>
       <li><FontSizeSwitch></FontSizeSwitch></li>
       <li><AnimationSwitch></AnimationSwitch></li>
     </ul>
@@ -17,13 +16,11 @@
 
 <script lang="ts">
   import { Component, Vue } from 'vue-property-decorator'
-  import DarkSwitch from '@/components/rootMods/DarkSwitch.vue'
   import FontSizeSwitch from '@/components/rootMods/FontSizeSwitch.vue'
   import AnimationSwitch from '@/components/rootMods/AnimationSwitch.vue'
 
   @Component({
     components: {
-      DarkSwitch,
       FontSizeSwitch,
       AnimationSwitch
     }

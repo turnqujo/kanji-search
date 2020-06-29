@@ -33,7 +33,7 @@
       </button>
     </li>
     <li>
-      <span>{{ statusMessage }}</span>
+      <span class="kn-kanji-paginator__state">{{ statusMessage }}</span>
     </li>
     <li>
       <button type="button" class="kn-btn kn-ghost" @click="onNextPageClicked" data-tid="next" :disabled="atEndOfList">

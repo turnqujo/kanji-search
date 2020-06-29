@@ -4,9 +4,6 @@
       <legend class="kn-fieldset__legend">Options</legend>
       <ul class="kn-fieldset__content">
         <li>
-          <DarkSwitch></DarkSwitch>
-        </li>
-        <li>
           <button
             type="button"
             :class="['kn-btn', { 'kn-negative': !disableAll }, { 'kn-positive': disableAll }]"
@@ -232,13 +229,8 @@
 
 <script lang="ts">
   import { Component, Vue } from 'vue-property-decorator'
-  import DarkSwitch from '../components/rootMods/DarkSwitch.vue'
 
-  @Component({
-    components: {
-      DarkSwitch
-    }
-  })
+  @Component({})
   export default class KitOfParts extends Vue {
     disableAll = false
   }

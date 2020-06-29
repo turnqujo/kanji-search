@@ -46,11 +46,11 @@ module.exports = {
         results: {
           selector: '.kn-results',
           elements: {
-            foundCount: 'span[data-tid=result-count]',
+            // stateMessage: '.kn-kanji-paginator__state',
             // previousButton: '',
             // nextButton: '',
             // perPageSelection: ''
-            kanjiCards: '.kanji-card'
+            kanjiRows: '.kn-kanji-table__body > .kn-kanji-table__row'
           }
         }
       }

@@ -17,7 +17,7 @@
       </tr>
     </thead>
     <tbody class="kn-kanji-table__body">
-      <tr class="kn-kanji-table__row" v-for="kanji in adjustedKanji" :key="kanji.char">
+      <tr class="kn-kanji-table__row" v-for="kanji in adjustedKanji" :key="kanji.char" :data-tid="kanji.char">
         <td class="kn-kanji-table__cell kn-kanji-table__cell--char" v-once>{{ kanji.char }}</td>
         <td class="kn-kanji-table__cell kn-kanji-table__cell--frequency" v-if="filters.includes('frequency')">
           {{ kanji.frequency }}
@@ -159,18 +159,14 @@
 
   @Component({})
   export default class KanjiTable extends Vue {
-    @Prop({ default: [] }) kanjiSet!: Kanji[]
-    @Prop() filters!: KanjiFilterOptions[]
+    @Prop({ default: () => [] }) kanjiSet!: Kanji[]
+    @Prop({ default: () => [] }) filters!: KanjiFilterOptions[]
 
     get numVisibleRows() {
       return this.filters.length
     }
 
     get adjustedKanji() {
-      if (this.kanjiSet === null) {
-        return []
-      }
-
       return this.kanjiSet.map((x: Kanji) => ({
         ...x,
         stroke: this.adjustStrokeDisplay(x.stroke),
