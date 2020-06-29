@@ -11,7 +11,7 @@
           <label class="kn-selection-item">
             <input
               type="checkbox"
-              v-model="columnOptions"
+              v-model="filterOptions"
               name="checkboxes"
               value="frequency"
               class="kn-selection-item__control"
@@ -23,7 +23,7 @@
           <label class="kn-selection-item">
             <input
               type="checkbox"
-              v-model="columnOptions"
+              v-model="filterOptions"
               name="checkboxes"
               value="grade"
               class="kn-selection-item__control"
@@ -35,7 +35,7 @@
           <label class="kn-selection-item">
             <input
               type="checkbox"
-              v-model="columnOptions"
+              v-model="filterOptions"
               name="checkboxes"
               value="jlpt"
               class="kn-selection-item__control"
@@ -47,7 +47,7 @@
           <label class="kn-selection-item">
             <input
               type="checkbox"
-              v-model="columnOptions"
+              v-model="filterOptions"
               name="checkboxes"
               value="stroke"
               class="kn-selection-item__control"
@@ -59,7 +59,7 @@
           <label class="kn-selection-item">
             <input
               type="checkbox"
-              v-model="columnOptions"
+              v-model="filterOptions"
               name="checkboxes"
               value="on"
               class="kn-selection-item__control"
@@ -71,7 +71,7 @@
           <label class="kn-selection-item">
             <input
               type="checkbox"
-              v-model="columnOptions"
+              v-model="filterOptions"
               name="checkboxes"
               value="kun"
               class="kn-selection-item__control"
@@ -83,7 +83,7 @@
           <label class="kn-selection-item">
             <input
               type="checkbox"
-              v-model="columnOptions"
+              v-model="filterOptions"
               name="checkboxes"
               value="nanori"
               class="kn-selection-item__control"
@@ -95,7 +95,7 @@
           <label class="kn-selection-item">
             <input
               type="checkbox"
-              v-model="columnOptions"
+              v-model="filterOptions"
               name="checkboxes"
               value="meanings"
               class="kn-selection-item__control"
@@ -131,18 +131,7 @@
   import { Component, Vue, Prop } from 'vue-property-decorator'
   import onClickOutside from '../../directives/OnClickOutside.vue'
 
-  type KanjiFilterOptions = 'frequency' | 'grade' | 'jlpt' | 'stroke' | 'on' | 'kun' | 'nanori' | 'meanings'
-
-  export interface KanjiFilterState {
-    showFrequency: boolean
-    showGrade: boolean
-    showJlpt: boolean
-    showStrokes: boolean
-    showOn: boolean
-    showKun: boolean
-    showNanori: boolean
-    showMeanings: boolean
-  }
+  export type KanjiFilterOptions = 'frequency' | 'grade' | 'jlpt' | 'stroke' | 'on' | 'kun' | 'nanori' | 'meanings'
 
   @Component({
     directives: {
@@ -150,34 +139,22 @@
     }
   })
   export default class KanjiFilters extends Vue {
-    @Prop() state!: KanjiFilterState
+    @Prop({ default: () => ['frequency', 'grade', 'jlpt', 'stroke', 'on', 'kun', 'meanings'] })
+    state!: KanjiFilterOptions[]
 
     open = false
 
-    private currentOptions: KanjiFilterOptions[] = ['frequency', 'grade', 'jlpt', 'stroke', 'on', 'kun', 'meanings']
-    get columnOptions() {
-      return this.currentOptions
+    private currentOptions: KanjiFilterOptions[] = this.state
+    get filterOptions() {
+      return this.currentOptions.slice()
     }
-    set columnOptions(newOptions: KanjiFilterOptions[]) {
+    set filterOptions(newOptions: KanjiFilterOptions[]) {
       this.currentOptions = newOptions
-      this.$emit('onOptionsChanged', this.formatEmission(this.currentOptions))
+      this.$emit('onOptionsChanged', newOptions)
     }
 
     onTogglePopup() {
       this.open = !this.open
-    }
-
-    formatEmission(options: KanjiFilterOptions[]): KanjiFilterState {
-      return {
-        showFrequency: options.includes('frequency'),
-        showGrade: options.includes('grade'),
-        showJlpt: options.includes('jlpt'),
-        showStrokes: options.includes('stroke'),
-        showOn: options.includes('on'),
-        showKun: options.includes('kun'),
-        showNanori: options.includes('nanori'),
-        showMeanings: options.includes('meanings')
-      }
     }
   }
 </script>

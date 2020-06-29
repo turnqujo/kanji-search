@@ -29,7 +29,7 @@
 <script lang="ts">
   import { Component, Vue, Prop } from 'vue-property-decorator'
   import { Kanji } from '../../models'
-  import KanjiFilters, { KanjiFilterState } from './kanjiFilters.vue'
+  import KanjiFilters, { KanjiFilterOptions } from './kanjiFilters.vue'
   import KanjiPaginator, { KanjiPaginatorState } from './paginator.vue'
   import KanjiTable from './kanjiTable.vue'
 
@@ -67,31 +67,23 @@
     }
 
     onPaginatorChanged(pageIndex: number, perPageLimit: number) {
-      this.paginatorState = this.paginatorState.perPageLimit !== perPageLimit
-        ? { ...this.paginatorState, pageIndex: 0, perPageLimit: Number(perPageLimit) }
-        : { ...this.paginatorState, pageIndex: Number(pageIndex), perPageLimit: Number(perPageLimit) }
+      this.paginatorState =
+        this.paginatorState.perPageLimit !== perPageLimit
+          ? { ...this.paginatorState, pageIndex: 0, perPageLimit: Number(perPageLimit) }
+          : { ...this.paginatorState, pageIndex: Number(pageIndex), perPageLimit: Number(perPageLimit) }
     }
 
-    private currentFilterState: KanjiFilterState = {
-      showFrequency: true,
-      showGrade: true,
-      showJlpt: true,
-      showStrokes: true,
-      showOn: true,
-      showKun: true,
-      showNanori: false,
-      showMeanings: true
-    }
+    private currentFilterState: KanjiFilterOptions[] = ['frequency', 'grade', 'jlpt', 'stroke', 'on', 'kun', 'meanings']
 
-    get filterState(): KanjiFilterState {
+    get filterState(): KanjiFilterOptions[] {
       return this.currentFilterState
     }
 
-    set filterState(newState: KanjiFilterState) {
+    set filterState(newState: KanjiFilterOptions[]) {
       this.currentFilterState = newState
     }
 
-    onFiltersChanged(newState: KanjiFilterState) {
+    onFiltersChanged(newState: KanjiFilterOptions[]) {
       this.filterState = newState
     }
   }

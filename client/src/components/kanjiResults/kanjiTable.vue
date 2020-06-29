@@ -6,31 +6,41 @@
     <thead class="kn-kanji-table__header">
       <tr class="kn-kanji-table__row">
         <th class="kn-kanji-table__cell kn-kanji-table__cell--char" scope="col">Character</th>
-        <th class="kn-kanji-table__cell" scope="col" v-if="filters.showFrequency">Frequency</th>
-        <th class="kn-kanji-table__cell" scope="col" v-if="filters.showGrade">Grade</th>
-        <th class="kn-kanji-table__cell" scope="col" v-if="filters.showJlpt">JLPT</th>
-        <th class="kn-kanji-table__cell" scope="col" v-if="filters.showStrokes">Strokes</th>
-        <th class="kn-kanji-table__cell" scope="col" v-if="filters.showOn">On</th>
-        <th class="kn-kanji-table__cell" scope="col" v-if="filters.showKun">Kun</th>
-        <th class="kn-kanji-table__cell" scope="col" v-if="filters.showNanori">Nanori</th>
-        <th class="kn-kanji-table__cell" scope="col" v-if="filters.showMeanings">Meanings</th>
+        <th class="kn-kanji-table__cell" scope="col" v-if="filters.includes('frequency')">Frequency</th>
+        <th class="kn-kanji-table__cell" scope="col" v-if="filters.includes('grade')">Grade</th>
+        <th class="kn-kanji-table__cell" scope="col" v-if="filters.includes('jlpt')">JLPT</th>
+        <th class="kn-kanji-table__cell" scope="col" v-if="filters.includes('stroke')">Strokes</th>
+        <th class="kn-kanji-table__cell" scope="col" v-if="filters.includes('on')">On</th>
+        <th class="kn-kanji-table__cell" scope="col" v-if="filters.includes('kun')">Kun</th>
+        <th class="kn-kanji-table__cell" scope="col" v-if="filters.includes('nanori')">Nanori</th>
+        <th class="kn-kanji-table__cell" scope="col" v-if="filters.includes('meanings')">Meanings</th>
       </tr>
     </thead>
     <tbody class="kn-kanji-table__body">
       <tr class="kn-kanji-table__row" v-for="kanji in adjustedKanji" :key="kanji.char">
         <td class="kn-kanji-table__cell kn-kanji-table__cell--char" v-once>{{ kanji.char }}</td>
-        <td class="kn-kanji-table__cell kn-kanji-table__cell--frequency" v-if="filters.showFrequency">
+        <td class="kn-kanji-table__cell kn-kanji-table__cell--frequency" v-if="filters.includes('frequency')">
           {{ kanji.frequency }}
         </td>
-        <td class="kn-kanji-table__cell kn-kanji-table__cell--grade" v-if="filters.showGrade">{{ kanji.grade }}</td>
-        <td class="kn-kanji-table__cell kn-kanji-table__cell--jlpt" v-if="filters.showJlpt">{{ kanji.jlpt }}</td>
-        <td class="kn-kanji-table__cell kn-kanji-table__cell--stroke" v-if="filters.showStrokes">{{ kanji.stroke }}</td>
-        <td class="kn-kanji-table__cell kn-kanji-table__cell--on" v-if="filters.showOn">{{ kanji.readings.on }}</td>
-        <td class="kn-kanji-table__cell kn-kanji-table__cell--kun" v-if="filters.showKun">{{ kanji.readings.kun }}</td>
-        <td class="kn-kanji-table__cell kn-kanji-table__cell--nanori" v-if="filters.showNanori">
+        <td class="kn-kanji-table__cell kn-kanji-table__cell--grade" v-if="filters.includes('grade')">
+          {{ kanji.grade }}
+        </td>
+        <td class="kn-kanji-table__cell kn-kanji-table__cell--jlpt" v-if="filters.includes('jlpt')">
+          {{ kanji.jlpt }}
+        </td>
+        <td class="kn-kanji-table__cell kn-kanji-table__cell--stroke" v-if="filters.includes('stroke')">
+          {{ kanji.stroke }}
+        </td>
+        <td class="kn-kanji-table__cell kn-kanji-table__cell--on" v-if="filters.includes('on')">
+          {{ kanji.readings.on }}
+        </td>
+        <td class="kn-kanji-table__cell kn-kanji-table__cell--kun" v-if="filters.includes('kun')">
+          {{ kanji.readings.kun }}
+        </td>
+        <td class="kn-kanji-table__cell kn-kanji-table__cell--nanori" v-if="filters.includes('nanori')">
           {{ kanji.readings.nanori }}
         </td>
-        <td class="kn-kanji-table__cell kn-kanji-table__cell--meanings" v-if="filters.showMeanings">
+        <td class="kn-kanji-table__cell kn-kanji-table__cell--meanings" v-if="filters.includes('meanings')">
           {{ kanji.meanings[0] }}
         </td>
       </tr>
@@ -145,15 +155,15 @@
 <script lang="ts">
   import { Component, Vue, Prop } from 'vue-property-decorator'
   import { Kanji } from '../../models'
-  import { KanjiFilterState } from './kanjiFilters.vue'
+  import { KanjiFilterOptions } from './kanjiFilters.vue'
 
   @Component({})
   export default class KanjiTable extends Vue {
     @Prop({ default: [] }) kanjiSet!: Kanji[]
-    @Prop() filters!: KanjiFilterState
+    @Prop() filters!: KanjiFilterOptions[]
 
     get numVisibleRows() {
-      return Object.values(this.filters).reduce((acc, curr) => (curr ? acc + 1 : acc), 0) + 1
+      return this.filters.length
     }
 
     get adjustedKanji() {
