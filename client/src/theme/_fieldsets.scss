@@ -1,29 +1,10 @@
 .kn-fieldset {
-  @include standardTransition(border-color);
-  --border-width: 1px;
-  --border-length: 1em;
-  --inner-padding: 1em;
-  --legend-padding: 0.5em;
-  border: var(--border-width) solid var(--kn-alpha);
-  border-radius: 2px;
-  padding: 0.5em var(--inner-padding) 0.5em var(--inner-padding);
-  position: relative;
-
-  & > .kn-fieldset__legend {
+  &__legend {
     font-weight: bold;
-    padding-left: var(--legend-padding);
-    width: calc(100% - var(--border-length) - var(--legend-padding) + var(--inner-padding));
   }
 
-  &::after {
-    // This pseudo-element is intended to cover the bottom border so that it matches the top.
-    @include standardTransition(background-color);
-    background-color: var(--kn-background);
-    bottom: calc(var(--border-width) * -1);
-    content: '';
-    height: var(--border-width);
-    left: var(--border-length);
-    position: absolute;
-    right: var(--border-length);
+  &__content {
+    margin-top: 0.5em;
+    padding-left: 1em;
   }
 }

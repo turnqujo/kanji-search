@@ -3,25 +3,31 @@
     <div class="kanji-form-container">
       <kanji-form :conversionTable="conversionTable" @submit="onFormSubmit" @form-reset="onFormReset"></kanji-form>
     </div>
-    <div class="pick-list-container">
-      <pick-list :kanji-set="kanjiSet"></pick-list>
+    <div class="kanji-results-container">
+      <kanji-results :kanji-set="kanjiSet"></kanji-results>
     </div>
   </div>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+  .kanji-results-container {
+    border-top: 1px solid var(--kn-foreground--aux);
+    margin-top: 1em;
+    padding-top: 1em;
+  }
+</style>
 
 <script lang="ts">
   import { Component, Vue } from 'vue-property-decorator'
-  import { Kanji } from '../models/kanji'
-  import PickList from '../components/PickList.vue'
-  import KanjiForm, { KanjiFormSubmit } from '../components/KanjiForm.vue'
   import { getKanji, filterKanjiByMeaning, sortKanji, getKanjiByConversion } from '../workers'
+  import { Kanji } from '../models/kanji'
   import fetchConversionTable, { ConversionItem } from '../data/conversion-table'
+  import KanjiForm, { KanjiFormSubmit } from '../components/KanjiForm.vue'
+  import KanjiResults from '../components/kanjiResults/kanjiResults.vue'
 
   @Component({
     components: {
-      PickList,
+      KanjiResults,
       KanjiForm
     }
   })
