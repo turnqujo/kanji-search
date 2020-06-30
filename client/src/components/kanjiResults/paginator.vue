@@ -73,25 +73,25 @@
     @Prop() state!: KanjiPaginatorState
 
     get perPage() {
-      return this.state.perPageLimit
+      return Number(this.state.perPageLimit)
     }
     set perPage(newPerPage: number) {
-      if (this.state.perPageLimit === newPerPage) {
+      if (Number(this.state.perPageLimit) === Number(newPerPage)) {
         return
       }
 
-      this.$emit('onChange', this.pageIndex, newPerPage)
+      this.$emit('onChange', Number(this.pageIndex), Number(newPerPage))
     }
 
     get pageIndex() {
-      return this.state.pageIndex
+      return Number(this.state.pageIndex)
     }
     set pageIndex(newIndex: number) {
-      if (this.state.pageIndex === newIndex) {
+      if (Number(this.state.pageIndex) === Number(newIndex)) {
         return
       }
 
-      this.$emit('onChange', newIndex, this.perPage)
+      this.$emit('onChange', Number(newIndex), Number(this.perPage))
     }
 
     get atStartOfList() {
@@ -110,12 +110,15 @@
     }
 
     onFirstPageClicked() {
+      if (this.atStartOfList) {
+        return
+      }
+
       this.pageIndex = 0
     }
 
     onPreviousPageClicked() {
       if (this.atStartOfList) {
-        this.pageIndex = 0
         return
       }
 
@@ -131,6 +134,10 @@
     }
 
     onLastPageCLicked() {
+      if (this.atEndOfList) {
+        return
+      }
+
       const hasPartialPage = this.state.listLength % this.perPage !== 0
       const totalPages = Math.floor(this.state.listLength / this.perPage)
       this.pageIndex = (hasPartialPage ? totalPages : totalPages - 1) * this.perPage

@@ -146,5 +146,6 @@ describe('The Kanji Table component.', () => {
 
     expect(wrapper.find('tr[data-tid="KANJI A"]').exists()).toBeTruthy()
     expect(wrapper.find('tr[data-tid="KANJI B"]').exists()).toBeTruthy()
+    expect(wrapper.findAll('.kn-kanji-table__body > .kn-kanji-table__row').length).toBe(2)
   })
 })
