@@ -152,7 +152,7 @@
     @Prop({ default: () => [] }) filters!: KanjiFilterOptions[]
 
     get numVisibleRows() {
-      return this.filters.length
+      return this.filters.length + 1
     }
 
     get adjustedKanji() {

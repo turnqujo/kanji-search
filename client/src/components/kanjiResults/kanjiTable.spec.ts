@@ -12,15 +12,15 @@ describe('The Kanji Table component.', () => {
       return fail('Could not find empty set cell.')
     }
 
-    // Ensure it sets the correct initial value
-    expect(emptySetCell.attributes().colspan).toBe('3')
+    // The "Character" column is not filterable, but still needs to be included
+    expect(emptySetCell.attributes().colspan).toBe('4')
 
     await wrapper.setProps({
       filters: ['frequency', 'grade']
     })
 
     // Ensure the component reacts to changes
-    expect(emptySetCell.attributes().colspan).toBe('2')
+    expect(emptySetCell.attributes().colspan).toBe('3')
   })
 
   it('Should adjust kanji with multiple stroke counts so they display as a list.', async () => {
