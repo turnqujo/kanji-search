@@ -5,6 +5,11 @@
 npm install
 ```
 
+### Compiles webworkers & other code, required to run the app
+```
+npm run-script build
+```
+
 ### Compiles and hot-reloads for development
 ```
 npm run serve
