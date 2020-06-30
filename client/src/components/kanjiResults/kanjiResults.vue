@@ -50,6 +50,8 @@
       )
     }
 
+    private filterState: KanjiFilterOptions[] = ['frequency', 'grade', 'jlpt', 'stroke', 'on', 'kun', 'meanings']
+
     private currentPaginatorState: KanjiPaginatorState = {
       perPageLimit: 10,
       pageIndex: 0,
@@ -71,16 +73,6 @@
         this.paginatorState.perPageLimit !== perPageLimit
           ? { ...this.paginatorState, pageIndex: 0, perPageLimit: Number(perPageLimit) }
           : { ...this.paginatorState, pageIndex: Number(pageIndex), perPageLimit: Number(perPageLimit) }
-    }
-
-    private currentFilterState: KanjiFilterOptions[] = ['frequency', 'grade', 'jlpt', 'stroke', 'on', 'kun', 'meanings']
-
-    get filterState(): KanjiFilterOptions[] {
-      return this.currentFilterState
-    }
-
-    set filterState(newState: KanjiFilterOptions[]) {
-      this.currentFilterState = newState
     }
 
     onFiltersChanged(newState: KanjiFilterOptions[]) {

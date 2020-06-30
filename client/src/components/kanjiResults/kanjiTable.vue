@@ -138,17 +138,6 @@
         display: none;
       }
     }
-
-    @media only screen and (max-width: 760px) {
-      .kn-kanji-table,
-      .kn-kanji-table__header,
-      .kn-kanji-table__row,
-      .kn-kanji-table__header-cell,
-      .kn-kanji-table__body-cell,
-      .kn-kanji-table__row {
-        background-color: pink;
-      }
-    }
   }
 </style>
 
@@ -163,7 +152,7 @@
     @Prop({ default: () => [] }) filters!: KanjiFilterOptions[]
 
     get numVisibleRows() {
-      return this.filters.length
+      return this.filters.length + 1
     }
 
     get adjustedKanji() {
