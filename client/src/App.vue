@@ -3,7 +3,7 @@
     <nav class="kn-navbar" id="kn-nav">
       <ul class="kn-navbar__link-list">
         <li class="kn-navbar__link"><router-link class="kn-anchor" to="/" data-tid="home">Home</router-link></li>
-        <li class="kn-navbar__link"><router-link class="kn-anchor" to="/kit-of-parts">Kit of Parts</router-link></li>
+        <li class="kn-navbar__link"><router-link class="kn-anchor" to="/about">About</router-link></li>
         <li class="kn-navbar__link">
           <router-link class="kn-anchor" to="/settings" data-tid="settings">Settings</router-link>
         </li>

@@ -7,13 +7,18 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
-    name: 'Home',
+    name: 'Kanji Search',
     component: Home
   },
   {
     path: '/kit-of-parts',
     name: 'Kit of Parts',
     component: () => import('@/views/KitOfParts.vue')
+  },
+  {
+    path: '/about',
+    name: 'About',
+    component: () => import('@/views/About.vue')
   },
   {
     path: '/settings',
