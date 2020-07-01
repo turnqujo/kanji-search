@@ -1,6 +1,20 @@
 <template>
   <div class="kn-about">
     <h1 class="kn-about__header">Kanji Search</h1>
+    <ul>
+      <li>
+        <a
+          href="https://github.com/turnqujo/kanji-search"
+          target="_blank"
+          title="View code on GitHub"
+          class="kn-about__external-link"
+        >
+          <svg class="kn-icon">
+            <use xlink:href="img/icons/brands.svg#github"></use></svg
+          ><span class="kn-about__external-link__label">View the code on GitHub!</span></a
+        >
+      </li>
+    </ul>
     <h2 class="kn-about__header">What is this App for?</h2>
     <p>This app can be used to look up kanji based off of various options. Some example uses:</p>
     <ul class="kn-about__list">
@@ -8,12 +22,6 @@
       <li>Finding kanji with similar meanings.</li>
       <li>Just discovering new kanji for fun!</li>
     </ul>
-    <h2 class="kn-about__header">Web Workers</h2>
-    <p>
-      Web Workers allow websites to run code alongside the app's main code. Kanji Search utilizes Web Workers to handle
-      tasks such as filtering, sorting, and searching for kanji. Using Web Workers for these enables the app to go
-      without having to talk with a server for each search.
-    </p>
     <h2 class="kn-about__header">Data Sources</h2>
     <ul class="kn-about__list">
       <li>
@@ -34,13 +42,9 @@
 
 <style lang="scss" scoped>
   .kn-about {
-    &__header:not(:first-child) {
-      margin: 1em 0 0.5em 0;
-    }
+    max-width: 1280px;
 
-    // TODO: Turn this into a generic class
     &__list {
-      margin-top: 0.5em;
       list-style: circle;
     }
 
@@ -49,8 +53,15 @@
       margin-top: 0.3em;
     }
 
-    @media screen and (min-width: 1280px) {
-      width: 1280px;
+    &__external-link {
+      align-items: center;
+      display: flex;
+      text-decoration: none;
+      color: var(--kn-foreground);
+
+      &__label {
+        margin-left: 0.5em;
+      }
     }
   }
 </style>
