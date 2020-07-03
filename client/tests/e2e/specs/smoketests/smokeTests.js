@@ -1,17 +1,12 @@
-// TODO: Type definitions for Nightwatch BDD Functions (Not in the @types package yet)
-// @ts-ignore
 describe('Smoke tests of the app.', () => {
-  // @ts-ignore
   before((browser) => {
     browser.init()
   })
 
-  // @ts-ignore
   after((browser) => {
     browser.end()
   })
 
-  // @ts-ignore
   test('It should perform a simple search.', (browser) => {
     const kanjiSearch = browser.page.kanjiSearch()
     kanjiSearch.waitForElementVisible('@appContainer')
