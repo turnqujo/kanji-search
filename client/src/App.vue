@@ -1,6 +1,9 @@
 <template>
   <div id="app">
     <nav class="kn-navbar" id="kn-nav">
+      <ul class="kn-navbar__extras">
+        <li><DarkSwitch></DarkSwitch></li>
+      </ul>
       <ul class="kn-navbar__link-list">
         <li class="kn-navbar__link"><router-link class="kn-anchor" to="/" data-tid="home">Home</router-link></li>
         <li class="kn-navbar__link"><router-link class="kn-anchor" to="/about">About</router-link></li>
@@ -16,8 +19,6 @@
 </template>
 
 <style lang="scss">
-  @import 'theme/index.scss';
-
   #app {
     padding: 24px;
   }
@@ -29,7 +30,12 @@
 
 <script lang="ts">
   import { Component, Vue } from 'vue-property-decorator'
+  import DarkSwitch from './components/rootMods/DarkSwitch.vue'
 
-  @Component({})
+  @Component({
+    components: {
+      DarkSwitch
+    }
+  })
   export default class App extends Vue {}
 </script>

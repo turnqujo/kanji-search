@@ -28,11 +28,6 @@ load, compile, and exec the given worker file, allowing for it to be targeted by
 code, such as `isomorphic-fetch`. Unfortunately, this approach is not perfect, and is not 100% completed. However, it
 does allow for more than adequate testing for this app. Coverage, though, cannot be collected.
 
-### `public/preload`
-These files are loaded into the browser before and separate from the app itself. They are responsible for
-things like setting the background color of the root element. This prevents the background from "flashing"
-white when reloading the page, if the user has dark mode enabled. I'm sure there's a better way to handle this.
-
 ## Acknowledgments
 
 ### Data Sources
