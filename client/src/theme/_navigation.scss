@@ -11,17 +11,19 @@
 
   &__link > .kn-anchor {
     border-bottom: 1px solid transparent;
+    color: var(--kn-foreground);
     font-size: 1.2em;
+    padding-bottom: 0.25em;
+    text-decoration: none;
   }
 
   &__link > .kn-anchor.router-link-exact-active {
-    border-bottom: 1px solid var(--kn-foreground);
+    border-bottom: 1px solid var(--kn-alpha);
   }
 }
 
 .kn-anchor {
-  color: var(--kn-foreground);
-  text-decoration: none;
+  color: var(--kn-alpha);
 
   &:active,
   &:focus {

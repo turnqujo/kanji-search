@@ -1,6 +1,6 @@
 # API
 
-# Client
+# Client - these should be built separately
 client/public/workers
 
 # Any

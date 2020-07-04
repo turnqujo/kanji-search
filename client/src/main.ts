@@ -1,8 +1,26 @@
+import './theme/index.scss'
 import Vue from 'vue'
 import App from './App.vue'
 import './registerServiceWorker'
 import router from './router'
 import { Kanji } from './models/kanji'
+
+const rootEle = document.querySelector(':root')
+if (rootEle) {
+  if (localStorage.getItem('kn-theme-preference') === 'dark') {
+    rootEle.setAttribute('dark', 'true')
+  }
+
+  const fontSizePreference = localStorage.getItem('kn-font-size-preference')
+  if (fontSizePreference && ['xsmall', 'small', 'medium', 'large', 'xlarge'].indexOf(fontSizePreference) > -1) {
+    rootEle.setAttribute('font-size', fontSizePreference)
+  }
+
+  const animationPreference = localStorage.getItem('kn-animation-preference')
+  if (animationPreference === 'disabled') {
+    rootEle.classList.add('transitions-disabled')
+  }
+}
 
 Vue.config.productionTip = false
 
@@ -49,11 +67,12 @@ function init(allKanji: Kanji[]) {
   })
 }
 
-fetchAllKanji()
-  .then((allKanji) => init(allKanji))
-  .finally(function() {
-    new Vue({
-      router,
-      render: (h) => h(App)
-    }).$mount('#app')
-  })
+window.onload = () =>
+  fetchAllKanji()
+    .then((allKanji) => init(allKanji))
+    .finally(function() {
+      new Vue({
+        router,
+        render: (h) => h(App)
+      }).$mount('#app')
+    })
