@@ -26,13 +26,19 @@
     <ul class="kn-about__list">
       <li>
         The kanji data, such as their character, meanings, readings, etc. were sourced from the
-        <a href="http://www.edrdg.org/wiki/index.php/KANJIDIC_Project" target="_blank">KANJIDIC Project</a>, more
-        specifically the KANJIDIC2 XML file. This file was parsed into JSON, keeping only the data relevant to the app.
+        <a class="kn-anchor" href="http://www.edrdg.org/wiki/index.php/KANJIDIC_Project" target="_blank"
+          >KANJIDIC Project</a
+        >, more specifically the KANJIDIC2 XML file. This file was parsed into JSON, keeping only the data relevant to
+        the app.
       </li>
       <li>
         The frequency data (popularity of kanji) was derived from
-        <a href="https://github.com/scriptin/kanji-frequency" target="_blank">this project</a>. More specifically, the
-        <a href="https://github.com/scriptin/kanji-frequency/blob/master/data/wikipedia.json" target="_blank"
+        <a class="kn-anchor" href="https://github.com/scriptin/kanji-frequency" target="_blank">this project</a>. More
+        specifically, the
+        <a
+          class="kn-anchor"
+          href="https://github.com/scriptin/kanji-frequency/blob/master/data/wikipedia.json"
+          target="_blank"
           >Wikipedia dump</a
         >. This data was referenced by a script which combined it with a set of kanji obtained from other sources.
       </li>
