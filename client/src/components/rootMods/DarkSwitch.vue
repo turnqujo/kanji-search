@@ -9,7 +9,10 @@
           value="light"
           class="kn-selection-item__control"
         />
-        <span class="kn-selection-item__label">Light</span>
+        <span class="kn-selection-item__label">
+          <svg class="kn-icon">
+            <use xlink:href="img/icons/regular.svg#sun"></use></svg
+        ></span>
       </label>
     </li>
     <li>
@@ -21,7 +24,10 @@
           value="dark"
           class="kn-selection-item__control"
         />
-        <span class="kn-selection-item__label">Dark</span>
+        <span class="kn-selection-item__label">
+          <svg class="kn-icon">
+            <use xlink:href="img/icons/regular.svg#moon"></use></svg
+        ></span>
       </label>
     </li>
   </ul>
@@ -30,6 +36,7 @@
 <style lang="scss" scoped>
   .selection-container {
     display: flex;
+    font-size: 0.5em;
 
     & > li:not(:first-of-type) {
       margin-left: 12px;

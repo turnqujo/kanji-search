@@ -14,6 +14,10 @@
 </template>
 
 <style lang="scss" scoped>
+  .kn-settings__options {
+    padding-top: 0.5em;
+  }
+
   .kn-settings__options > ul > li:not(:first-of-type) {
     margin-top: 1em;
   }

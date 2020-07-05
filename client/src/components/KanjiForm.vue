@@ -328,7 +328,7 @@
   import KanaKeyboard from './KanaKeyboard.vue'
 
   export interface KanjiFormSubmit {
-    kanjiSet: KanjiSet
+    kanjiSet: KanjiSet[]
     meaning: string
     meaningMatchOption: MatchOption
     primarySort: SortOptions
@@ -351,7 +351,7 @@
     conversionTable!: ConversionItem[]
 
     hasMeaningError = false
-    kanjiSet: KanjiSet = ['jouyou', 'jinmeiyou', 'kyouiku', 'jlpt']
+    kanjiSet: KanjiSet[] = ['jouyou', 'jinmeiyou', 'kyouiku', 'jlpt']
     meaning = ''
     meaningMatchOption: MatchOption = 'start'
     primarySortDirection: OrderBy = 'asc'
@@ -397,6 +397,7 @@
       this.$emit('form-reset')
     }
 
+    // TODO: Does this need a watch?
     @Watch('reading')
     onReadingChanged() {
       if (this.readingDebounceId !== null) {
