@@ -1,7 +1,7 @@
 <template>
   <div class="kn-about">
     <h1 class="kn-about__header">Kanji Search</h1>
-    <ul>
+    <ul class="kn-about__links">
       <li>
         <a
           href="https://github.com/turnqujo/kanji-search"
@@ -11,7 +11,19 @@
         >
           <svg class="kn-icon">
             <use xlink:href="img/icons/brands.svg#github"></use></svg
-          ><span class="kn-about__external-link__label">View the code on GitHub!</span></a
+          ><span class="kn-about__external-link__label">View the code on GitHub</span></a
+        >
+      </li>
+      <li>
+        <a
+          href="https://www.linkedin.com/in/turnqujo/"
+          target="_blank"
+          title="Follow me on LinkedIn"
+          class="kn-about__external-link"
+        >
+          <svg class="kn-icon">
+            <use xlink:href="img/icons/brands.svg#linkedin"></use></svg
+          ><span class="kn-about__external-link__label">Follow me on LinkedIn</span></a
         >
       </li>
     </ul>
@@ -27,8 +39,8 @@
       <li>
         The kanji data, such as their character, meanings, readings, etc. were sourced from the
         <a class="kn-anchor" href="http://www.edrdg.org/wiki/index.php/KANJIDIC_Project" target="_blank"
-          >KANJIDIC Project</a
-        >, more specifically the KANJIDIC2 XML file. This file was parsed into JSON, keeping only the data relevant to
+          >KANJIDIC Project's</a
+        > KANJIDIC2 XML file. This file was parsed into JSON, keeping only the data relevant to
         the app.
       </li>
       <li>
@@ -59,14 +71,22 @@
       margin-top: 0.3em;
     }
 
+    &__links > li:not(:first-of-type) {
+      margin-top: 0.5em;
+    }
+
     &__external-link {
       align-items: center;
-      display: flex;
-      text-decoration: none;
       color: var(--kn-foreground);
+      display: inline-flex;
+      text-decoration: none;
 
       &__label {
         margin-left: 0.5em;
+      }
+
+      & > svg {
+        fill: var(--kn-main);
       }
     }
   }

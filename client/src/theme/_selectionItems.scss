@@ -1,6 +1,7 @@
 .kn-selection-item {
   color: var(--kn-default);
   display: flex;
+  align-items: center;
   flex-direction: row-reverse;
   font-weight: bold;
   user-select: none;
