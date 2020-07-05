@@ -1,4 +1,5 @@
 # Kanji Search
+[View it live](https://turnqujo.netlify.app/)
 
 ## What is this Project?
 This project is primarily a tech demonstration of [Web Workers](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API),
