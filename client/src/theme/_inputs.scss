@@ -10,13 +10,8 @@
       background-color: var(--#{$variation});
     }
 
-    &.#{$variation} &__control:not(:disabled) {
-      color: var(--#{$variation});
-    }
-
-    &.#{$variation} &__control:not(:disabled)::selection {
-      color: var(--kn-background);
-      background-color: var(--#{$variation});
+    &.#{$variation} &__control {
+      border-bottom-color: var(--#{$variation});
     }
   }
 
@@ -40,23 +35,23 @@
     color: var(--kn-background);
   }
 
-  &__control:not(:disabled)::selection {
-    color: var(--kn-background);
-    background-color: var(--kn-default);
-  }
-
   &__control {
     @include quickTransition(background-color, color);
     background-color: transparent;
-    border-bottom: 1px solid currentColor;
+    border-bottom: 1px solid var(--kn-default);
     border-left: none;
     border-radius: 0;
     border-right: none;
     border-top: none;
     box-sizing: border-box;
-    color: var(--kn-default);
+    color: var(--kn-foreground);
     height: var(--control-height);
     padding: 0 var(--label-input-gap);
+
+    & > option {
+      background-color: var(--kn-background);
+      color: var(--kn-foreground);
+    }
   }
 
   &__control::placeholder {
