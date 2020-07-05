@@ -19,11 +19,12 @@
 
 <script lang="ts">
   import { Component, Vue } from 'vue-property-decorator'
-  import { getKanji, filterKanjiByMeaning, sortKanji, getKanjiByConversion } from '../workers'
+  import { getKanjiBySet, filterKanjiByMeaning, sortKanji, getKanjiByConversion } from '../workers'
   import { Kanji } from '../models/kanji'
   import fetchConversionTable, { ConversionItem } from '../data/conversion-table'
   import KanjiForm, { KanjiFormSubmit } from '../components/KanjiForm.vue'
   import KanjiResults from '../components/kanjiResults/kanjiResults.vue'
+  import { fetchAllKanji } from '../data/kanji'
 
   @Component({
     components: {
@@ -40,20 +41,20 @@
     }
 
     async onFormSubmit(values: KanjiFormSubmit) {
-      const unfilteredKanji = await getKanji(values.kanjiSet)
+      const startingKanji = await getKanjiBySet(await fetchAllKanji(), values.kanjiSet)
 
       let readingMeaningFiltered = []
       if (values.readingConverted.length === 0 && !!values.meaning) {
-        readingMeaningFiltered = await filterKanjiByMeaning(unfilteredKanji, values.meaning, values.meaningMatchOption)
+        readingMeaningFiltered = await filterKanjiByMeaning(startingKanji, values.meaning, values.meaningMatchOption)
       } else if (values.readingConverted.length > 0 && !values.meaning) {
         readingMeaningFiltered = await getKanjiByConversion(
-          unfilteredKanji,
+          startingKanji,
           values.readingConverted,
           values.readingMatchOption,
           values.readingType
         )
       } else if (values.readingConverted.length > 0 && !!values.meaning) {
-        const meaningFiltered = await filterKanjiByMeaning(unfilteredKanji, values.meaning)
+        const meaningFiltered = await filterKanjiByMeaning(startingKanji, values.meaning)
         readingMeaningFiltered = await getKanjiByConversion(
           meaningFiltered,
           values.readingConverted,
@@ -61,7 +62,7 @@
           values.readingType
         )
       } else {
-        readingMeaningFiltered = unfilteredKanji
+        readingMeaningFiltered = startingKanji
       }
 
       const sorted = await sortKanji(

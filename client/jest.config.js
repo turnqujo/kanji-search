@@ -11,5 +11,5 @@ module.exports = {
     '^.+\\.(ts|tsx)$': 'ts-jest',
     '^.+\\.vue$': 'vue-jest'
   },
-  setupFiles: ['isomorphic-fetch', 'fake-indexeddb/auto', './jestSetup.js']
+  setupFiles: ['isomorphic-fetch', './jestSetup.js']
 }

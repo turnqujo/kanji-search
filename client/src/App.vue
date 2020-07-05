@@ -24,9 +24,14 @@
   }
 
   .kn-navbar {
-    display: flex;
-    justify-content: space-between;
     align-items: center;
+    display: flex;
+
+    & > ul:not(:first-of-type) {
+      border-left: 2px solid var(--kn-foreground--aux);
+      margin-left: 1em;
+      padding-left: 1em;
+    }
   }
 
   .kn-content {

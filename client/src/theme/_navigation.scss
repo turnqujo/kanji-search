@@ -2,7 +2,6 @@
   &__link-list {
     display: flex;
     flex-direction: row;
-    justify-content: flex-end;
   }
 
   &__link:not(:first-child) {
@@ -10,15 +9,15 @@
   }
 
   &__link > .kn-anchor {
-    border-bottom: 1px solid transparent;
+    border-bottom: 2px solid transparent;
     color: var(--kn-foreground);
     font-size: 1.2em;
-    padding-bottom: 0.25em;
+    padding-bottom: 2px;
     text-decoration: none;
   }
 
   &__link > .kn-anchor.router-link-exact-active {
-    border-bottom: 1px solid var(--kn-alpha);
+    border-bottom: 2px solid var(--kn-alpha);
   }
 }
 

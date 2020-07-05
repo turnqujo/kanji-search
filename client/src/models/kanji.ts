@@ -1,4 +1,4 @@
-export type KanjiSet = ('jouyou' | 'jinmeiyou' | 'hyougai' | 'kyouiku' | 'jlpt')[]
+export type KanjiSet = 'jouyou' | 'jinmeiyou' | 'hyougai' | 'kyouiku' | 'jlpt'
 export type ReadingType = ('on' | 'kun' | 'nanori')[]
 
 export interface KanjiReadings {
@@ -15,5 +15,5 @@ export interface Kanji {
   frequency: number | string | null
   jlpt: number | string | null
   grade: number | string | null
-  set: KanjiSet
+  set: KanjiSet[]
 }

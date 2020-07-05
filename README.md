@@ -17,12 +17,12 @@ Changing webworker files will also require a rebuild, except when testing.
 
 ## Interesting Parts
 
-### `src/workers`
+### [`src/workers`](https://github.com/turnqujo/kanji-search/tree/master/client/src/workers)
 This directory contains all the Web Workers. Web Workers are not modules (Except for in [Chrome 80+](https://web.dev/module-workers/),
 but not used in this project), so they need to be compiled separately. They are then placed in the `public/workers` directory,
 and obtained through their "wrapper" helper functions, which use a simple `fetch`.
 
-### `src/workers/__tests__`
+### [`src/workers/__tests__`](https://github.com/turnqujo/kanji-search/tree/master/client/src/workers/__tests__)
 The spec files should be pretty straight-forward, with exception of the use of the "Test Env Worker". This class will
 load, compile, and exec the given worker file, allowing for it to be targeted by unit tests and have access to external
 code, such as `isomorphic-fetch`. Unfortunately, this approach is not perfect, and is not 100% completed. However, it

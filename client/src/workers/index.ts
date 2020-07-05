@@ -1,6 +1,6 @@
 export * from './convertText.wrapper'
 export * from './filterKanjiByMeaning.wrapper'
 export * from './filterKanjiByMetric.wrapper'
-export * from './getKanji.wrapper'
+export * from './getKanjiBySet.wrapper'
 export * from './getKanjiByConversion.wrapper'
 export * from './sortKanji.wrapper'
