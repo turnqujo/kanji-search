@@ -173,11 +173,11 @@
         <ol class="kanji-form__control-list kanji-form__control-list--spaced">
           <li>
             <label class="kn-select">
-              <select class="kn-select__control" v-model="primarySortField">
+              <select class="kn-select__control" v-model="primarySortField" data-tid="primary-sort">
                 <option value="frequency">Popularity</option>
-                <option value="grade">Grade</option>
-                <option value="jlpt">JLPT</option>
-                <option value="strokeCount">Stroke Count</option>
+                <option value="grade" :disabled="secondarySortField === 'grade'">Grade</option>
+                <option value="jlpt" :disabled="secondarySortField === 'jlpt'">JLPT</option>
+                <option value="strokeCount" :disabled="secondarySortField === 'strokeCount'">Stroke Count</option>
                 <option value="unicode">Unicode</option>
               </select>
               <span class="kn-select__label">Primary</span>
@@ -217,6 +217,7 @@
                 class="kn-select__control"
                 v-model="secondarySortField"
                 :disabled="primarySortField === 'frequency' || primarySortField === 'unicode'"
+                data-tid="secondary-sort"
               >
                 <option value="none">None</option>
                 <option value="frequency">Popularity</option>
