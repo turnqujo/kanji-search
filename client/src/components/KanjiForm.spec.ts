@@ -31,6 +31,7 @@ describe('The Kanji Form component.', () => {
     const wrapper = shallowMount(KanjiForm, {
       propsData: { debounceTime: 0, conversionTable }
     })
+
     const keyboardEle = wrapper.findComponent(kanaKeyboard)
     if (!keyboardEle.exists()) {
       return fail('Could not find Kana Keyboard.')
@@ -98,5 +99,34 @@ describe('The Kanji Form component.', () => {
     }
 
     expect(submittedValues[0][0]).toEqual(expectedSubmit)
+  })
+
+  it('Should disable invalid options in the primary / secondary sort selects.', async () => {
+    const wrapper = shallowMount(KanjiForm, {
+      propsData: { debounceTime: 0, conversionTable }
+    })
+
+    const primarySortSelect = wrapper.find('select[data-tid=primary-sort]')
+    if (!primarySortSelect.exists()) {
+      return fail('Could not find the primary sort element.')
+    }
+
+    const secondarySortSelect = wrapper.find('select[data-tid=secondary-sort]')
+    if (!secondarySortSelect.exists()) {
+      return fail('Could not find the secondary sort element.')
+    }
+
+    // Default: secondary sort disabled, primary and secondary have different values
+    expect(secondarySortSelect.attributes().disabled).toBeTruthy()
+
+    // Setting primary to an ambiguous sorting value should enable the secondary sort
+    await primarySortSelect.setValue('jlpt')
+    expect(secondarySortSelect.attributes().disabled).toBeUndefined()
+    expect(secondarySortSelect.find('option[value=jlpt]').attributes().disabled).toBeTruthy()
+
+    // Setting secondary sort should disable the same option in the primary sort
+    await secondarySortSelect.setValue('grade')
+    expect(primarySortSelect.find('option[value=grade]').attributes().disabled).toBeTruthy()
+    expect(secondarySortSelect.find('option[value=jlpt]').attributes().disabled).toBeTruthy()
   })
 })
