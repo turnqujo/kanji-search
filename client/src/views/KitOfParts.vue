@@ -135,57 +135,73 @@
     <fieldset class="kn-fieldset showcase--vertical" :disabled="disableAll">
       <legend class="kn-fieldset__legend">Text Input {{ disableAll ? '(Disabled)' : '' }}</legend>
       <ol class="kn-fieldset__content">
-        <li>
-          <label class="kn-input">
-            <input type="text" class="kn-input__control" placeholder="Placeholder" />
-            <span class="kn-input__label">Default</span>
-          </label>
-        </li>
-        <li>
-          <label class="kn-input kn-positive">
-            <input type="text" class="kn-input__control" placeholder="Positive" />
-            <span class="kn-input__label">Positive</span>
-          </label>
-        </li>
-        <li>
-          <label class="kn-input kn-negative">
-            <input type="text" class="kn-input__control" placeholder="Negative" />
-            <span class="kn-input__label">Negative</span>
-          </label>
-        </li>
+        <kn-input></kn-input>
       </ol>
     </fieldset>
     <fieldset class="kn-fieldset showcase--vertical" :disabled="disableAll">
       <legend class="kn-fieldset__legend">Selects {{ disableAll ? '(Disabled)' : '' }}</legend>
       <ol class="kn-fieldset__content">
         <li>
-          <label class="kn-select">
-            <select class="kn-select__control">
+          <kn-select-list label="Default" v-model="sample">
+            <option value="a">Some Option</option>
+            <option value="b" disabled>Disabled Option</option>
+            <option value="c">Other Option</option>
+          </kn-select-list>
+        </li>
+        <li>
+          <kn-select-list class="kn-positive" label="Positive">
+            <option>Some Option</option>
+            <option disabled>Disabled Option</option>
+            <option>Other Option</option>
+          </kn-select-list>
+        </li>
+        <li>
+          <kn-select-list class="kn-negative" label="Negative">
+            <option>Some Option</option>
+            <option disabled>Disabled Option</option>
+            <option>Other Option</option>
+          </kn-select-list>
+        </li>
+        <li>
+          <button type="button" class="kn-btn kn-ghost" @click="addOptions">Add option</button>
+          <br />
+          <kn-select-list class="kn-negative" label="No options, no model">
+            <option v-for="option in options" :key="option" :value="option">{{ option }}</option>
+          </kn-select-list>
+        </li>
+      </ol>
+    </fieldset>
+    <fieldset class="kn-fieldset showcase--vertical" :disabled="disableAll">
+      <legend class="kn-fieldset__legend">Multi-Selects {{ disableAll ? '(Disabled)' : '' }}</legend>
+      <ol class="kn-fieldset__content">
+        <li>
+          <label class="kn-input  kn-input--select-multiple">
+            <select class="kn-input__control" multiple>
               <option>Some Option</option>
               <option disabled>Disabled Option</option>
               <option>Other Option</option>
             </select>
-            <span class="kn-select__label">Default</span>
+            <span class="kn-input__label">Default</span>
           </label>
         </li>
         <li>
-          <label class="kn-select kn-positive">
-            <select class="kn-select__control">
+          <label class="kn-input  kn-input--select-multiple kn-positive">
+            <select class="kn-input__control" multiple>
               <option>Some Option</option>
               <option disabled>Disabled Option</option>
               <option>Other Option</option>
             </select>
-            <span class="kn-select__label">Positive</span>
+            <span class="kn-input__label">Positive</span>
           </label>
         </li>
         <li>
-          <label class="kn-select kn-negative">
-            <select class="kn-select__control">
+          <label class="kn-input  kn-input--select-multiple kn-negative">
+            <select class="kn-input__control" multiple>
               <option>Some Option</option>
               <option disabled>Disabled Option</option>
               <option>Other Option</option>
             </select>
-            <span class="kn-select__label">Negative</span>
+            <span class="kn-input__label">Negative</span>
           </label>
         </li>
       </ol>
@@ -229,9 +245,23 @@
 
 <script lang="ts">
   import { Component, Vue } from 'vue-property-decorator'
+  import KnSelectList from '../components/styled/SelectList.vue'
+  import KnInput from '../components/styled/Input.vue'
 
-  @Component({})
+  @Component({
+    components: {
+      KnSelectList,
+      KnInput
+    }
+  })
   export default class KitOfParts extends Vue {
     disableAll = false
+
+    sample = 'a'
+    options: string[] = []
+
+    addOptions() {
+      this.options.push(`Option: ${this.options.length + 1}`)
+    }
   }
 </script>

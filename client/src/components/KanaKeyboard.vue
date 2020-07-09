@@ -2,7 +2,7 @@
   <div class="kana-keyboard">
     <button type="button" @click="onToggleKeyboard" data-tid="toggle-keyboard" class="toggle-btn">
       <svg class="kn-icon">
-        <use xlink:href="img/icons/regular.svg#keyboard"></use>
+        <use href="img/icons/regular.svg#keyboard"></use>
       </svg>
     </button>
     <div class="popup" v-if="open">

@@ -10,7 +10,7 @@
           class="kn-about__external-link"
         >
           <svg class="kn-icon">
-            <use xlink:href="img/icons/brands.svg#github"></use></svg
+            <use href="img/icons/brands.svg#github"></use></svg
           ><span class="kn-about__external-link__label">View the code on GitHub</span></a
         >
       </li>
@@ -22,7 +22,7 @@
           class="kn-about__external-link"
         >
           <svg class="kn-icon">
-            <use xlink:href="img/icons/brands.svg#linkedin"></use></svg
+            <use href="img/icons/brands.svg#linkedin"></use></svg
           ><span class="kn-about__external-link__label">Follow me on LinkedIn</span></a
         >
       </li>

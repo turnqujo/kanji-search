@@ -39,9 +39,10 @@ describe('The Kana Keyboard component.', () => {
 
   it('Should emit the clicked kana.', async () => {
     const wrapper = shallowMount(KanaKeyboard)
+    const vm = wrapper.vm as any
 
-    // KLUDGE / TODO: Couldn't figure out how to wait for the kanjisets to load
-    await new Promise((resolve) => setTimeout(resolve, 20))
+    // Wait for the kanji sets to load
+    await vm.$nextTick()
 
     const keyboardToggle = wrapper.find('button[data-tid=toggle-keyboard]')
     if (!keyboardToggle.exists()) {

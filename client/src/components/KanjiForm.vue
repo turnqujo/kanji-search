@@ -17,14 +17,11 @@
             </label>
           </li>
           <li>
-            <label class="kn-select">
-              <select class="kn-select__control" v-model="meaningMatchOption">
-                <option value="exact">Exactly</option>
-                <option value="start">Start only</option>
-                <option value="anywhere">Anywhere</option>
-              </select>
-              <span class="kn-select__label">Matches</span>
-            </label>
+            <kn-select-list label="Matches" v-model="meaningMatchOption">
+              <option value="exact">Exactly</option>
+              <option value="start">Start only</option>
+              <option value="anywhere">Anywhere</option>
+            </kn-select-list>
           </li>
         </ul>
       </div>
@@ -327,6 +324,7 @@
   import { convertText } from '../workers'
   import { ConversionItem } from '../data/conversion-table'
   import KanaKeyboard from './KanaKeyboard.vue'
+  import KnSelectList from './styled/SelectList.vue'
 
   export interface KanjiFormSubmit {
     kanjiSet: KanjiSet[]
@@ -341,7 +339,8 @@
 
   @Component({
     components: {
-      KanaKeyboard
+      KanaKeyboard,
+      KnSelectList
     }
   })
   export default class KanjiForm extends Vue {

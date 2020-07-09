@@ -20,7 +20,7 @@
 
 <style lang="scss">
   #app {
-    padding: 24px;
+    padding: 24px 24px 30vh 24px;
   }
 
   .kn-navbar {

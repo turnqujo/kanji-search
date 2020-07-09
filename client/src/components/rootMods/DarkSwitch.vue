@@ -11,7 +11,7 @@
         />
         <span class="kn-selection-item__label">
           <svg class="kn-icon">
-            <use xlink:href="img/icons/regular.svg#sun"></use></svg
+            <use href="img/icons/regular.svg#sun"></use></svg
         ></span>
       </label>
     </li>
@@ -26,7 +26,7 @@
         />
         <span class="kn-selection-item__label">
           <svg class="kn-icon">
-            <use xlink:href="img/icons/regular.svg#moon"></use></svg
+            <use href="img/icons/regular.svg#moon"></use></svg
         ></span>
       </label>
     </li>
