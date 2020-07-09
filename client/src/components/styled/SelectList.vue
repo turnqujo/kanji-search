@@ -1,19 +1,17 @@
 <template>
   <label class="kn-input kn-input--select">
-    <div class="kn-input__control-container">
-      <select class="kn-input__control" v-model="currentModel" :disabled="noOptionsGiven">
-        <slot>
-          <option value="default" disabled>N/A</option>
-        </slot>
-      </select>
-      <svg class="kn-icon kn-input__control-icon">
-        <use href="img/icons/solid.svg#chevron-down"></use>
-      </svg>
-      <svg class="kn-icon kn-input__control-icon kn-input__control-icon--disabled">
-        <use href="img/icons/solid.svg#minus-circle"></use>
-      </svg>
-      <span class="kn-input__label">{{ label }}</span>
-    </div>
+    <select class="kn-input__control" v-model="currentModel" :disabled="noOptionsGiven">
+      <slot>
+        <option value="default" disabled>N/A</option>
+      </slot>
+    </select>
+    <svg class="kn-icon kn-input__control-icon">
+      <use href="img/icons/solid.svg#chevron-down"></use>
+    </svg>
+    <svg class="kn-icon kn-input__control-icon kn-input__control-icon--disabled">
+      <use href="img/icons/solid.svg#minus-circle"></use>
+    </svg>
+    <span class="kn-input__label">{{ label }}</span>
   </label>
 </template>
 
@@ -22,15 +20,12 @@
 
   .kn-input {
     --select-icon-size: 0.5em;
+    margin-top: 1.5em;
+    position: relative;
 
     &__control {
       appearance: none;
       padding-right: calc(var(--select-icon-size) * 3);
-
-      &-container {
-        margin-top: 1.5em;
-        position: relative;
-      }
 
       &-icon {
         height: var(--select-icon-size);
@@ -72,7 +67,6 @@
       // TODO: Variables
       top: calc(-1em + -0.25em);
       left: 0;
-      right: 0;
       white-space: nowrap;
     }
 
