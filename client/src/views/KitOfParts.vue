@@ -142,32 +142,56 @@
       <legend class="kn-fieldset__legend">Selects {{ disableAll ? '(Disabled)' : '' }}</legend>
       <ol class="kn-fieldset__content">
         <li>
-          <kn-select-list label="Default" v-model="sample">
-            <option value="a">Some Option</option>
-            <option value="b" disabled>Disabled Option</option>
-            <option value="c">Other Option</option>
+          <kn-select-list label="Default" v-model="selectA">
+            <option value="" disabled>Select an option</option>
+            <option>Some Option</option>
+            <option disabled>Disabled Option</option>
+            <option>Other Option</option>
           </kn-select-list>
+          <p>Selected: {{ selectA }}</p>
         </li>
         <li>
-          <kn-select-list class="kn-positive" label="Positive">
+          <kn-select-list class="kn-positive" label="Positive" v-model="selectB">
+            <option value="" disabled>Select an option</option>
+            <option>Some Option</option>
+            <option disabled>Disabled Option</option>
+            <option>Other Option</option>
+          </kn-select-list>
+          <p>Selected: {{ selectB }}</p>
+        </li>
+        <li>
+          <kn-select-list class="kn-negative" label="Negative" v-model="selectC">
+            <option value="" disabled>Select an option</option>
+            <option>Some Option</option>
+            <option disabled>Disabled Option</option>
+            <option>Other Option</option>
+          </kn-select-list>
+          <p>Selected: {{ selectC }}</p>
+        </li>
+        <li>
+          <kn-select-list class="kn-negative" label="No model">
+            <option value="" disabled>Select an option</option>
             <option>Some Option</option>
             <option disabled>Disabled Option</option>
             <option>Other Option</option>
           </kn-select-list>
         </li>
         <li>
-          <kn-select-list class="kn-negative" label="Negative">
-            <option>Some Option</option>
-            <option disabled>Disabled Option</option>
-            <option>Other Option</option>
-          </kn-select-list>
-        </li>
-        <li>
-          <button type="button" class="kn-btn kn-ghost" @click="addOptions">Add option</button>
-          <br />
-          <kn-select-list class="kn-negative" label="No options, no model">
-            <option v-for="option in options" :key="option" :value="option">{{ option }}</option>
-          </kn-select-list>
+          <ul>
+            <li>
+              <kn-select-list class="kn-positive" label="Options Change" v-model="selectD">
+                <option v-for="option in selectDOptions" :key="option" :value="option">{{ option }}</option>
+              </kn-select-list>
+            </li>
+            <li>
+              <p>Selected: {{ selectD }}</p>
+              <p>Options count: {{ selectDOptions.length }}</p>
+            </li>
+            <li>
+              <button class="kn-btn kn-ghost kn-negative" type="button" @click="clearOptions">Clear</button>
+              <button class="kn-btn kn-ghost kn-positive" type="button" @click="addOptions">Add Option</button>
+            </li>
+          </ul>
         </li>
       </ol>
     </fieldset>
@@ -175,34 +199,45 @@
       <legend class="kn-fieldset__legend">Multi-Selects {{ disableAll ? '(Disabled)' : '' }}</legend>
       <ol class="kn-fieldset__content">
         <li>
-          <label class="kn-input  kn-input--select-multiple">
-            <select class="kn-input__control" multiple>
-              <option>Some Option</option>
-              <option disabled>Disabled Option</option>
-              <option>Other Option</option>
-            </select>
-            <span class="kn-input__label">Default</span>
-          </label>
+          <kn-select-list label="Default" v-model="multiSelectA" multiple>
+            <option>Some Option</option>
+            <option disabled>Disabled Option</option>
+            <option>Other Option</option>
+          </kn-select-list>
+          <p>Selected: {{ multiSelectA }}</p>
         </li>
         <li>
-          <label class="kn-input  kn-input--select-multiple kn-positive">
-            <select class="kn-input__control" multiple>
-              <option>Some Option</option>
-              <option disabled>Disabled Option</option>
-              <option>Other Option</option>
-            </select>
-            <span class="kn-input__label">Positive</span>
-          </label>
+          <kn-select-list label="Positive" v-model="multiSelectB" multiple class="kn-positive">
+            <option>Some Option</option>
+            <option disabled>Disabled Option</option>
+            <option>Other Option</option>
+          </kn-select-list>
+          <p>Selected: {{ multiSelectB }}</p>
         </li>
         <li>
-          <label class="kn-input  kn-input--select-multiple kn-negative">
-            <select class="kn-input__control" multiple>
-              <option>Some Option</option>
-              <option disabled>Disabled Option</option>
-              <option>Other Option</option>
-            </select>
-            <span class="kn-input__label">Negative</span>
-          </label>
+          <kn-select-list label="Negative" v-model="multiSelectC" multiple class="kn-negative">
+            <option>Some Option</option>
+            <option disabled>Disabled Option</option>
+            <option>Other Option</option>
+          </kn-select-list>
+          <p>Selected: {{ multiSelectC }}</p>
+        </li>
+        <li>
+          <ul>
+            <li>
+              <kn-select-list class="kn-positive" label="Options Change" v-model="multiSelectD" multiple>
+                <option v-for="option in multiSelectDOptions" :key="option" :value="option">{{ option }}</option>
+              </kn-select-list>
+            </li>
+            <li>
+              <p>Selected: {{ multiSelectD }}</p>
+              <p>Options count: {{ multiSelectDOptions.length }}</p>
+            </li>
+            <li>
+              <button class="kn-btn kn-ghost kn-negative" type="button" @click="clearOptionsToMulti">Clear</button>
+              <button class="kn-btn kn-ghost kn-positive" type="button" @click="addOptionsToMulti">Add Option</button>
+            </li>
+          </ul>
         </li>
       </ol>
     </fieldset>
@@ -256,12 +291,32 @@
   })
   export default class KitOfParts extends Vue {
     disableAll = false
+    selectA = ''
+    selectB = ''
+    selectC = ''
+    selectD = ''
+    selectDOptions: string[] = []
 
-    sample = 'a'
-    options: string[] = []
+    multiSelectA = []
+    multiSelectB = []
+    multiSelectC = []
+    multiSelectD = []
+    multiSelectDOptions: string[] = []
 
     addOptions() {
-      this.options.push(`Option: ${this.options.length + 1}`)
+      this.selectDOptions.push(`Option ${this.selectDOptions.length + 1}`)
+    }
+
+    clearOptions() {
+      this.selectDOptions = []
+    }
+
+    addOptionsToMulti() {
+      this.multiSelectDOptions.push(`Option ${this.multiSelectDOptions.length + 1}`)
+    }
+
+    clearOptionsToMulti() {
+      this.multiSelectDOptions = []
     }
   }
 </script>

@@ -1,79 +1,140 @@
 <template>
-  <label class="kn-input kn-input--select">
-    <select class="kn-input__control" v-model="currentModel" :disabled="noOptionsGiven">
+  <label class="kn-select-list">
+    <select
+      class="kn-select-list__control"
+      v-model="currentValue"
+      :disabled="noOptionsGiven"
+      :multiple="multiple"
+      :size="adjustedSize"
+    >
       <slot>
-        <option value="default" disabled>N/A</option>
+        <option class="kn-select-list__default-option" value="" disabled data-tid="default-option">N/A</option>
       </slot>
     </select>
-    <svg class="kn-icon kn-input__control-icon">
+    <svg class="kn-icon" v-if="!isMulti">
       <use href="img/icons/solid.svg#chevron-down"></use>
     </svg>
-    <svg class="kn-icon kn-input__control-icon kn-input__control-icon--disabled">
+    <svg class="kn-icon kn-icon--disabled" v-if="!isMulti">
       <use href="img/icons/solid.svg#minus-circle"></use>
     </svg>
-    <span class="kn-input__label">{{ label }}</span>
+    <span class="kn-select-list__label">{{ label }}</span>
   </label>
 </template>
 
 <style lang="scss" scoped>
-  @import '../../theme/_inputs.scss';
+  @import '../../theme/mixins/_transitions.scss';
+  @import '../../theme/_colors.scss';
 
-  .kn-input {
+  .kn-select-list {
     --select-icon-size: 0.5em;
-    margin-top: 1.5em;
+    --label-offset: 1.3em;
+    display: inline-block;
+    margin: var(--label-offset) 0 0.5em 0;
     position: relative;
 
-    &__control {
-      appearance: none;
-      padding-right: calc(var(--select-icon-size) * 3);
+    @each $variation in $semanticColors {
+      &.#{$variation} &__control:not(:disabled) {
+        border-color: var(--#{$variation});
 
-      &-icon {
-        height: var(--select-icon-size);
-        pointer-events: none;
-        position: absolute;
-        right: calc(var(--select-icon-size) / 2);
-        top: 50%;
-        transform: translateY(-50%);
-        width: var(--select-icon-size);
+        &:not(:focus) ~ .kn-icon {
+          fill: var(--#{$variation});
+        }
+
+        ~ .kn-select-list__label {
+          color: var(--#{$variation});
+        }
       }
 
-      &-icon--disabled {
-        display: none;
-        fill: var(--kn-disabled);
-      }
-
-      &:disabled {
-        color: var(--kn-disabled);
-      }
-
-      &:disabled ~ &-icon {
-        display: none;
-      }
-
-      &:disabled ~ &-icon--disabled {
-        display: block;
-      }
-
-      &:disabled ~ .kn-input__label {
-        color: var(--kn-disabled);
-        font-style: italic;
-        pointer-events: none;
+      &.#{$variation} &__control:not([multiple]):not(:disabled):focus {
+        background-color: var(--#{$variation});
       }
     }
 
-    // TODO: Move to the shared styling
+    &__control {
+      @include quickTransition(border-color, color, background-color);
+      appearance: none;
+      background-color: transparent;
+      border: 2px solid var(--kn-foreground);
+      color: var(--kn-foreground);
+      font-size: 1em;
+      padding: 0.25em calc(var(--select-icon-size) * 4) 0.25em 0.5em;
+    }
+
+    &__control:focus {
+      outline: 0;
+      background-color: var(--kn-foreground);
+      color: var(--kn-background);
+
+      ~ .kn-icon {
+        fill: var(--kn-background);
+      }
+
+      ~ .kn-select-list__label {
+        text-decoration: underline;
+      }
+    }
+
+    &__control:disabled {
+      border-color: var(--kn-disabled);
+      color: var(--kn-disabled);
+
+      ~ .kn-icon {
+        display: none;
+      }
+
+      ~ .kn-icon--disabled {
+        display: block;
+        fill: var(--kn-disabled);
+      }
+
+      ~ .kn-select-list__label {
+        color: var(--kn-disabled);
+        font-style: italic;
+      }
+    }
+
+    &__control option {
+      background-color: var(--kn-background);
+      color: var(--kn-foreground);
+      width: 100%;
+    }
+
+    &__control option:disabled {
+      color: var(--kn-disabled);
+      font-style: italic;
+    }
+
+    .kn-icon {
+      fill: var(--kn-foreground);
+      height: var(--select-icon-size);
+      pointer-events: none;
+      position: absolute;
+      right: calc(var(--select-icon-size) / 2);
+      top: 50%;
+      transform: translateY(-50%);
+      width: var(--select-icon-size);
+    }
+
+    .kn-icon--disabled {
+      display: none;
+    }
+
     &__label {
       position: absolute;
-      // TODO: Variables
-      top: calc(-1em + -0.25em);
+      top: calc(var(--label-offset) * -1);
       left: 0;
       white-space: nowrap;
     }
 
-    @each $variation in $semanticColors {
-      &.#{$variation} &__control:not(:disabled) + &__control-icon {
-        fill: var(--#{$variation});
-      }
+    &__control[multiple] {
+      overflow-y: auto;
+      padding: 0.25em 0.5em;
+      min-width: 5em;
+    }
+
+    &__control[multiple]:focus {
+      background-color: var(--kn-background);
+      color: var(--kn-foreground);
     }
   }
 </style>
@@ -84,68 +145,75 @@
   @Component({})
   export default class KnSelectList extends Vue {
     @Prop({ default: '' }) label!: string
-    @Model('change', { default: '' }) value!: string
+    @Prop() multiple!: string
+    @Prop({ default: null }) size!: number | null
 
-    noOptionsGiven = false
+    @Model('change', { default: '' }) value!: string | string[]
 
-    private fallbackModel = ''
+    private observer: MutationObserver | null = null
+    private noOptionsGiven = false
+    private fallbackValue: string | string[] = this.isMulti ? [] : ''
 
-    get currentModel() {
-      return this.value ? this.value : this.fallbackModel
+    get currentValue(): string | string[] {
+      return this.value ? this.value : this.fallbackValue
     }
-    set currentModel(newVal: string) {
-      this.fallbackModel = newVal
+
+    set currentValue(newVal: string | string[]) {
+      this.fallbackValue = newVal
       this.$emit('change', newVal)
     }
 
-    private observer: MutationObserver | null = null
-
-    mounted() {
-      this.observer = new MutationObserver(async () => {
-        // If a model is not defined, check to see if there's child options, and if so, set model to the first value
-        const defaultSlot = this.$slots.default
-        // console.log(defaultSlot)
-        if (defaultSlot && defaultSlot.length > 0 && defaultSlot[0].elm) {
-          this.noOptionsGiven = false
-
-          //   this.currentModel = (defaultSlot[0].elm as HTMLOptionElement).value
-          //   this.noOptionsGiven = false
-          //   return
-        }
-
-        // If there is no model nor options, set to the default option
-        // this.currentModel = 'default'
-        // this.noOptionsGiven = true
-      })
-
-      this.observer.observe(this.$el.querySelector('.kn-input__control') as Node, {
-        attributes: false,
-        childList: true,
-        characterData: true,
-        subtree: true
-      })
-
-      // If a model is defined, the select should work as expected
-      if (this.value) {
-        return
-      }
-
-      // If a model is not defined, check to see if there's child options, and if so, set model to the first value
-      const defaultSlot = this.$slots.default
-      if (defaultSlot && defaultSlot.length > 0 && defaultSlot[0].elm) {
-        this.currentModel = (defaultSlot[0].elm as HTMLOptionElement).value
-        return
-      }
-
-      // If there is no model nor options, set to the default option
-      this.currentModel = 'default'
-      this.noOptionsGiven = true
+    get isMulti(): boolean {
+      return this.multiple === ''
     }
 
-    beforeDestroy() {
-      if (this.observer) {
-        this.observer.disconnect()
+    get adjustedSize(): number {
+      if (!this.isMulti) {
+        return 0
       }
+
+      if (this.noOptionsGiven) {
+        return 1
+      }
+
+      if (this.size) {
+        return this.size
+      }
+
+      return 0
+    }
+
+    mounted() {
+      this.observer = new MutationObserver(this.updateSelectState)
+
+      this.observer.observe(this.$el.querySelector('.kn-select-list__control') as Node, {
+        childList: true,
+        subtree: true // Subtree observation needed in case of <optgroup> -> <option> content
+      })
+
+      this.updateSelectState()
+    }
+
+    updateSelectState() {
+      const currentlySelected = this.$el.querySelector(`option[value='${this.currentValue}']`)
+      if (currentlySelected) {
+        this.noOptionsGiven = currentlySelected.classList.contains('kn-select-list__default-option')
+        return
+      }
+
+      const firstOptionInList = this.$el.querySelector('option')
+      if (firstOptionInList) {
+        this.noOptionsGiven = firstOptionInList.classList.contains('kn-select-list__default-option')
+
+        if (!this.isMulti) {
+          this.currentValue = firstOptionInList.value
+        }
+
+        return
+      }
+
+      // No options available - shouldn't happen with the default option declared
+      throw new Error('Kn Select List is unexpectedly empty.')
     }
   }
 </script>

@@ -21,16 +21,12 @@
     border: 2px solid var(--kn-default);
     box-sizing: border-box;
     color: var(--kn-default);
+    cursor: pointer;
     padding: 4px 6px;
     width: 100%;
 
     &:focus {
       outline: none;
-    }
-
-    & > option {
-      background-color: var(--kn-background);
-      color: var(--kn-foreground);
     }
   }
 
