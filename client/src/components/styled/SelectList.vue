@@ -8,7 +8,7 @@
       :size="adjustedSize"
     >
       <slot>
-        <option class="kn-select-list__default-option" value="" disabled data-tid="default-option">N/A</option>
+        <option v-once :class="defaultOptionClass" value="" disabled>N/A</option>
       </slot>
     </select>
     <svg class="kn-icon" v-if="!isMulti">
@@ -45,7 +45,7 @@
         }
       }
 
-      &.#{$variation} &__control:not([multiple]):not(:disabled):focus {
+      &.#{$variation} &__control:not([multiple]):focus {
         background-color: var(--#{$variation});
       }
     }
@@ -62,15 +62,18 @@
 
     &__control:focus {
       outline: 0;
+
+      ~ .kn-select-list__label {
+        text-decoration: underline;
+      }
+    }
+
+    &__control:not([multiple]):focus {
       background-color: var(--kn-foreground);
       color: var(--kn-background);
 
       ~ .kn-icon {
         fill: var(--kn-background);
-      }
-
-      ~ .kn-select-list__label {
-        text-decoration: underline;
       }
     }
 
@@ -131,11 +134,6 @@
       padding: 0.25em 0.5em;
       min-width: 5em;
     }
-
-    &__control[multiple]:focus {
-      background-color: var(--kn-background);
-      color: var(--kn-foreground);
-    }
   }
 </style>
 
@@ -144,15 +142,15 @@
 
   @Component({})
   export default class KnSelectList extends Vue {
-    @Prop({ default: '' }) label!: string
+    @Model('change', { default: '' }) value!: string | string[]
     @Prop() multiple!: string
+    @Prop({ default: '' }) label!: string
     @Prop({ default: null }) size!: number | null
 
-    @Model('change', { default: '' }) value!: string | string[]
-
-    private observer: MutationObserver | null = null
-    private noOptionsGiven = false
+    private defaultOptionClass = 'kn-select-list__default-option'
     private fallbackValue: string | string[] = this.isMulti ? [] : ''
+    private noOptionsGiven = false
+    private observer: MutationObserver | null = null
 
     get currentValue(): string | string[] {
       return this.value ? this.value : this.fallbackValue
@@ -169,7 +167,8 @@
 
     get adjustedSize(): number {
       if (!this.isMulti) {
-        return 0
+        // Default given to selects without a specified size
+        return 1
       }
 
       if (this.noOptionsGiven) {
@@ -180,7 +179,8 @@
         return this.size
       }
 
-      return 0
+      // Default given to multi-selects without a specified size
+      return 4
     }
 
     mounted() {
@@ -195,17 +195,22 @@
     }
 
     updateSelectState() {
-      const currentlySelected = this.$el.querySelector(`option[value='${this.currentValue}']`)
+      const currentlySelected = this.$el.querySelector(`option[value='${this.currentValue}']`) as HTMLOptionElement
       if (currentlySelected) {
-        this.noOptionsGiven = currentlySelected.classList.contains('kn-select-list__default-option')
+        this.noOptionsGiven = currentlySelected.classList.contains(this.defaultOptionClass)
+
+        if (!this.isMulti && currentlySelected.value === '') {
+          this.$emit('change', '')
+        }
+
         return
       }
 
       const firstOptionInList = this.$el.querySelector('option')
       if (firstOptionInList) {
-        this.noOptionsGiven = firstOptionInList.classList.contains('kn-select-list__default-option')
+        this.noOptionsGiven = firstOptionInList.classList.contains(this.defaultOptionClass)
 
-        if (!this.isMulti) {
+        if (!this.isMulti && this.currentValue !== firstOptionInList.value) {
           this.currentValue = firstOptionInList.value
         }
 

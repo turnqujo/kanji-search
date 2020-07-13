@@ -129,4 +129,6 @@ describe('The Kanji Form component.', () => {
     expect(primarySortSelect.find('option[value=grade]').attributes().disabled).toBeTruthy()
     expect(secondarySortSelect.find('option[value=jlpt]').attributes().disabled).toBeTruthy()
   })
+
+  it.todo('Should trim whitespace from text fields.')
 })
