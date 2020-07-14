@@ -3,7 +3,7 @@
     <select
       class="kn-select-list__control"
       v-model="currentValue"
-      :disabled="noOptionsGiven"
+      :disabled="noOptionsGiven || disabled"
       :multiple="multiple"
       :size="adjustedSize"
     >
@@ -144,6 +144,7 @@
   export default class KnSelectList extends Vue {
     @Model('change', { default: '' }) value!: string | string[]
     @Prop() multiple!: string
+    @Prop() disabled!: string
     @Prop({ default: '' }) label!: string
     @Prop({ default: null }) size!: number | null
 

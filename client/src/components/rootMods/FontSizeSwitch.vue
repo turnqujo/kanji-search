@@ -1,24 +1,26 @@
 <template>
-  <label class="kn-select">
-    <select class="kn-select__control" v-model="fontSize">
-      <option value="xsmall">Extra Small</option>
-      <option value="small">Small</option>
-      <option value="medium">Medium</option>
-      <option value="large">Large</option>
-      <option value="xlarge">Extra Large</option>
-    </select>
-    <span class="kn-select__label">Font Size</span>
-  </label>
+  <kn-select-list label="Font Size" v-model="fontSize" v-if="fontSize !== null">
+    <option value="xsmall">Extra Small</option>
+    <option value="small">Small</option>
+    <option value="medium">Medium</option>
+    <option value="large">Large</option>
+    <option value="xlarge">Extra Large</option>
+  </kn-select-list>
 </template>
 
 <style lang="scss" scoped></style>
 
 <script lang="ts">
   import { Component, Vue } from 'vue-property-decorator'
+  import KnSelectList from '../styled/SelectList.vue'
 
   type FontSizes = 'xsmall' | 'small' | 'medium' | 'large' | 'xlarge'
 
-  @Component({})
+  @Component({
+    components: {
+      KnSelectList
+    }
+  })
   export default class FontSizeSwitch extends Vue {
     static storageKey = 'kn-font-size-preference'
     pFontSize: FontSizes | null = null

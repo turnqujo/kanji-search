@@ -47,14 +47,11 @@
             <kana-keyboard @kana-picked="onPickedKana"></kana-keyboard>
           </li>
           <li>
-            <label class="kn-select">
-              <select class="kn-select__control" v-model="readingMatchOption">
-                <option value="exact">Exactly</option>
-                <option value="start">Start only</option>
-                <option value="anywhere">Anywhere</option>
-              </select>
-              <span class="kn-select__label">Matches</span>
-            </label>
+            <kn-select-list label="Matches" v-model="readingMatchOption">
+              <option value="exact">Exactly</option>
+              <option value="start">Start only</option>
+              <option value="anywhere">Anywhere</option>
+            </kn-select-list>
           </li>
         </ul>
         <ul class="kanji-form__control-list kanji-form__control-list--spaced">
@@ -98,70 +95,81 @@
       </div>
     </fieldset>
     <fieldset class="kn-fieldset">
-      <legend class="kn-fieldset__legend">Kanji Set</legend>
+      <legend class="kn-fieldset__legend">Kanji Sets</legend>
       <div class="kn-fieldset__content">
-        <ul class="kanji-form__control-list kanji-form__control-list--spaced">
-          <li>
-            <label class="kn-selection-item">
-              <input
-                type="checkbox"
-                name="kanji-set"
-                v-model="kanjiSet"
-                value="jouyou"
-                class="kn-selection-item__control"
-              />
-              <span class="kn-selection-item__label">General Use</span>
-            </label>
-          </li>
-          <li>
-            <label class="kn-selection-item">
-              <input
-                type="checkbox"
-                name="kanji-set"
-                v-model="kanjiSet"
-                value="jinmeiyou"
-                class="kn-selection-item__control"
-              />
-              <span class="kn-selection-item__label">Name Kanji</span>
-            </label>
-          </li>
-          <li>
-            <label class="kn-selection-item">
-              <input
-                type="checkbox"
-                name="kanji-set"
-                v-model="kanjiSet"
-                value="kyouiku"
-                class="kn-selection-item__control"
-              />
-              <span class="kn-selection-item__label">Gradeschool Kanji</span>
-            </label>
-          </li>
-          <li>
-            <label class="kn-selection-item">
-              <input
-                type="checkbox"
-                name="kanji-set"
-                v-model="kanjiSet"
-                value="jlpt"
-                class="kn-selection-item__control"
-              />
-              <span class="kn-selection-item__label">JLPT</span>
-            </label>
-          </li>
-          <li>
-            <label class="kn-selection-item">
-              <input
-                type="checkbox"
-                name="kanji-set"
-                v-model="kanjiSet"
-                value="hyougai"
-                class="kn-selection-item__control"
-              />
-              <span class="kn-selection-item__label">Unlisted Kanji</span>
-            </label>
-          </li>
-        </ul>
+        <div class="kn-only--xsmall">
+          <kn-select-list label="Draw from these sets" v-model="kanjiSet" multiple size="5">
+            <option value="jouyou">General Use</option>
+            <option value="jinmeiyou">Name Kanji</option>
+            <option value="kyouiku">Gradeschool Kanji</option>
+            <option value="jlpt">JLPT</option>
+            <option value="hyougai">Unlisted Kanji</option>
+          </kn-select-list>
+        </div>
+        <div class="kn-at-least--small">
+          <ul class="kanji-form__control-list kanji-form__control-list--spaced">
+            <li>
+              <label class="kn-selection-item">
+                <input
+                  type="checkbox"
+                  name="kanji-set"
+                  v-model="kanjiSet"
+                  value="jouyou"
+                  class="kn-selection-item__control"
+                />
+                <span class="kn-selection-item__label">General Use</span>
+              </label>
+            </li>
+            <li>
+              <label class="kn-selection-item">
+                <input
+                  type="checkbox"
+                  name="kanji-set"
+                  v-model="kanjiSet"
+                  value="jinmeiyou"
+                  class="kn-selection-item__control"
+                />
+                <span class="kn-selection-item__label">Name Kanji</span>
+              </label>
+            </li>
+            <li>
+              <label class="kn-selection-item">
+                <input
+                  type="checkbox"
+                  name="kanji-set"
+                  v-model="kanjiSet"
+                  value="kyouiku"
+                  class="kn-selection-item__control"
+                />
+                <span class="kn-selection-item__label">Gradeschool Kanji</span>
+              </label>
+            </li>
+            <li>
+              <label class="kn-selection-item">
+                <input
+                  type="checkbox"
+                  name="kanji-set"
+                  v-model="kanjiSet"
+                  value="jlpt"
+                  class="kn-selection-item__control"
+                />
+                <span class="kn-selection-item__label">JLPT</span>
+              </label>
+            </li>
+            <li>
+              <label class="kn-selection-item">
+                <input
+                  type="checkbox"
+                  name="kanji-set"
+                  v-model="kanjiSet"
+                  value="hyougai"
+                  class="kn-selection-item__control"
+                />
+                <span class="kn-selection-item__label">Unlisted Kanji</span>
+              </label>
+            </li>
+          </ul>
+        </div>
       </div>
     </fieldset>
     <fieldset class="kn-fieldset">
@@ -169,18 +177,13 @@
       <div class="kn-fieldset__content">
         <ol class="kanji-form__control-list kanji-form__control-list--spaced">
           <li>
-            <label class="kn-select">
-              <select class="kn-select__control" v-model="primarySortField" data-tid="primary-sort">
-                <option value="frequency">Popularity</option>
-                <option value="grade" :disabled="secondarySortField === 'grade'">Grade</option>
-                <option value="jlpt" :disabled="secondarySortField === 'jlpt'">JLPT</option>
-                <option value="strokeCount" :disabled="secondarySortField === 'strokeCount'">Stroke Count</option>
-                <option value="unicode">Unicode</option>
-              </select>
-              <span class="kn-select__label">Primary</span>
-            </label>
-          </li>
-          <li>
+            <kn-select-list label="Primary" v-model="primarySortField" class="kanji-form__primary-sort">
+              <option value="frequency">Popularity</option>
+              <option value="grade" :disabled="secondarySortField === 'grade'">Grade</option>
+              <option value="jlpt" :disabled="secondarySortField === 'jlpt'">JLPT</option>
+              <option value="strokeCount" :disabled="secondarySortField === 'strokeCount'">Stroke Count</option>
+              <option value="unicode">Unicode</option>
+            </kn-select-list>
             <ol class="kanji-form__sort-dir-container">
               <li>
                 <label class="kn-selection-item">
@@ -209,24 +212,19 @@
             </ol>
           </li>
           <li>
-            <label class="kn-select">
-              <select
-                class="kn-select__control"
-                v-model="secondarySortField"
-                :disabled="primarySortField === 'frequency' || primarySortField === 'unicode'"
-                data-tid="secondary-sort"
-              >
-                <option value="none">None</option>
-                <option value="frequency">Popularity</option>
-                <option value="grade" :disabled="primarySortField === 'grade'">Grade</option>
-                <option value="jlpt" :disabled="primarySortField === 'jlpt'">JLPT</option>
-                <option value="strokeCount" :disabled="primarySortField === 'strokeCount'">Stroke Count</option>
-                <option value="unicode">Unicode</option>
-              </select>
-              <span class="kn-select__label">Secondary</span>
-            </label>
-          </li>
-          <li>
+            <kn-select-list
+              label="Secondary"
+              v-model="secondarySortField"
+              class="kanji-form__secondary-sort"
+              :disabled="primarySortField === 'frequency' || primarySortField === 'unicode'"
+            >
+              <option value="none">None</option>
+              <option value="frequency">Popularity</option>
+              <option value="grade" :disabled="primarySortField === 'grade'">Grade</option>
+              <option value="jlpt" :disabled="primarySortField === 'jlpt'">JLPT</option>
+              <option value="strokeCount" :disabled="primarySortField === 'strokeCount'">Stroke Count</option>
+              <option value="unicode">Unicode</option>
+            </kn-select-list>
             <ol class="kanji-form__sort-dir-container">
               <li>
                 <label class="kn-selection-item">
@@ -310,9 +308,12 @@
 
     &__sort-dir-container {
       display: flex;
+      flex-direction: column;
+
+      align-self: baseline;
 
       & > li:not(:first-of-type) {
-        margin-left: 0.5em;
+        margin-top: 0.5em;
       }
     }
   }
