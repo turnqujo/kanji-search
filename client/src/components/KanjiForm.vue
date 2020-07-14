@@ -266,19 +266,16 @@
       </div>
     </fieldset>
     <fieldset class="kn-fieldset">
-      <legend class="kn-fieldset__legend">Actions</legend>
-      <div class="kn-fieldset__content">
-        <ol class="kanji-form__control-list kanji-form__control-list--spaced">
-          <li>
-            <button type="button" data-tid="clear-button" class="kn-btn kn-negative" @click="setDefaultValues">
-              Clear
-            </button>
-          </li>
-          <li>
-            <button type="submit" class="kn-btn kn-positive">Search</button>
-          </li>
-        </ol>
-      </div>
+      <ol class="kanji-form__control-list kanji-form__control-list--spaced">
+        <li>
+          <button type="button" data-tid="clear-button" class="kn-btn kn-negative" @click="setDefaultValues">
+            Clear
+          </button>
+        </li>
+        <li>
+          <button type="submit" class="kn-btn kn-positive">Search</button>
+        </li>
+      </ol>
     </fieldset>
   </form>
 </template>

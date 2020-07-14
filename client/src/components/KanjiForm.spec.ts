@@ -48,6 +48,7 @@ describe('The Kanji Form component.', () => {
       propsData: { debounceTime: 0, conversionTable }
     })
     const vm = wrapper.vm as any
+
     const expectedSubmit = {
       kanjiSet: vm.kanjiSet,
       meaning: vm.meaning,
@@ -101,33 +102,16 @@ describe('The Kanji Form component.', () => {
     expect(submittedValues[0][0]).toEqual(expectedSubmit)
   })
 
-  it.skip('Should disable invalid options in the primary / secondary sort selects.', async () => {
+  it('Should disable invalid options in the primary / secondary sort selects.', async () => {
     const wrapper = shallowMount(KanjiForm, {
       propsData: { debounceTime: 0, conversionTable }
     })
 
-    const primarySortSelect = wrapper.find('.kanji-form__primary-sort select')
-    if (!primarySortSelect.exists()) {
-      return fail('Could not find the primary sort element.')
-    }
+    await wrapper.setData({ primarySortField: 'jlpt' })
+    expect(wrapper.find('.kanji-form__secondary-sort option[value=jlpt]').attributes().disabled).toBeTruthy()
 
-    const secondarySortSelect = wrapper.find('.kanji-form__secondary-sort select')
-    if (!secondarySortSelect.exists()) {
-      return fail('Could not find the secondary sort element.')
-    }
-
-    // Default: secondary sort disabled, primary and secondary have different values
-    expect(secondarySortSelect.attributes().disabled).toBeTruthy()
-
-    // Setting primary to an ambiguous sorting value should enable the secondary sort
-    await primarySortSelect.setValue('jlpt')
-    expect(secondarySortSelect.attributes().disabled).toBeUndefined()
-    expect(secondarySortSelect.find('option[value=jlpt]').attributes().disabled).toBeTruthy()
-
-    // Setting secondary sort should disable the same option in the primary sort
-    await secondarySortSelect.setValue('grade')
-    expect(primarySortSelect.find('option[value=grade]').attributes().disabled).toBeTruthy()
-    expect(secondarySortSelect.find('option[value=jlpt]').attributes().disabled).toBeTruthy()
+    await wrapper.setData({ secondarySortField: 'grade' })
+    expect(wrapper.find('.kanji-form__primary-sort option[value=grade]').attributes().disabled).toBeTruthy()
   })
 
   it.todo('Should trim whitespace from text fields.')
