@@ -12,7 +12,7 @@
 
 <script lang="ts">
   import { Component, Vue } from 'vue-property-decorator'
-  import KnSelectList from '../styled/SelectList.vue'
+  import KnSelectList from '../SelectList.vue'
 
   type FontSizes = 'xsmall' | 'small' | 'medium' | 'large' | 'xlarge'
 

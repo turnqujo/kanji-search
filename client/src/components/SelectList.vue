@@ -22,8 +22,8 @@
 </template>
 
 <style lang="scss" scoped>
-  @import '../../theme/mixins/_transitions.scss';
-  @import '../../theme/_colors.scss';
+  @import '../theme/mixins/_transitions.scss';
+  @import '../theme/_colors.scss';
 
   .kn-select-list {
     --select-icon-size: 0.5em;
@@ -42,6 +42,11 @@
 
         ~ .kn-select-list__label {
           color: var(--#{$variation});
+        }
+
+        ~ .kn-select-list__label::selection {
+          background-color: var(--#{$variation});
+          color: var(--kn-background);
         }
       }
 

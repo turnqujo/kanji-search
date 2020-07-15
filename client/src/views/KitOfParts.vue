@@ -135,7 +135,15 @@
     <fieldset class="kn-fieldset showcase--vertical" :disabled="disableAll">
       <legend class="kn-fieldset__legend">Text Input {{ disableAll ? '(Disabled)' : '' }}</legend>
       <ol class="kn-fieldset__content">
-        <kn-input></kn-input>
+        <li>
+          <kn-text-input label="Default"></kn-text-input>
+        </li>
+        <li>
+          <kn-text-input label="Positive" class="kn-positive"></kn-text-input>
+        </li>
+        <li>
+          <kn-text-input label="Negative" class="kn-negative"></kn-text-input>
+        </li>
       </ol>
     </fieldset>
     <fieldset class="kn-fieldset showcase--vertical" :disabled="disableAll">
@@ -280,13 +288,13 @@
 
 <script lang="ts">
   import { Component, Vue } from 'vue-property-decorator'
-  import KnSelectList from '../components/styled/SelectList.vue'
-  import KnInput from '../components/styled/Input.vue'
+  import KnSelectList from '../components/SelectList.vue'
+  import KnTextInput from '../components/TextInput.vue'
 
   @Component({
     components: {
       KnSelectList,
-      KnInput
+      KnTextInput
     }
   })
   export default class KitOfParts extends Vue {

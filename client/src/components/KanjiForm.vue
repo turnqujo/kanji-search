@@ -322,7 +322,7 @@
   import { convertText } from '../workers'
   import { ConversionItem } from '../data/conversion-table'
   import KanaKeyboard from './KanaKeyboard.vue'
-  import KnSelectList from './styled/SelectList.vue'
+  import KnSelectList from './SelectList.vue'
 
   export interface KanjiFormSubmit {
     kanjiSet: KanjiSet[]
