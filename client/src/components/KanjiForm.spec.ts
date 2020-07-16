@@ -1,32 +1,9 @@
 import { shallowMount } from '@vue/test-utils'
-import * as convertTextDependency from '../workers'
 import conversionTable from '../../public/data/conversionTable.json'
 import kanaKeyboard from './KanaKeyboard.vue'
 import KanjiForm from './KanjiForm.vue'
 
 describe('The Kanji Form component.', () => {
-  it('Should display an error if the reading input is not valid.', async () => {
-    // @ts-ignore TODO: Yep, this is mutating the import. Too bad!
-    convertTextDependency.convertText = jest.fn(async () => {
-      throw new Error('Test Error')
-    })
-
-    const wrapper = shallowMount(KanjiForm, {
-      propsData: { debounceTime: 0, conversionTable }
-    })
-    await wrapper.setData({ reading: 'lol not kana!' })
-
-    const readingInput = wrapper.find('input[data-tid=reading-input]')
-    if (!readingInput.exists()) {
-      return fail('Could not find reading input.')
-    }
-
-    // TODO: Couldn't figure out how to wait for the method to finish
-    await new Promise((resolve) => setTimeout(resolve, 0))
-
-    expect((wrapper.vm as any).readingError).toBe('Test Error')
-  })
-
   it('Should accept picked kana from a child keyboard component.', async () => {
     const wrapper = shallowMount(KanjiForm, {
       propsData: { debounceTime: 0, conversionTable }

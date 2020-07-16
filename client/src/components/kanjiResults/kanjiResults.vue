@@ -20,6 +20,10 @@
       display: flex;
     }
 
+    &-filters__container {
+      align-self: center;
+    }
+
     &-paginator__container {
       margin-left: 1em;
     }

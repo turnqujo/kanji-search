@@ -59,10 +59,20 @@
       @include quickTransition(border-color, color, background-color);
       appearance: none;
       background-color: transparent;
-      border: 2px solid var(--kn-foreground);
+      border-radius: 0;
+      border: 1px solid var(--kn-foreground);
       color: var(--kn-foreground);
+      box-sizing: border-box;
       font-size: 1em;
       padding: 0.25em calc(var(--select-icon-size) * 4) 0.25em 0.5em;
+    }
+
+    &__control:not([multiple]) {
+      height: 2em;
+    }
+
+    &__control[multiple] {
+      min-height: 2em;
     }
 
     &__control:focus {

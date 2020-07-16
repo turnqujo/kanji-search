@@ -2,7 +2,7 @@ import { shallowMount, mount } from '@vue/test-utils'
 import KnSelectList from './SelectList.vue'
 import Vue from 'vue'
 
-describe('The Select List Styled Component.', () => {
+describe('The Select List Component.', () => {
   it('Should encapsulate a set of option elements.', () => {
     const wrapper = shallowMount(KnSelectList, {
       slots: { default: ['<option value="a">A</option>', '<option value="b">B</option>'] }

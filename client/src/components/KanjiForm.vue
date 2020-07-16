@@ -5,16 +5,12 @@
       <div class="kn-fieldset__content">
         <ul class="kanji-form__control-list">
           <li>
-            <label class="kn-input">
-              <input
-                type="text"
-                class="kn-input__control"
-                placeholder="Sun, dog, etc."
-                v-model="meaning"
-                data-tid="meaning-text"
-              />
-              <span class="kn-input__label">Text</span>
-            </label>
+            <kn-text-input
+              label="Definition"
+              placeholder="Sun, dog, etc."
+              data-tid="meaning-text"
+              v-model="meaning"
+            ></kn-text-input>
           </li>
           <li>
             <kn-select-list label="Matches" v-model="meaningMatchOption">
@@ -31,17 +27,12 @@
       <div class="kn-fieldset__content">
         <ul class="kanji-form__control-list">
           <li>
-            <label class="kn-input">
-              <span v-if="readingError !== ''" data-tid="reading-error">{{ readingError }}</span>
-              <input
-                type="text"
-                class="kn-input__control"
-                placeholder="Kana or Romaji"
-                v-model="reading"
-                data-tid="reading-input"
-              />
-              <span class="kn-input__label">Text</span>
-            </label>
+            <kn-text-input
+              label="Pronunciation"
+              placeholder="Kana or Romaji"
+              data-tid="reading-input"
+              v-model="reading"
+            ></kn-text-input>
           </li>
           <li>
             <kana-keyboard @kana-picked="onPickedKana"></kana-keyboard>
@@ -323,6 +314,7 @@
   import { ConversionItem } from '../data/conversion-table'
   import KanaKeyboard from './KanaKeyboard.vue'
   import KnSelectList from './SelectList.vue'
+  import KnTextInput from './TextInput.vue'
 
   export interface KanjiFormSubmit {
     kanjiSet: KanjiSet[]
@@ -338,15 +330,13 @@
   @Component({
     components: {
       KanaKeyboard,
-      KnSelectList
+      KnSelectList,
+      KnTextInput
     }
   })
   export default class KanjiForm extends Vue {
-    @Prop({ default: 300 })
-    debounceTime!: number
-
-    @Prop({ default: [] })
-    conversionTable!: ConversionItem[]
+    @Prop({ default: 300 }) debounceTime!: number
+    @Prop({ default: [] }) conversionTable!: ConversionItem[]
 
     hasMeaningError = false
     kanjiSet: KanjiSet[] = ['jouyou', 'jinmeiyou', 'kyouiku', 'jlpt']

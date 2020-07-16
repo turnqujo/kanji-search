@@ -1,66 +1,90 @@
 <template>
-  <ul class="kn-kanji-paginator" v-if="state.listLength > 0">
-    <li>
-      <label class="kn-select kn-positive">
-        <select v-model="perPage" class="kn-select__control">
-          <option value="10">10</option>
-          <option value="25">25</option>
-          <option value="100">100</option>
-        </select>
-        <span class="kn-select__label">Per Page</span>
-      </label>
-    </li>
-    <li>
-      <button
-        type="button"
-        class="kn-btn kn-ghost"
-        @click="onFirstPageClicked"
-        data-tid="first"
-        :disabled="atStartOfList"
-      >
-        First
-      </button>
-    </li>
-    <li>
-      <button
-        type="button"
-        class="kn-btn kn-ghost"
-        @click="onPreviousPageClicked"
-        data-tid="previous"
-        :disabled="atStartOfList"
-      >
-        Previous
-      </button>
-    </li>
-    <li>
-      <span class="kn-kanji-paginator__state">{{ statusMessage }}</span>
-    </li>
-    <li>
-      <button type="button" class="kn-btn kn-ghost" @click="onNextPageClicked" data-tid="next" :disabled="atEndOfList">
-        Next
-      </button>
-    </li>
-    <li>
-      <button type="button" class="kn-btn kn-ghost" @click="onLastPageCLicked" data-tid="last" :disabled="atEndOfList">
-        Last
-      </button>
-    </li>
-  </ul>
+  <div class="kn-kanji-paginator" v-if="state.listLength > 0">
+    <kn-select-list v-model="perPage" label="Per Page">
+      <option value="10">10</option>
+      <option value="25">25</option>
+      <option value="100">100</option>
+    </kn-select-list>
+    <div class="kn-kanji-paginator__state-container">
+      <span class="kn-kanji-paginator__state-message">{{ statusMessage }}</span>
+      <ol class="kn-kanji-paginator__state-controls">
+        <li>
+          <button
+            type="button"
+            class="kn-btn kn-ghost"
+            @click="onFirstPageClicked"
+            data-tid="first"
+            :disabled="atStartOfList"
+          >
+            First
+          </button>
+        </li>
+        <li>
+          <button
+            type="button"
+            class="kn-btn kn-ghost"
+            @click="onPreviousPageClicked"
+            data-tid="previous"
+            :disabled="atStartOfList"
+          >
+            Previous
+          </button>
+        </li>
+        <li>
+          <button
+            type="button"
+            class="kn-btn kn-ghost"
+            @click="onNextPageClicked"
+            data-tid="next"
+            :disabled="atEndOfList"
+          >
+            Next
+          </button>
+        </li>
+        <li>
+          <button
+            type="button"
+            class="kn-btn kn-ghost"
+            @click="onLastPageCLicked"
+            data-tid="last"
+            :disabled="atEndOfList"
+          >
+            Last
+          </button>
+        </li>
+      </ol>
+    </div>
+  </div>
 </template>
 
 <style lang="scss" scoped>
   .kn-kanji-paginator {
     display: flex;
-    align-items: center;
 
-    & > li:not(:first-of-type) {
+    &__state-container {
       margin-left: 1em;
+      text-align: center;
+    }
+
+    &__state-message {
+      display: inline-block;
+      margin-bottom: 0.3em;
+    }
+
+    &__state-controls {
+      display: flex;
+      flex-direction: row;
+
+      & > li:not(:first-of-type) {
+        margin-left: 1em;
+      }
     }
   }
 </style>
 
 <script lang="ts">
   import { Component, Vue, Prop } from 'vue-property-decorator'
+  import KnSelectList from '../SelectList.vue'
 
   export interface KanjiPaginatorState {
     perPageLimit: number
@@ -68,7 +92,11 @@
     listLength: number
   }
 
-  @Component({})
+  @Component({
+    components: {
+      KnSelectList
+    }
+  })
   export default class KanjiPaginator extends Vue {
     @Prop() state!: KanjiPaginatorState
 

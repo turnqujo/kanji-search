@@ -3,7 +3,6 @@
   display: flex;
   align-items: center;
   flex-direction: row-reverse;
-  font-weight: bold;
   user-select: none;
 
   @each $variation in $semanticColors {

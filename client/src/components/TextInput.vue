@@ -1,5 +1,5 @@
 <template>
-  <label class="kn-text-input">
+  <label :class="['kn-text-input', { 'kn-text-input--clearable': isClearable }]">
     <input class="kn-text-input__control" v-model="currentValue" :placeholder="placeholder" />
     <svg class="kn-icon kn-text-input__decorator">
       <use href="img/icons/solid.svg#terminal"></use>
@@ -26,7 +26,7 @@
   .kn-text-input {
     --select-icon-size: 1em;
     --label-offset: 1.3em;
-    --control-border-width: 2px;
+    --control-border-width: 1px;
     --decorator-inset: 0.5em;
     display: inline-block;
     margin: var(--label-offset) 0 0.5em 0;
@@ -72,8 +72,9 @@
       box-sizing: border-box;
       color: var(--kn-foreground);
       font-size: 1em;
+      border-radius: 0;
       padding: 0.25em var(--right-padding) 0.25em var(--left-padding);
-      width: 100%;
+      height: 2em;
     }
 
     &__control:focus {
@@ -86,7 +87,8 @@
     }
 
     // Icons (Decorators) styling
-    .kn-icon {
+    &__decorator--clear .kn-icon,
+    &__decorator.kn-icon {
       font-size: inherit;
       height: var(--select-icon-size);
       width: var(--select-icon-size);
@@ -131,15 +133,23 @@
       display: none;
       height: calc(100% - var(--control-border-width) * 2);
       justify-content: center;
+      padding: 0 var(--decorator-inset);
       position: absolute;
       right: var(--control-border-width);
       top: var(--control-border-width);
-      padding: 0 var(--decorator-inset);
     }
 
-    &__control:not(:placeholder-shown):focus ~ &__decorator--clear,
-    &__control:not(:placeholder-shown):hover ~ &__decorator--clear {
+    &--clearable &__decorator--clear {
       display: flex;
+    }
+
+    &__decorator--clear .kn-icon {
+      opacity: 0.2;
+    }
+
+    &__decorator--clear:hover .kn-icon,
+    &__control:focus ~ &__decorator--clear .kn-icon {
+      opacity: 1;
     }
 
     // Label styling
@@ -173,6 +183,11 @@
     private fallbackValue = ''
 
     get currentValue(): string {
+      if (this.value !== this.fallbackValue) {
+        this.fallbackValue = this.value
+        return this.value
+      }
+
       return this.value ? this.value : this.fallbackValue
     }
 
@@ -181,8 +196,14 @@
       this.$emit('change', newVal)
     }
 
+    get isClearable(): boolean {
+      return this.currentValue.length > 0
+    }
+
     onClear() {
       this.currentValue = ''
+      const control = this.$el.querySelector('.kn-text-input__control') as HTMLElement
+      control.focus()
     }
   }
 </script>
