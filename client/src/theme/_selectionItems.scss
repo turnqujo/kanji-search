@@ -21,6 +21,7 @@
 
   &__label {
     @include standardTransition(color, border-color);
+    white-space: nowrap;
   }
 
   &__control:not(:disabled),

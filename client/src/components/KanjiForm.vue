@@ -1,32 +1,30 @@
 <template>
-  <form @submit.prevent="onSubmit" class="kanji-form">
+  <form @submit.prevent="onSubmit" class="kn-kanji-form container">
     <fieldset class="kn-fieldset">
       <legend class="kn-fieldset__legend">Search by Meaning</legend>
-      <div class="kn-fieldset__content">
-        <ul class="kanji-form__control-list">
-          <li>
-            <kn-text-input
-              label="Definition"
-              placeholder="Sun, dog, etc."
-              data-tid="meaning-text"
-              v-model="meaning"
-            ></kn-text-input>
-          </li>
-          <li>
-            <kn-select-list label="Matches" v-model="meaningMatchOption">
-              <option value="exact">Exactly</option>
-              <option value="start">Start only</option>
-              <option value="anywhere">Anywhere</option>
-            </kn-select-list>
-          </li>
-        </ul>
-      </div>
+      <ul class="kn-fieldset__content columns">
+        <li class="column is-narrow">
+          <kn-text-input
+            label="Definition"
+            placeholder="Sun, dog, etc."
+            data-tid="meaning-text"
+            v-model="meaning"
+          ></kn-text-input>
+        </li>
+        <li class="column is-narrow">
+          <kn-select-list label="Matches" v-model="meaningMatchOption">
+            <option value="exact">Exactly</option>
+            <option value="start">Start only</option>
+            <option value="anywhere">Anywhere</option>
+          </kn-select-list>
+        </li>
+      </ul>
     </fieldset>
     <fieldset class="kn-fieldset">
       <legend class="kn-fieldset__legend">Search by Reading</legend>
       <div class="kn-fieldset__content">
-        <ul class="kanji-form__control-list">
-          <li>
+        <ul class="kn-kanji-form__reading-options columns">
+          <li class="column is-narrow">
             <kn-text-input
               label="Pronunciation"
               placeholder="Kana or Romaji"
@@ -34,10 +32,10 @@
               v-model="reading"
             ></kn-text-input>
           </li>
-          <li>
+          <li class="column is-narrow is-hidden-touch">
             <kana-keyboard @kana-picked="onPickedKana"></kana-keyboard>
           </li>
-          <li>
+          <li class="column is-narrow">
             <kn-select-list label="Matches" v-model="readingMatchOption">
               <option value="exact">Exactly</option>
               <option value="start">Start only</option>
@@ -45,8 +43,13 @@
             </kn-select-list>
           </li>
         </ul>
-        <ul class="kanji-form__control-list kanji-form__control-list--spaced">
-          <li>
+        <kn-select-list v-model="readingType" class="is-hidden-desktop" label="Use these readings" size="3" multiple>
+          <option value="on">On'yomi</option>
+          <option value="kun">Kun'yomi</option>
+          <option value="nanori">Nanori</option>
+        </kn-select-list>
+        <ul class="columns is-hidden-touch">
+          <li class="column is-narrow">
             <label class="kn-selection-item">
               <input
                 type="checkbox"
@@ -58,7 +61,7 @@
               <span class="kn-selection-item__label">On'yomi</span>
             </label>
           </li>
-          <li>
+          <li class="column is-narrow">
             <label class="kn-selection-item">
               <input
                 type="checkbox"
@@ -70,7 +73,7 @@
               <span class="kn-selection-item__label">Kun'yomi</span>
             </label>
           </li>
-          <li>
+          <li class="column is-narrow">
             <label class="kn-selection-item">
               <input
                 type="checkbox"
@@ -88,86 +91,82 @@
     <fieldset class="kn-fieldset">
       <legend class="kn-fieldset__legend">Kanji Sets</legend>
       <div class="kn-fieldset__content">
-        <div class="kn-only--xsmall">
-          <kn-select-list label="Draw from these sets" v-model="kanjiSet" multiple size="5">
-            <option value="jouyou">General Use</option>
-            <option value="jinmeiyou">Name Kanji</option>
-            <option value="kyouiku">Gradeschool Kanji</option>
-            <option value="jlpt">JLPT</option>
-            <option value="hyougai">Unlisted Kanji</option>
-          </kn-select-list>
-        </div>
-        <div class="kn-at-least--small">
-          <ul class="kanji-form__control-list kanji-form__control-list--spaced">
-            <li>
-              <label class="kn-selection-item">
-                <input
-                  type="checkbox"
-                  name="kanji-set"
-                  v-model="kanjiSet"
-                  value="jouyou"
-                  class="kn-selection-item__control"
-                />
-                <span class="kn-selection-item__label">General Use</span>
-              </label>
-            </li>
-            <li>
-              <label class="kn-selection-item">
-                <input
-                  type="checkbox"
-                  name="kanji-set"
-                  v-model="kanjiSet"
-                  value="jinmeiyou"
-                  class="kn-selection-item__control"
-                />
-                <span class="kn-selection-item__label">Name Kanji</span>
-              </label>
-            </li>
-            <li>
-              <label class="kn-selection-item">
-                <input
-                  type="checkbox"
-                  name="kanji-set"
-                  v-model="kanjiSet"
-                  value="kyouiku"
-                  class="kn-selection-item__control"
-                />
-                <span class="kn-selection-item__label">Gradeschool Kanji</span>
-              </label>
-            </li>
-            <li>
-              <label class="kn-selection-item">
-                <input
-                  type="checkbox"
-                  name="kanji-set"
-                  v-model="kanjiSet"
-                  value="jlpt"
-                  class="kn-selection-item__control"
-                />
-                <span class="kn-selection-item__label">JLPT</span>
-              </label>
-            </li>
-            <li>
-              <label class="kn-selection-item">
-                <input
-                  type="checkbox"
-                  name="kanji-set"
-                  v-model="kanjiSet"
-                  value="hyougai"
-                  class="kn-selection-item__control"
-                />
-                <span class="kn-selection-item__label">Unlisted Kanji</span>
-              </label>
-            </li>
-          </ul>
-        </div>
+        <kn-select-list v-model="kanjiSet" class="is-hidden-desktop" label="Draw from these sets" size="5" multiple>
+          <option value="jouyou">General Use</option>
+          <option value="jinmeiyou">Name Kanji</option>
+          <option value="kyouiku">Gradeschool Kanji</option>
+          <option value="jlpt">JLPT</option>
+          <option value="hyougai">Unlisted Kanji</option>
+        </kn-select-list>
+        <ul class="columns is-hidden-touch">
+          <li class="column is-narrow">
+            <label class="kn-selection-item">
+              <input
+                type="checkbox"
+                name="kanji-set"
+                v-model="kanjiSet"
+                value="jouyou"
+                class="kn-selection-item__control"
+              />
+              <span class="kn-selection-item__label">General</span>
+            </label>
+          </li>
+          <li class="column is-narrow">
+            <label class="kn-selection-item">
+              <input
+                type="checkbox"
+                name="kanji-set"
+                v-model="kanjiSet"
+                value="jinmeiyou"
+                class="kn-selection-item__control"
+              />
+              <span class="kn-selection-item__label">Name</span>
+            </label>
+          </li>
+          <li class="column is-narrow">
+            <label class="kn-selection-item">
+              <input
+                type="checkbox"
+                name="kanji-set"
+                v-model="kanjiSet"
+                value="kyouiku"
+                class="kn-selection-item__control"
+              />
+              <span class="kn-selection-item__label">School</span>
+            </label>
+          </li>
+          <li class="column is-narrow">
+            <label class="kn-selection-item">
+              <input
+                type="checkbox"
+                name="kanji-set"
+                v-model="kanjiSet"
+                value="jlpt"
+                class="kn-selection-item__control"
+              />
+              <span class="kn-selection-item__label">JLPT</span>
+            </label>
+          </li>
+          <li class="column is-narrow">
+            <label class="kn-selection-item">
+              <input
+                type="checkbox"
+                name="kanji-set"
+                v-model="kanjiSet"
+                value="hyougai"
+                class="kn-selection-item__control"
+              />
+              <span class="kn-selection-item__label">Unlisted</span>
+            </label>
+          </li>
+        </ul>
       </div>
     </fieldset>
     <fieldset class="kn-fieldset">
       <legend class="kn-fieldset__legend">Sorting</legend>
       <div class="kn-fieldset__content">
-        <ol class="kanji-form__control-list kanji-form__control-list--spaced">
-          <li>
+        <ol class="columns is-mobile">
+          <li class="column is-narrow">
             <kn-select-list label="Primary" v-model="primarySortField" class="kanji-form__primary-sort">
               <option value="frequency">Popularity</option>
               <option value="grade" :disabled="secondarySortField === 'grade'">Grade</option>
@@ -175,8 +174,8 @@
               <option value="strokeCount" :disabled="secondarySortField === 'strokeCount'">Stroke Count</option>
               <option value="unicode">Unicode</option>
             </kn-select-list>
-            <ol class="kanji-form__sort-dir-container">
-              <li>
+            <ol class="columns is-mobile">
+              <li class="column is-narrow">
                 <label class="kn-selection-item">
                   <input
                     type="radio"
@@ -188,7 +187,7 @@
                   <span class="kn-selection-item__label">Asc</span>
                 </label>
               </li>
-              <li>
+              <li class="column is-narrow">
                 <label class="kn-selection-item">
                   <input
                     type="radio"
@@ -202,7 +201,7 @@
               </li>
             </ol>
           </li>
-          <li>
+          <li class="column is-narrow">
             <kn-select-list
               label="Secondary"
               v-model="secondarySortField"
@@ -216,8 +215,8 @@
               <option value="strokeCount" :disabled="primarySortField === 'strokeCount'">Stroke Count</option>
               <option value="unicode">Unicode</option>
             </kn-select-list>
-            <ol class="kanji-form__sort-dir-container">
-              <li>
+            <ol class="columns is-mobile">
+              <li class="column is-narrow">
                 <label class="kn-selection-item">
                   <input
                     type="radio"
@@ -225,16 +224,12 @@
                     value="asc"
                     class="kn-selection-item__control"
                     v-model="secondarySortDirection"
-                    :disabled="
-                      primarySortField === 'frequency' ||
-                        primarySortField === 'unicode' ||
-                        secondarySortField === 'none'
-                    "
+                    :disabled="isSecondarySortDirDisabled"
                   />
                   <span class="kn-selection-item__label">Asc</span>
                 </label>
               </li>
-              <li>
+              <li class="column is-narrow">
                 <label class="kn-selection-item">
                   <input
                     type="radio"
@@ -242,11 +237,7 @@
                     value="desc"
                     class="kn-selection-item__control"
                     v-model="secondarySortDirection"
-                    :disabled="
-                      primarySortField === 'frequency' ||
-                        primarySortField === 'unicode' ||
-                        secondarySortField === 'none'
-                    "
+                    :disabled="isSecondarySortDirDisabled"
                   />
                   <span class="kn-selection-item__label">Desc</span>
                 </label>
@@ -257,13 +248,13 @@
       </div>
     </fieldset>
     <fieldset class="kn-fieldset">
-      <ol class="kanji-form__control-list kanji-form__control-list--spaced">
-        <li>
+      <ol class="columns is-mobile">
+        <li class="column is-narrow">
           <button type="button" data-tid="clear-button" class="kn-btn kn-negative" @click="setDefaultValues">
             Clear
           </button>
         </li>
-        <li>
+        <li class="column is-narrow">
           <button type="submit" class="kn-btn kn-positive">Search</button>
         </li>
       </ol>
@@ -272,37 +263,13 @@
 </template>
 
 <style lang="scss" scoped>
-  .kanji-form {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-
-    &__control-list:not(:first-of-type) {
-      margin-top: 1em;
-    }
-
-    &__control-list {
-      align-items: center;
-      display: flex;
-    }
-
-    &__control-list--spaced > li:not(:first-of-type) {
-      margin-left: 1.5em;
-    }
-
+  .kn-kanji-form {
     .kn-fieldset:not(:first-of-type) {
-      margin-top: 1em;
+      margin-top: 1.5rem;
     }
 
-    &__sort-dir-container {
-      display: flex;
-      flex-direction: column;
-
-      align-self: baseline;
-
-      & > li:not(:first-of-type) {
-        margin-top: 0.5em;
-      }
+    &__reading-options {
+      align-items: flex-end;
     }
   }
 </style>
@@ -354,6 +321,14 @@
 
     readingDebounceId: number | null = null
     submitDebounceId: number | null = null
+
+    get isSecondarySortDirDisabled() {
+      return (
+        this.primarySortField === 'frequency' ||
+        this.primarySortField === 'unicode' ||
+        this.secondarySortField === 'none'
+      )
+    }
 
     // TODO: This could be handled much better (Vuex?), but works for now
     setDefaultValues() {

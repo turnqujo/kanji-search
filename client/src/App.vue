@@ -1,41 +1,27 @@
 <template>
-  <div id="app">
-    <nav class="kn-navbar" id="kn-nav">
-      <ul class="kn-navbar__link-list">
-        <li class="kn-navbar__link"><router-link class="kn-anchor" to="/" data-tid="home">Home</router-link></li>
-        <li class="kn-navbar__link"><router-link class="kn-anchor" to="/about">About</router-link></li>
-        <li class="kn-navbar__link">
+  <div id="app" class="">
+    <nav class="kn-navbar section" id="kn-nav">
+      <ul class="kn-navbar__link-list columns">
+        <li class="kn-navbar__link column is-narrow"><router-link class="kn-anchor" to="/" data-tid="home">Home</router-link></li>
+        <li class="kn-navbar__link column is-narrow"><router-link class="kn-anchor" to="/about">About</router-link></li>
+        <li class="kn-navbar__link column is-narrow">
           <router-link class="kn-anchor" to="/settings" data-tid="settings">Settings</router-link>
         </li>
       </ul>
-      <ul class="kn-navbar__extras">
-        <li><DarkSwitch></DarkSwitch></li>
+      <ul class="kn-navbar__extras columns">
+        <li class="column is-narrow"><DarkSwitch></DarkSwitch></li>
       </ul>
     </nav>
-    <div class="kn-content">
+    <div class="kn-content section">
       <router-view />
     </div>
   </div>
 </template>
 
 <style lang="scss">
-  #app {
-    padding: 24px 24px 30vh 24px;
-  }
-
   .kn-navbar {
-    align-items: center;
-    display: flex;
-
-    & > ul:not(:first-of-type) {
-      border-left: 2px solid var(--kn-foreground--aux);
-      margin-left: 1em;
-      padding-left: 1em;
-    }
-  }
-
-  .kn-content {
-    margin-top: 2em;
+    // Override bulma section style
+    padding: 1.5rem 1.5rem 0 1.5rem;
   }
 </style>
 

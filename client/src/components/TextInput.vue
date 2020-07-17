@@ -176,13 +176,18 @@
 
   @Component({})
   export default class KnTextInput extends Vue {
-    @Model('change', { default: '' }) value!: string
+    @Model('change', { default: null }) value!: string
     @Prop({ default: '' }) label!: string
     @Prop({ default: '' }) placeholder!: string
 
     private fallbackValue = ''
 
     get currentValue(): string {
+      if (this.value === null) {
+        // v-model / :value are not defined, just use fallback
+        return this.fallbackValue
+      }
+
       if (this.value !== this.fallbackValue) {
         this.fallbackValue = this.value
         return this.value

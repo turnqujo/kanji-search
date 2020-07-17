@@ -52,10 +52,6 @@
     position: relative;
   }
 
-  .toggle-btn {
-    margin-right: 0.5em;
-  }
-
   .popup {
     position: absolute;
     z-index: 10;

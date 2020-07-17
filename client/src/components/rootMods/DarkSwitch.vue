@@ -1,6 +1,6 @@
 <template>
-  <ul class="selection-container">
-    <li>
+  <ul class="selection-container columns is-mobile">
+    <li class="column is-narrow">
       <label class="kn-selection-item kn-radio">
         <input
           type="radio"
@@ -15,7 +15,7 @@
         ></span>
       </label>
     </li>
-    <li>
+    <li class="column is-narrow">
       <label class="kn-selection-item kn-radio">
         <input
           type="radio"
@@ -35,12 +35,8 @@
 
 <style lang="scss" scoped>
   .selection-container {
-    display: flex;
+    // TODO: Why is this necessary?
     font-size: 0.5em;
-
-    & > li:not(:first-of-type) {
-      margin-left: 12px;
-    }
   }
 </style>
 
