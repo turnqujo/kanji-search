@@ -2,7 +2,9 @@
   <div id="app" class="">
     <nav class="kn-navbar section" id="kn-nav">
       <ul class="kn-navbar__link-list columns">
-        <li class="kn-navbar__link column is-narrow"><router-link class="kn-anchor" to="/" data-tid="home">Home</router-link></li>
+        <li class="kn-navbar__link column is-narrow">
+          <router-link class="kn-anchor" to="/" data-tid="home">Home</router-link>
+        </li>
         <li class="kn-navbar__link column is-narrow"><router-link class="kn-anchor" to="/about">About</router-link></li>
         <li class="kn-navbar__link column is-narrow">
           <router-link class="kn-anchor" to="/settings" data-tid="settings">Settings</router-link>
