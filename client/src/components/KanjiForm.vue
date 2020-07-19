@@ -1,5 +1,5 @@
 <template>
-  <form @submit.prevent="onSubmit" class="kn-kanji-form container">
+  <form @submit.prevent="onSubmit" class="kn-kanji-form">
     <fieldset class="kn-fieldset">
       <legend class="kn-fieldset__legend">Search by Meaning</legend>
       <ul class="kn-fieldset__content columns">
@@ -174,7 +174,7 @@
               <option value="strokeCount" :disabled="secondarySortField === 'strokeCount'">Stroke Count</option>
               <option value="unicode">Unicode</option>
             </kn-select-list>
-            <ol class="columns is-mobile">
+            <ol class="columns is-mobile is-centered">
               <li class="column is-narrow">
                 <label class="kn-selection-item">
                   <input
@@ -215,7 +215,7 @@
               <option value="strokeCount" :disabled="primarySortField === 'strokeCount'">Stroke Count</option>
               <option value="unicode">Unicode</option>
             </kn-select-list>
-            <ol class="columns is-mobile">
+            <ol class="columns is-mobile is-centered">
               <li class="column is-narrow">
                 <label class="kn-selection-item">
                   <input

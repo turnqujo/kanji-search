@@ -1,5 +1,5 @@
 <template>
-  <ul class="selection-container columns is-mobile">
+  <ul class="selection-container columns is-variable is-2 is-mobile">
     <li class="column is-narrow">
       <label class="kn-selection-item kn-radio">
         <input

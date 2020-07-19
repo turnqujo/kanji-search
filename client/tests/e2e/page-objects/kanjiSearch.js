@@ -19,7 +19,7 @@ module.exports = {
           }
         },
         form: {
-          selector: '.kanji-form',
+          selector: '.kn-kanji-form',
           elements: {
             meaningText: 'input[data-tid=meaning-text]',
             // meaningMatchOption: '',

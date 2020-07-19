@@ -1,38 +1,39 @@
 <template>
-  <ul class="selection-container">
-    <li>
-      <label class="kn-selection-item kn-radio">
-        <input
-          type="radio"
-          name="animation-switch-radios"
-          v-model="animationEnabled"
-          value="enabled"
-          class="kn-selection-item__control"
-        />
-        <span class="kn-selection-item__label">Enable Animations</span>
-      </label>
-    </li>
-    <li>
-      <label class="kn-selection-item kn-radio">
-        <input
-          type="radio"
-          name="animation-switch-radios"
-          v-model="animationEnabled"
-          value="disabled"
-          class="kn-selection-item__control"
-        />
-        <span class="kn-selection-item__label">Disable Animations</span>
-      </label>
-    </li>
-  </ul>
+  <div class="kn-animation-toggle">
+    <p class="kn-animation-toggle__title">Toggle Animation</p>
+    <ul class="kn-animation-toggle__controls columns">
+      <li class="column is-narrow">
+        <label class="kn-selection-item kn-radio">
+          <input
+            type="radio"
+            name="animation-switch-radios"
+            v-model="animationEnabled"
+            value="enabled"
+            class="kn-selection-item__control"
+          />
+          <span class="kn-selection-item__label">On</span>
+        </label>
+      </li>
+      <li class="column is-narrow">
+        <label class="kn-selection-item kn-radio">
+          <input
+            type="radio"
+            name="animation-switch-radios"
+            v-model="animationEnabled"
+            value="disabled"
+            class="kn-selection-item__control"
+          />
+          <span class="kn-selection-item__label">Off</span>
+        </label>
+      </li>
+    </ul>
+  </div>
 </template>
 
 <style lang="scss" scoped>
-  .selection-container {
-    display: flex;
-
-    & > li:not(:first-of-type) {
-      margin-left: 12px;
+  .kn-animation-toggle {
+    &__controls {
+      margin-top: 0.5em;
     }
   }
 </style>
