@@ -2,32 +2,26 @@
   <div class="kana-keyboard">
     <button type="button" @click="onToggleKeyboard" data-tid="toggle-keyboard" class="toggle-btn">
       <svg class="kn-icon">
-        <use xlink:href="img/icons/regular.svg#keyboard"></use>
+        <use href="img/icons/regular.svg#keyboard"></use>
       </svg>
     </button>
     <div class="popup" v-if="open">
       <div class="kana-table" v-on-click-outside="onToggleKeyboard">
-        <ul class="keyboard-options">
-          <li>
-            <label class="kn-select">
-              <select class="kn-select__control" v-model="mode">
-                <option value="hiragana">Hiragana</option>
-                <option value="katakana">Katakana</option>
-                <option value="romaji">Romaji</option>
-              </select>
-              <span class="kn-select__label">Kana</span>
-            </label>
+        <ul class="keyboard-options columns is-mobile">
+          <li class="column is-narrow">
+            <kn-select-list label="Kana" v-model="mode">
+              <option value="hiragana">Hiragana</option>
+              <option value="katakana">Katakana</option>
+              <option value="romaji">Romaji</option>
+            </kn-select-list>
           </li>
-          <li>
-            <label class="kn-select">
-              <select class="kn-select__control" v-model="modifier">
-                <option value="unmodified">Unmodified</option>
-                <option value="chiisai">Chiisai</option>
-                <option value="dakuten">Dakuten</option>
-                <option value="handakuten">Handakuten</option>
-              </select>
-              <span class="kn-select__label">Modifier</span>
-            </label>
+          <li class="column is-narrow">
+            <kn-select-list label="Modifier" v-model="modifier">
+              <option value="unmodified">Unmodified</option>
+              <option value="chiisai">Chiisai</option>
+              <option value="dakuten">Dakuten</option>
+              <option value="handakuten">Handakuten</option>
+            </kn-select-list>
           </li>
         </ul>
         <ul class="kana-table-row" v-for="(set, index) in kanaSet" :key="index">
@@ -52,19 +46,9 @@
     position: relative;
   }
 
-  .toggle-btn {
-    margin-right: 0.5em;
-  }
-
   .popup {
     position: absolute;
     z-index: 10;
-  }
-
-  .keyboard-options {
-    display: flex;
-    justify-content: flex-end;
-    margin: 0 0 0.5em 0;
   }
 
   .kana-table {
@@ -106,6 +90,7 @@
   } from '../data/gojuon-ordered-kana'
   import { ConversionItem } from '../data/conversion-table'
   import onClickOutside from '../directives/OnClickOutside.vue'
+  import KnSelectList from './SelectList.vue'
 
   type ModeType = 'hiragana' | 'katakana' | 'romaji'
   type Modifier = 'unmodified' | 'chiisai' | 'dakuten' | 'handakuten'
@@ -113,6 +98,9 @@
   @Component({
     directives: {
       onClickOutside
+    },
+    components: {
+      KnSelectList
     }
   })
   export default class KanaKeyboard extends Vue {

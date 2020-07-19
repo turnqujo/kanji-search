@@ -1,32 +1,9 @@
 import { shallowMount } from '@vue/test-utils'
-import * as convertTextDependency from '../workers'
 import conversionTable from '../../public/data/conversionTable.json'
 import kanaKeyboard from './KanaKeyboard.vue'
 import KanjiForm from './KanjiForm.vue'
 
 describe('The Kanji Form component.', () => {
-  it('Should display an error if the reading input is not valid.', async () => {
-    // @ts-ignore TODO: Yep, this is mutating the import. Too bad!
-    convertTextDependency.convertText = jest.fn(async () => {
-      throw new Error('Test Error')
-    })
-
-    const wrapper = shallowMount(KanjiForm, {
-      propsData: { debounceTime: 0, conversionTable }
-    })
-    await wrapper.setData({ reading: 'lol not kana!' })
-
-    const readingInput = wrapper.find('input[data-tid=reading-input]')
-    if (!readingInput.exists()) {
-      return fail('Could not find reading input.')
-    }
-
-    // TODO: Couldn't figure out how to wait for the method to finish
-    await new Promise((resolve) => setTimeout(resolve, 0))
-
-    expect((wrapper.vm as any).readingError).toBe('Test Error')
-  })
-
   it('Should accept picked kana from a child keyboard component.', async () => {
     const wrapper = shallowMount(KanjiForm, {
       propsData: { debounceTime: 0, conversionTable }
@@ -48,6 +25,7 @@ describe('The Kanji Form component.', () => {
       propsData: { debounceTime: 0, conversionTable }
     })
     const vm = wrapper.vm as any
+
     const expectedSubmit = {
       kanjiSet: vm.kanjiSet,
       meaning: vm.meaning,
@@ -106,27 +84,12 @@ describe('The Kanji Form component.', () => {
       propsData: { debounceTime: 0, conversionTable }
     })
 
-    const primarySortSelect = wrapper.find('select[data-tid=primary-sort]')
-    if (!primarySortSelect.exists()) {
-      return fail('Could not find the primary sort element.')
-    }
+    await wrapper.setData({ primarySortField: 'jlpt' })
+    expect(wrapper.find('.kanji-form__secondary-sort option[value=jlpt]').attributes().disabled).toBeTruthy()
 
-    const secondarySortSelect = wrapper.find('select[data-tid=secondary-sort]')
-    if (!secondarySortSelect.exists()) {
-      return fail('Could not find the secondary sort element.')
-    }
-
-    // Default: secondary sort disabled, primary and secondary have different values
-    expect(secondarySortSelect.attributes().disabled).toBeTruthy()
-
-    // Setting primary to an ambiguous sorting value should enable the secondary sort
-    await primarySortSelect.setValue('jlpt')
-    expect(secondarySortSelect.attributes().disabled).toBeUndefined()
-    expect(secondarySortSelect.find('option[value=jlpt]').attributes().disabled).toBeTruthy()
-
-    // Setting secondary sort should disable the same option in the primary sort
-    await secondarySortSelect.setValue('grade')
-    expect(primarySortSelect.find('option[value=grade]').attributes().disabled).toBeTruthy()
-    expect(secondarySortSelect.find('option[value=jlpt]').attributes().disabled).toBeTruthy()
+    await wrapper.setData({ secondarySortField: 'grade' })
+    expect(wrapper.find('.kanji-form__primary-sort option[value=grade]').attributes().disabled).toBeTruthy()
   })
+
+  it.todo('Should trim whitespace from text fields.')
 })

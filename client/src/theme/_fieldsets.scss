@@ -1,6 +1,7 @@
 .kn-fieldset {
   &__legend {
     font-weight: bold;
+    white-space: nowrap;
   }
 
   &__content {

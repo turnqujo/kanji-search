@@ -1,9 +1,8 @@
 .kn-selection-item {
   color: var(--kn-default);
-  display: flex;
+  display: inline-flex;
   align-items: center;
   flex-direction: row-reverse;
-  font-weight: bold;
   user-select: none;
 
   @each $variation in $semanticColors {
@@ -22,6 +21,7 @@
 
   &__label {
     @include standardTransition(color, border-color);
+    white-space: nowrap;
   }
 
   &__control:not(:disabled),

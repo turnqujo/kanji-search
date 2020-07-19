@@ -1,5 +1,5 @@
-import './registerServiceWorker'
 import './theme/index.scss'
+import './registerServiceWorker'
 import App from './App.vue'
 import router from './router'
 import Vue from 'vue'

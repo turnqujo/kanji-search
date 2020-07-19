@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div>
     <div class="kanji-form-container">
       <kanji-form :conversionTable="conversionTable" @submit="onFormSubmit" @form-reset="onFormReset"></kanji-form>
     </div>

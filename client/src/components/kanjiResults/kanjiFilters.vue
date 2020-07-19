@@ -2,7 +2,7 @@
   <div class="kn-kanji-filters">
     <button type="button" class="kn-kanji-filters__popup-toggle" @click="onTogglePopup">
       <svg class="kn-icon">
-        <use xlink:href="img/icons/regular.svg#list-alt"></use>
+        <use href="img/icons/regular.svg#list-alt"></use>
       </svg>
     </button>
     <div class="kn-kanji-filters__popup" v-if="open" v-on-click-outside="onTogglePopup">

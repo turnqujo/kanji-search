@@ -20,6 +20,10 @@ $semanticColors: kn-positive kn-negative;
   --kn-orange--light: #ffd4a8;
   --kn-orange--dark: #E59545;
 
+  --kn-red: #CD4E57;
+  --kn-red--light: #DC8389;
+  --kn-red--dark: #8F363C;
+
   &, .kn-theme--light {
     --kn-background: var(--kn-white);
     --kn-background--aux: var(--kn-gray);
@@ -33,8 +37,8 @@ $semanticColors: kn-positive kn-negative;
     --kn-alpha: var(--kn-blue--dark);
     --kn-alpha--aux: var(--kn-blue);
 
-    --kn-default: var(--kn-gray--dark);
-    --kn-default--aux: var(--kn-gray);
+    --kn-default: var(--kn-black);
+    --kn-default--aux: var(--kn-gray--dark);
 
     --kn-disabled: var(--kn-gray);
     --kn-disabled--aux: var(--kn-gray--light);
@@ -44,6 +48,9 @@ $semanticColors: kn-positive kn-negative;
 
     --kn-negative: var(--kn-orange--dark);
     --kn-negative--aux: var(--kn-orange);
+
+    --kn-error: var(--kn-red--dark);
+    --kn-error--aux: var(--kn-red);
   }
 
   &[dark], .kn-theme--dark {
@@ -59,8 +66,8 @@ $semanticColors: kn-positive kn-negative;
     --kn-alpha: var(--kn-blue);
     --kn-alpha--aux: var(--kn-blue--light);
 
-    --kn-default: var(--kn-gray--light);
-    --kn-default--aux: var(--kn-white);
+    --kn-default: var(--kn-white);
+    --kn-default--aux: var(--kn-gray);
 
     --kn-disabled: var(--kn-gray--dark);
     --kn-disabled--aux: var(--kn-white);
@@ -70,6 +77,9 @@ $semanticColors: kn-positive kn-negative;
 
     --kn-negative: var(--kn-orange);
     --kn-negative--aux: var(--kn-orange--light);
+
+    --kn-error: var(--kn-red);
+    --kn-error--aux: var(--kn-red--light);
   }
 }
 

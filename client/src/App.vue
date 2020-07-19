@@ -1,18 +1,20 @@
 <template>
-  <div id="app">
-    <nav class="kn-navbar" id="kn-nav">
-      <ul class="kn-navbar__link-list">
-        <li class="kn-navbar__link"><router-link class="kn-anchor" to="/" data-tid="home">Home</router-link></li>
+  <div id="app" class="section">
+    <nav id="kn-nav" class="kn-navbar container columns">
+      <ul class="kn-navbar__link-list column">
+        <li class="kn-navbar__link">
+          <router-link class="kn-anchor" to="/" data-tid="home">Kanji Search</router-link>
+        </li>
         <li class="kn-navbar__link"><router-link class="kn-anchor" to="/about">About</router-link></li>
         <li class="kn-navbar__link">
           <router-link class="kn-anchor" to="/settings" data-tid="settings">Settings</router-link>
         </li>
       </ul>
-      <ul class="kn-navbar__extras">
+      <ul class="kn-navbar__extras column is-narrow">
         <li><DarkSwitch></DarkSwitch></li>
       </ul>
     </nav>
-    <div class="kn-content">
+    <div class="kn-content container">
       <router-view />
     </div>
   </div>
@@ -20,22 +22,7 @@
 
 <style lang="scss">
   #app {
-    padding: 24px;
-  }
-
-  .kn-navbar {
-    align-items: center;
-    display: flex;
-
-    & > ul:not(:first-of-type) {
-      border-left: 2px solid var(--kn-foreground--aux);
-      margin-left: 1em;
-      padding-left: 1em;
-    }
-  }
-
-  .kn-content {
-    margin-top: 2em;
+    padding-bottom: 20vh;
   }
 </style>
 

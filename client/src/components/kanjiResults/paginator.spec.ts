@@ -198,7 +198,7 @@ describe('The Kanji Paginator component', () => {
       propsData: { state: { perPageLimit: 10, pageIndex: 0, listLength: 25 } }
     })
 
-    const statusMessage = wrapper.find('.kn-kanji-paginator__state')
+    const statusMessage = wrapper.find('.kn-kanji-paginator__state-message')
     if (!statusMessage.exists()) {
       return fail('Could not find the status message.')
     }

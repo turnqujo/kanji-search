@@ -1,7 +1,8 @@
 # API
 
-# Client - these should be built separately
+# Client
 client/public/workers
+client/coverage
 
 # Any
 node_modules

@@ -14,6 +14,8 @@
     font-size: 1.2em;
     padding-bottom: 2px;
     text-decoration: none;
+    user-select: none;
+    white-space: nowrap;
   }
 
   &__link > .kn-anchor.router-link-exact-active {
@@ -27,5 +29,10 @@
   &:active,
   &:focus {
     outline: none;
+  }
+
+  &::selection {
+    background-color: var(--kn-alpha);
+    color: var(--kn-background);
   }
 }

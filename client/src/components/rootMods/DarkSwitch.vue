@@ -1,6 +1,6 @@
 <template>
-  <ul class="selection-container">
-    <li>
+  <ul class="selection-container columns is-variable is-2 is-mobile">
+    <li class="column is-narrow">
       <label class="kn-selection-item kn-radio">
         <input
           type="radio"
@@ -11,11 +11,11 @@
         />
         <span class="kn-selection-item__label">
           <svg class="kn-icon">
-            <use xlink:href="img/icons/regular.svg#sun"></use></svg
+            <use href="img/icons/regular.svg#sun"></use></svg
         ></span>
       </label>
     </li>
-    <li>
+    <li class="column is-narrow">
       <label class="kn-selection-item kn-radio">
         <input
           type="radio"
@@ -26,7 +26,7 @@
         />
         <span class="kn-selection-item__label">
           <svg class="kn-icon">
-            <use xlink:href="img/icons/regular.svg#moon"></use></svg
+            <use href="img/icons/regular.svg#moon"></use></svg
         ></span>
       </label>
     </li>
@@ -35,12 +35,8 @@
 
 <style lang="scss" scoped>
   .selection-container {
-    display: flex;
+    // TODO: Why is this necessary?
     font-size: 0.5em;
-
-    & > li:not(:first-of-type) {
-      margin-left: 12px;
-    }
   }
 </style>
 
